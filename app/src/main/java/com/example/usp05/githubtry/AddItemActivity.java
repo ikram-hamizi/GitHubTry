@@ -9,13 +9,14 @@ import android.widget.Toast;
 
 import java.lang.Integer;
 
+import com.example.usp05.githubtry.DataModel.DBItemsHelper;
 import com.example.usp05.githubtry.DataModel.Item;
 
 import static com.example.usp05.githubtry.R.layout.add_item;
 
 public class AddItemActivity extends AppCompatActivity
 {
-
+    DBItemsHelper db_helper = new DBItemsHelper(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,13 +41,16 @@ public class AddItemActivity extends AppCompatActivity
 
             Item newItem = new Item(item_name, item_location, item_category, item_datepurch, "no date of exp",
                     item_note, item_quantity);
+
+            db_helper.insertItem(newItem); //Insert Item to DB //<- App crashes
+            db_helper.isInsertedToast(AddItemActivity.this).show(); //<- App crashes before it shows up
+
         } catch(NumberFormatException e)
         {
             //Wrong input (quantity is not an int)
             Toast not_int_popup = Toast.makeText(AddItemActivity.this, "Wrong input, please enter an integer for quantity", Toast.LENGTH_SHORT);
+            not_int_popup.show(); //<- Working Properly.
         }
-
-
     }
 }
 

@@ -15,7 +15,14 @@ public class Item {
 
     public Item(String name, String location, String type, String date_purchased, String date_expired, String notes, int quantity)
     {
-
+        this.name = name;
+        this.location = location;
+        this.type = type;
+        this.date_expired = date_expired;
+        this.date_purchased = date_purchased;
+        this.notes = notes;
+        this.quantity = quantity;
+        this.average_price = 0.0f;
     }
 
     //2- Methods
