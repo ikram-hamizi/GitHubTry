@@ -13,16 +13,16 @@ public class DBItemsHelper extends SQLiteOpenHelper{
     private static final int DB_VERSION = 1;
     private static final String DB_NAME = "DATABASE_MYINVENTORYAPP";
 
-    private static final String TABLE_NAME = "ITEM";
-    private static final String COL_ID = "ID";
-    private static final String COL_NAME = "NAME";
-    private static final String COL_LOCATION = "LOCATION";
-    private static final String COL_TYPE = "TYPE";
-    private static final String COL_DATE_PURCHASED = "DATE_PURCHASED";
-    private static final String COL_DATE_EXPIRED = "DATE_EXPIRED";
-    private static final String COL_QUANTITY = "QUANTITY";
-    private static final String COL_NOTES = "NOTES";
-    private static final String COL_AVERAGE_PRICE = "AVERAGE_PRICE";
+    private static final String ITEM_TABLE_NAME = "ITEM";
+    private static final String ITEM_COL_ID = "ID";
+    private static final String ITEM_COL_NAME = "NAME";
+    private static final String ITEM_COL_LOCATION = "LOCATION";
+    private static final String ITEM_COL_TYPE = "TYPE";
+    private static final String ITEM_COL_DATE_PURCHASED = "DATE_PURCHASED";
+    private static final String ITEM_COL_DATE_EXPIRED = "DATE_EXPIRED";
+    private static final String ITEM_COL_QUANTITY = "QUANTITY";
+    private static final String ITEM_COL_NOTES = "NOTES";
+    private static final String ITEM_COL_AVERAGE_PRICE = "AVERAGE_PRICE";
 
     SQLiteDatabase appDB;
 
@@ -41,7 +41,10 @@ public class DBItemsHelper extends SQLiteOpenHelper{
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
+    public void onUpgrade(SQLiteDatabase db, int i, int i1) {
 
+        String drop_query = "DROP TABLE IF EXISTS "+ITEM_TABLE_NAME;
+        db.execSQL(drop_query);
+        this.onCreate(db);
     }
 }
