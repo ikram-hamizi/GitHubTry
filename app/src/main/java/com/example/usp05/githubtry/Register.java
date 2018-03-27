@@ -12,6 +12,7 @@ import android.widget.Toast;
  */
 
 public class Register extends Activity {
+    DatabaseHelper helper = new DatabaseHelper(this);
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
@@ -33,21 +34,33 @@ public class Register extends Activity {
             String secQuestion2Str = secQuestion2.getText().toString();
             String secQuestion3Str = secQuestion3.getText().toString();
 
-            if(usernameStr.equals("") || password.equals("") || password2.equals("") ||
+            String searchUsername = helper.searchUsername(usernameStr);
+
+            if(searchUsername.equals("found")) {
+                Toast message = Toast.makeText(Register.this, "Username is already taken!", Toast.LENGTH_SHORT);
+                message.show();
+            }
+            else if(usernameStr.equals("") || password.equals("") || password2.equals("") ||
                     secQuestion1Str.equals("") || secQuestion2Str.equals("") || secQuestion3Str.equals("")) {
                 Toast message = Toast.makeText(Register.this, "Entries cannot be empty!", Toast.LENGTH_SHORT);
                 message.show();
             }
+            else if (!(passwordStr.equals(password2Str))) {
+                Toast message = Toast.makeText(Register.this, "Passwords are not the same!", Toast.LENGTH_SHORT);
+                message.show();
+            }
             else {
-                if (passwordStr.equals(password2Str)) {
-                    // insert details into database
-                    Intent i = new Intent(Register.this, MainActivity.class);
-                    startActivity(i);
-                }
-                else {
-                    Toast message = Toast.makeText(Register.this, "Passwords are not the same!", Toast.LENGTH_SHORT);
-                    message.show();
-                }
+                // insert details into database
+                User a = new User();
+                a.setUsername(usernameStr);
+                a.setPassword(passwordStr);
+                a.setPassword2(password2Str);
+                a.setSecQuestion1(secQuestion1Str);
+                a.setSecQuestion2(secQuestion2Str);
+                a.setSecQuestion3(secQuestion3Str);
+                helper.insertUser(a);
+                Intent i = new Intent(Register.this, MainActivity.class);
+                startActivity(i);
             }
         }
     }
