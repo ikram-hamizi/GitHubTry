@@ -59,6 +59,8 @@ public class Register extends Activity {
                 a.setSecQuestion2(secQuestion2Str);
                 a.setSecQuestion3(secQuestion3Str);
                 helper.insertUser(a);
+                Toast message = Toast.makeText(Register.this, "Registration Successful!", Toast.LENGTH_SHORT);
+                message.show();
                 Intent i = new Intent(Register.this, MainActivity.class);
                 startActivity(i);
             }
