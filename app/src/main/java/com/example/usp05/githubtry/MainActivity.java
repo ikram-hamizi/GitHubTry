@@ -21,8 +21,14 @@ public class MainActivity extends AppCompatActivity {
             EditText password = (EditText)findViewById(R.id.passwordLogin);
             String usernameStr = username.getText().toString();
             String passwordStr = password.getText().toString();
-            String verify = helper.searchUsernameAndPassword(usernameStr, passwordStr);
-            if(verify.equals("not found")) {
+
+            if(usernameStr.isEmpty()) {
+                username.setError("Enter username");
+            }
+            else if(passwordStr.isEmpty()) {
+                password.setError("Enter password");
+            }
+            else if(helper.searchUsernameAndPassword(usernameStr, passwordStr).equals("not found")) {
                 Toast message = Toast.makeText(MainActivity.this, "Incorrect Username and Password!", Toast.LENGTH_SHORT);
                 message.show();
             }
