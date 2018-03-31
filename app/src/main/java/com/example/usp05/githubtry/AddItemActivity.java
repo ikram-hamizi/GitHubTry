@@ -33,7 +33,6 @@ public class AddItemActivity extends AppCompatActivity
 
             String item_location = ((EditText) findViewById(R.id.ET_location)).getText().toString();
             String item_datepurch = ((EditText) findViewById(R.id.ET_datepurch)).getText().toString();
-            //String item_type= ((EditText) findViewById(R.id.ET_type)).getText().toString();
             //String item_dateexpired = ((EditText) findViewById(R.id.ET_dateexpired)).getText().toString();
             String item_price = ((EditText) findViewById(R.id.ET_price)).getText().toString();
             String item_category = ((EditText) findViewById(R.id.ET_category)).getText().toString();

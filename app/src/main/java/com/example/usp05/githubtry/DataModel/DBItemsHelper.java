@@ -32,7 +32,7 @@ public class DBItemsHelper extends SQLiteOpenHelper{
     private long rownInsert;
     SQLiteDatabase appDB;
 
-    private static final String TABLE_CREATE = "CREATE TABLE ITEM (ID INTEGER PRIMARY KEY NOT NULL , " +
+    private static final String ITEM_TABLE_CREATE = "CREATE TABLE ITEM (ID INTEGER PRIMARY KEY NOT NULL , " +
             "NAME TEXT NOT NULL , LOCATION TEXT NOT NULL , TYPE TEXT NOT NULL , DATE_PURCHASED TEXT NOT NULL , " +
             "DATE_EXPIRED TEXT NOT NULL , QUANTITY INT NOT NULL, AVERAGE_PRICE FLOAT NOT NULL , NOTES TEXT NOT NULL);";
 
@@ -42,7 +42,7 @@ public class DBItemsHelper extends SQLiteOpenHelper{
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(TABLE_CREATE);
+        db.execSQL(ITEM_TABLE_CREATE);
         this.appDB = db;
     }
 
@@ -94,8 +94,41 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         //show db_insert in AddItemActivity
         return db_insert;
     }
-    public int searchItem(String search_name)
+    public Item searchItem(int search_id)
     {
-        return -1;
+        appDB = this.getReadableDatabase();
+        String search_query = "SELECT ID FROM "+ ITEM_TABLE_NAME;
+
+        Cursor cursor = appDB.rawQuery(search_query, null);
+        Cursor found;
+        String id;
+        if (cursor.moveToFirst())
+        {
+            do {
+                id = cursor.getString(0);
+                if(search_id == Integer.parseInt(id))
+                {
+                    String get_row_query = "SELECT * FROM "+ ITEM_TABLE_NAME + " WHERE ID = " + search_id;
+                    found = appDB.rawQuery(get_row_query, null);
+                   // ID 0
+                   // NAME 1
+                   // LOCATION 2
+                   // TYPE 3
+                   // DATE_PURCHASED 4
+                   // DATE_EXPIRED 5
+                   // QUANTITY 6
+                   // AVERAGE_PRICE 7
+                   // NOTES 8
+
+                    //Item(String name, String location, String type, String date_purchased, String date_expired, String notes, int quantity)
+                    return new Item(found.getString(1), found.getString(2), found.getString(3), found.getString(4), found.getString(5), found.getString(8), Integer.parseInt(found.getString(6)));
+                }
+            }while(cursor.moveToNext());
+        }
+        return null;
+    }
+    public Item searchItem(String search_name)
+    {
+        return null;
     }
 }
