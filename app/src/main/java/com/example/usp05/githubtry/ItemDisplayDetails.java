@@ -38,7 +38,4 @@ public class ItemDisplayDetails extends AppCompatActivity {
         db_helper.deleteItem(Integer.parseInt(EXTRA_MESSAGE_RECEIVED_ID));
         //DELETE? IS IT WORKING? Needs to be tried with Current Inventory
     }
-
-
-
 }
