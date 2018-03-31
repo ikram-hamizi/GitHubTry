@@ -19,6 +19,7 @@ public class DBItemsHelper extends SQLiteOpenHelper{
     private static final String DB_NAME = "DATABASE_MYINVENTORYAPP";
 
     private static final String ITEM_TABLE_NAME = "ITEM";
+    private static final String ITEM_COL_USERNAME = "USERNAME";
     private static final String ITEM_COL_ID = "ID";
     private static final String ITEM_COL_NAME = "NAME";
     private static final String ITEM_COL_LOCATION = "LOCATION";
@@ -32,7 +33,7 @@ public class DBItemsHelper extends SQLiteOpenHelper{
     private long rownInsert;
     SQLiteDatabase appDB;
 
-    private static final String TABLE_CREATE = "CREATE TABLE ITEM (ID INTEGER PRIMARY KEY NOT NULL , " +
+    private static final String TABLE_CREATE = "CREATE TABLE ITEM (USERNAME TEXT NOT NULL, ID INTEGER PRIMARY KEY , " +
             "NAME TEXT NOT NULL , LOCATION TEXT NOT NULL , TYPE TEXT NOT NULL , DATE_PURCHASED TEXT NOT NULL , " +
             "DATE_EXPIRED TEXT NOT NULL , QUANTITY INT NOT NULL, AVERAGE_PRICE FLOAT NOT NULL , NOTES TEXT NOT NULL);";
 
@@ -49,7 +50,7 @@ public class DBItemsHelper extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
 
-        String drop_query = "DROP TABLE IF EXISTS "+ITEM_TABLE_NAME;
+        String drop_query = "DROP TABLE IF EXISTS "+ ITEM_TABLE_NAME;
         db.execSQL(drop_query);
         this.onCreate(db);
     }
@@ -67,6 +68,7 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         int count = cursor.getCount();
 
         values.put(ITEM_COL_ID, count);
+        values.put(ITEM_COL_USERNAME, item.getUsername());
         values.put(ITEM_COL_NAME, item.getName());
         values.put(ITEM_COL_LOCATION, item.getLocation());
         values.put(ITEM_COL_TYPE, item.getType());

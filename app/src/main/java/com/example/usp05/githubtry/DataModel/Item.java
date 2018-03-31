@@ -9,12 +9,13 @@ import android.support.annotation.NonNull;
 public class Item {
 
     //1- Fields: 8
-    private String name, location, type, date_purchased, date_expired, notes;
+    private String username, name, location, type, date_purchased, date_expired, notes;
     private int quantity;
     private float average_price;
 
-    public Item(String name, String location, String type, String date_purchased, String date_expired, String notes, int quantity)
+    public Item(String username, String name, String location, String type, String date_purchased, String date_expired, String notes, int quantity)
     {
+        this.username = username;
         this.name = name;
         this.location = location;
         this.type = type;
@@ -53,6 +54,8 @@ public class Item {
         this.location = location;
     }
 
+    public void setUsername(String name) { this.username = username; }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -88,6 +91,8 @@ public class Item {
     public String getLocation() {
         return location;
     }
+
+    public String getUsername() { return username; }
 
     public String getName() {
         return name;
