@@ -5,7 +5,16 @@ package com.example.usp05.githubtry;
  */
 
 public class User {
-    String username, password, password2, secQuestion1, secQuestion2, secQuestion3;
+    private String username, password, password2, secQuestion1, secQuestion2, secQuestion3;
+
+    public User(String username, String password, String password2, String secQuestion1, String secQuestion2, String secQuestion3) {
+        setUsername(username);
+        setPassword(password);
+        setPassword2(password2);
+        setSecQuestion1(secQuestion1);
+        setSecQuestion2(secQuestion2);
+        setSecQuestion3(secQuestion3);
+    }
 
     public void setUsername(String username) {
         this.username = username;
@@ -31,9 +40,7 @@ public class User {
         return this.password2;
     }
 
-    public void setSecQuestion1(String secQuestion1) {
-        this.secQuestion1 = secQuestion1;
-    }
+    public void setSecQuestion1(String secQuestion1) { this.secQuestion1 = secQuestion1; }
 
     public String getSecQuestion1() {
         return this.secQuestion1;

@@ -33,8 +33,9 @@ public class MainActivity extends AppCompatActivity {
                 message.show();
             }
             else {
-                Toast message = Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT);
-                message.show();
+                Intent i = new Intent(MainActivity.this, Inventory.class);
+                i.putExtra("username", usernameStr);
+                startActivity(i);
             }
         }
     }
