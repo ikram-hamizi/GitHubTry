@@ -96,8 +96,54 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         //show db_insert in AddItemActivity
         return db_insert;
     }
-    public int searchItem(String search_name)
+    public Item searchItem(int search_id)
     {
-        return -1;
+        appDB = this.getReadableDatabase();
+        String search_query = "SELECT ID FROM "+ ITEM_TABLE_NAME;
+
+        Cursor cursor = appDB.rawQuery(search_query, null);
+        Cursor found;
+        String id;
+        if (cursor.moveToFirst())
+        {
+            do {
+                id = cursor.getString(0);
+                if(search_id == Integer.parseInt(id))
+                {
+                    String get_row_query = "SELECT * FROM "+ ITEM_TABLE_NAME + " WHERE ID = " + search_id;
+                    found = appDB.rawQuery(get_row_query, null);
+
+                    // USERNAME 0
+                    // ID 1
+                    // NAME 2
+                    // LOCATION 3
+                    // TYPE 4
+                    // DATE_PURCHASED 5
+                    // DATE_EXPIRED 6
+                    // QUANTITY 7
+                    // AVERAGE_PRICE 8
+                    // NOTES 9
+
+                    //public Item(String username, String name, String location, String type, String date_purchased, String date_expired, String notes, int quantity /*.float price*/)
+                    return new Item(found.getString(0), found.getString(2), found.getString(3), found.getString(4), found.getString(5),
+                            found.getString(6), found.getString(9), Integer.parseInt(found.getString(7)));
+                }
+            }while(cursor.moveToNext());
+        }
+        return null;
+    }
+    public void deleteItem(int delete_id)
+    {
+        Cursor delete;
+        String delete_row_query = "DELETE FROM "+ ITEM_TABLE_NAME + " WHERE ID = " + delete_id;
+        delete = appDB.rawQuery(delete_row_query, null);
+    }
+
+    public void editItem(int edited_item_id, String editedColumnName, String newInfo)
+    {
+        Cursor edit;
+        String edit_row_query = "UPDATE "+ ITEM_TABLE_NAME + " SET " + editedColumnName + " = " + newInfo +
+                " WHERE ID = " + edited_item_id;
+        edit = appDB.rawQuery(edit_row_query, null);
     }
 }
