@@ -16,7 +16,6 @@ public class ItemDisplayDetails extends AppCompatActivity {
     //EXTRA MESSAGE = ID
     //ID of Current Inventory Item clicked needed.
 
-    public static final String EXTRA_MESSAGE_SENT_ID = "com.example.usp05.githubtry.MESSAGE"; //COPY IN CURRENT INVENTORY
     private String username;
     private Item myItem;
     private int itemID;
@@ -30,8 +29,8 @@ public class ItemDisplayDetails extends AppCompatActivity {
 
         myItem = db_helper.searchItem(username, itemID);
         if(myItem != null) {
-            TextView loc = ((TextView) findViewById(R.id.location_info_TV));
-            loc.setText(myItem.getLocation());
+            setTitle(myItem.getName());
+            ((TextView) findViewById(R.id.location_info_TV)).setText(myItem.getLocation());
             ((TextView) findViewById(R.id.category_info_TV)).setText(myItem.getType());
             ((TextView) findViewById(R.id.quantity_info_TV)).setText(String.valueOf(myItem.getQuantity()));
             ((TextView) findViewById(R.id.dateexp_info_TV)).setText(myItem.getDate_expired());
@@ -43,7 +42,10 @@ public class ItemDisplayDetails extends AppCompatActivity {
 
     public void onDeleteClick (View view)
     {
-        db_helper.deleteItem(itemID);
+        db_helper.deleteItem(username, itemID);
+        Intent intent = new Intent(ItemDisplayDetails.this, Inventory.class);
+        intent.putExtra("username", username);
+        startActivity(intent);
         //DELETE? IS IT WORKING? Needs to be tried with Current Inventory
     }
 
@@ -51,7 +53,8 @@ public class ItemDisplayDetails extends AppCompatActivity {
     {
 
         Intent intent = new Intent(this, EditItemActivity.class);
-        intent.putExtra(EXTRA_MESSAGE_SENT_ID, itemID);
+        intent.putExtra("id", itemID);
+        startActivity(intent);
 
         // db_helper.editItem()
         // db_helper.editItem(Integer.parseInt(EXTRA_MESSAGE_RECEIVED_ID), );

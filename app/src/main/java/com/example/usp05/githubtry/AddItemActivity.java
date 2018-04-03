@@ -33,7 +33,7 @@ public class AddItemActivity extends AppCompatActivity
     //ACTION
     public void onSaveClick (View view)
     {
-        String item_name = ((EditText) findViewById(R.id.ET_name)).getText().toString();
+        String item_name = ((EditText) findViewById(R.id.ET_name)).getText().toString().toUpperCase();
         try {
             String item_location = ((EditText) findViewById(R.id.ET_location)).getText().toString();
             String item_category = ((EditText) findViewById(R.id.ET_category)).getText().toString();

@@ -125,17 +125,19 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         return null;
     }
 
-    public void deleteItem(int delete_id)
+    public void deleteItem(String username, int delete_id)
     {
-        String delete_row_query = "DELETE FROM "+ ITEM_TABLE_NAME + " WHERE ID = " + delete_id;
-        appDB.rawQuery(delete_row_query, null);
+        appDB = this.getWritableDatabase();
+        String delete_row_query = "DELETE FROM "+ ITEM_TABLE_NAME + " WHERE USERNAME = '" + username + "' and ID = " + delete_id + ";";
+        appDB.execSQL(delete_row_query);
     }
 
     public void editItem(int edited_item_id, String editedColumnName, String newInfo)
     {
+        appDB = this.getWritableDatabase();
         String edit_row_query = "UPDATE "+ ITEM_TABLE_NAME + " SET " + editedColumnName + " = " + newInfo +
                 " WHERE ID = " + edited_item_id;
-        appDB.rawQuery(edit_row_query, null);
+        appDB.execSQL(edit_row_query);
     }
 
     // gets all data from items database and displays in the ListView in inventory screen

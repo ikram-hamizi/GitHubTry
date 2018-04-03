@@ -13,11 +13,13 @@ import static com.example.usp05.githubtry.R.layout.activity_edit_item;
 
 public class EditItemActivity extends AppCompatActivity
 {
+    private int itemID;
     DBItemsHelper db_helper = new DBItemsHelper(this);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
+        itemID = getIntent().getIntExtra("id", 0);
     }
 
     //ACTION
