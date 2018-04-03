@@ -19,21 +19,22 @@ public class DBItemsHelper extends SQLiteOpenHelper{
     private static final String DB_NAME = "DATABASE_MYINVENTORYAPP";
 
     private static final String ITEM_TABLE_NAME = "ITEM";
-    private static final String ITEM_COL_USERNAME = "USERNAME";
+
     private static final String ITEM_COL_ID = "ID";
+    private static final String ITEM_COL_USERNAME = "USERNAME";
     private static final String ITEM_COL_NAME = "NAME";
     private static final String ITEM_COL_LOCATION = "LOCATION";
     private static final String ITEM_COL_TYPE = "TYPE";
     private static final String ITEM_COL_DATE_PURCHASED = "DATE_PURCHASED";
     private static final String ITEM_COL_DATE_EXPIRED = "DATE_EXPIRED";
     private static final String ITEM_COL_QUANTITY = "QUANTITY";
-    private static final String ITEM_COL_NOTES = "NOTES";
     private static final String ITEM_COL_AVERAGE_PRICE = "AVERAGE_PRICE";
+    private static final String ITEM_COL_NOTES = "NOTES";
 
     private long rownInsert;
     SQLiteDatabase appDB;
 
-    private static final String TABLE_CREATE = "CREATE TABLE ITEM (USERNAME TEXT NOT NULL, ID INTEGER PRIMARY KEY , " +
+    private static final String TABLE_CREATE = "CREATE TABLE ITEM (ID INTEGER PRIMARY KEY, USERNAME TEXT NOT NULL, " +
             "NAME TEXT NOT NULL , LOCATION TEXT NOT NULL , TYPE TEXT NOT NULL , DATE_PURCHASED TEXT NOT NULL , " +
             "DATE_EXPIRED TEXT NOT NULL , QUANTITY INT NOT NULL, AVERAGE_PRICE FLOAT NOT NULL , NOTES TEXT NOT NULL);";
 
@@ -62,12 +63,6 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         appDB = this.getWritableDatabase();
         ContentValues values = new ContentValues();
 
-
-        String query = "SELECT * FROM ITEM";
-        Cursor cursor = appDB.rawQuery(query, null); //To get count of rows (items) present
-        int count = cursor.getCount();
-
-        values.put(ITEM_COL_ID, count);
         values.put(ITEM_COL_USERNAME, item.getUsername());
         values.put(ITEM_COL_NAME, item.getName());
         values.put(ITEM_COL_LOCATION, item.getLocation());
@@ -75,8 +70,8 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         values.put(ITEM_COL_DATE_PURCHASED, item.getDate_purchased());
         values.put(ITEM_COL_DATE_EXPIRED, item.getDate_expired());
         values.put(ITEM_COL_QUANTITY, item.getQuantity());
-        values.put(ITEM_COL_NOTES, item.getNotes());
         values.put(ITEM_COL_AVERAGE_PRICE, item.getAverage_price());
+        values.put(ITEM_COL_NOTES, item.getNotes());
 
         rownInsert = appDB.insert(ITEM_TABLE_NAME, null, values); //Insert Item to DB
         appDB.close();
@@ -87,17 +82,27 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         Toast db_insert;
         if(rownInsert != -1)
         {
-            db_insert = Toast.makeText(context, "Item '" + ITEM_COL_NAME + "' inserted successfully!", Toast.LENGTH_SHORT);
+            db_insert = Toast.makeText(context, "Item inserted successfully!", Toast.LENGTH_SHORT);
         }
         else
         {
-            db_insert = Toast.makeText(context, "Could not insert item '" + ITEM_COL_NAME + "'.", Toast.LENGTH_SHORT);
+            db_insert = Toast.makeText(context, "Could not insert item...", Toast.LENGTH_SHORT);
         }
         //show db_insert in AddItemActivity
         return db_insert;
     }
+
+
     public int searchItem(String search_name)
     {
         return -1;
+    }
+
+    // gets all data from items database and displays in the ListView in inventory screen
+    public Cursor getItems(String username) {
+        appDB = this.getReadableDatabase();
+        String query = "select " + ITEM_COL_NAME + " from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ?";
+        Cursor cursor = appDB.rawQuery(query, new String[]{username});
+        return cursor;
     }
 }

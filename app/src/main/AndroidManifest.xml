@@ -19,6 +19,7 @@
         <activity android:name=".Register"></activity>
         <activity android:name=".AddItemActivity"></activity>
         <activity android:name=".Inventory"></activity>
+        <activity android:name=".FilterPopup"></activity>
     </application>
 
 </manifest>
