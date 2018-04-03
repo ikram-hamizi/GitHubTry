@@ -6,10 +6,12 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.usp05.githubtry.DataModel.DBItemsHelper;
 
@@ -20,6 +22,7 @@ import java.util.ArrayList;
  */
 
 public class Inventory extends AppCompatActivity {
+    private static final String TAG = "InventoryActivity";
     String username;
 
     DBItemsHelper itemsHelper = new DBItemsHelper(this);
@@ -46,7 +49,7 @@ public class Inventory extends AppCompatActivity {
         int index = 0;
         if (cursor.moveToFirst()) {
             do {
-                String a = cursor.getString(0);
+                String a = cursor.getString(2);
                 items.add(a);
                 index++;
             }
@@ -58,6 +61,29 @@ public class Inventory extends AppCompatActivity {
         ListAdapter adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
         ListView listItems = (ListView) findViewById(R.id.listItems);
         listItems.setAdapter(adapter);
+
+        listItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String name = adapterView.getItemAtPosition(i).toString();
+                Log.d(TAG, "onItemClick: You clicked on " + name);
+                Cursor data = itemsHelper.getItemID(username, name);
+                int itemID = -1;
+                while(data.moveToNext()) {
+                    itemID = data.getInt(0);
+                    if(itemID > -1) {
+                        Log.d(TAG, "onItemClick: ID is " + itemID);
+                        Intent intent = new Intent(Inventory.this, AddItemActivity.class);
+//                        intent.putExtra("id", itemID);
+//                        intent.putExtra("name", name);
+                        startActivity(intent);
+                    }
+                    else {
+                        Toast message = Toast.makeText(Inventory.this, "No ID available", Toast.LENGTH_SHORT);
+                        message.show();
+                    }
+                }
+             }
+        });
     }
 }
 

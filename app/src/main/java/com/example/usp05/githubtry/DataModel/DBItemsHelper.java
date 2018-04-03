@@ -101,8 +101,15 @@ public class DBItemsHelper extends SQLiteOpenHelper{
     // gets all data from items database and displays in the ListView in inventory screen
     public Cursor getItems(String username) {
         appDB = this.getReadableDatabase();
-        String query = "select " + ITEM_COL_NAME + " from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ?";
+        String query = "select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ?";
         Cursor cursor = appDB.rawQuery(query, new String[]{username});
+        return cursor;
+    }
+
+    public Cursor getItemID(String username, String name) {
+        appDB = this.getReadableDatabase();
+        String query = "select " + ITEM_COL_ID + " from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ? and " + ITEM_COL_NAME + " = ?;";
+        Cursor cursor = appDB.rawQuery(query, new String[]{username, name});
         return cursor;
     }
 }

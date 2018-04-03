@@ -43,6 +43,11 @@ public class AddItemActivity extends AppCompatActivity
             String item_note = ((EditText) findViewById(R.id.ET_note)).getText().toString();
             int item_quantity = Integer.parseInt(((EditText) findViewById(R.id.ET_quantity)).getText().toString());
 
+            if(item_name == "" || String.valueOf(item_quantity) == "") {
+                Toast message = Toast.makeText(AddItemActivity.this, "Name and quantity must be filled", Toast.LENGTH_SHORT);
+                message.show();
+            }
+
             Item newItem = new Item(username, item_name, item_location, item_category, item_datepurch, "no date of exp",
                     item_note, item_quantity);
 
