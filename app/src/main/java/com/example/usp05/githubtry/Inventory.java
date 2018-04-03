@@ -23,7 +23,7 @@ import java.util.ArrayList;
 
 public class Inventory extends AppCompatActivity {
     private static final String TAG = "InventoryActivity";
-    String username;
+    private String username;
 
     DBItemsHelper itemsHelper = new DBItemsHelper(this);
     @Override
@@ -70,8 +70,9 @@ public class Inventory extends AppCompatActivity {
                     itemID = data.getInt(0);
                     if(itemID > -1) {
                         Log.d(TAG, "onItemClick: ID is " + itemID);
-                        Intent intent = new Intent(Inventory.this, AddItemActivity.class);
-//                        intent.putExtra("id", itemID);
+                        Intent intent = new Intent(Inventory.this, ItemDisplayDetails.class);
+                        intent.putExtra("username", username);
+                        intent.putExtra("id", itemID);
                         startActivity(intent);
                     }
                     else {
