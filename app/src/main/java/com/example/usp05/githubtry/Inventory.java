@@ -46,12 +46,10 @@ public class Inventory extends AppCompatActivity {
     public void populateList() {
         ArrayList<String> items = new ArrayList<String>();
         Cursor cursor = itemsHelper.getItems(username);
-        int index = 0;
         if (cursor.moveToFirst()) {
             do {
                 String a = cursor.getString(2);
                 items.add(a);
-                index++;
             }
             while (cursor.moveToNext());
         }
@@ -74,7 +72,6 @@ public class Inventory extends AppCompatActivity {
                         Log.d(TAG, "onItemClick: ID is " + itemID);
                         Intent intent = new Intent(Inventory.this, AddItemActivity.class);
 //                        intent.putExtra("id", itemID);
-//                        intent.putExtra("name", name);
                         startActivity(intent);
                     }
                     else {
