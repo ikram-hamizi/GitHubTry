@@ -18,7 +18,7 @@ import com.example.usp05.githubtry.DataModel.DBItemsHelper;
 import java.util.ArrayList;
 
 /**
- * Created by minh on 3/29/18.
+ * Created by Ikram 04/04/2018
  */
 
 public class Inventory extends AppCompatActivity {

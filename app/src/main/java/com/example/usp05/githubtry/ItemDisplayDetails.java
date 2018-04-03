@@ -29,7 +29,9 @@ public class ItemDisplayDetails extends AppCompatActivity {
         itemID = getIntent().getIntExtra("id", 0);
 
         myItem = db_helper.searchItem(username, itemID);
+
         if(myItem != null) {
+            setTitle(myItem.getName());
             TextView loc = ((TextView) findViewById(R.id.location_info_TV));
             loc.setText(myItem.getLocation());
             ((TextView) findViewById(R.id.category_info_TV)).setText(myItem.getType());
@@ -49,10 +51,8 @@ public class ItemDisplayDetails extends AppCompatActivity {
 
     public void onEditClick (View view)
     {
-
         Intent intent = new Intent(this, EditItemActivity.class);
         intent.putExtra(EXTRA_MESSAGE_SENT_ID, itemID);
-
         // db_helper.editItem()
         // db_helper.editItem(Integer.parseInt(EXTRA_MESSAGE_RECEIVED_ID), );
     }
