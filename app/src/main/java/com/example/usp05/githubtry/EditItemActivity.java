@@ -86,12 +86,10 @@ public class EditItemActivity extends AppCompatActivity
 
                 //editItem(int edited_item_id, String editedColumnName, String newInfo)
 
-                if(i != 8) { //Cannot change average price
+                if (i != 8) { //Cannot change average price
                     db_helper.editItem(itemID, array_cols_names_DB[i], array_item_components_edited[i - 2]);
                 }
             }
-
-
         } catch(NumberFormatException e)
         {
             //Wrong input (quantity is not an int)
