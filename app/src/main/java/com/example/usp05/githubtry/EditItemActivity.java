@@ -59,7 +59,7 @@ public class EditItemActivity extends AppCompatActivity
 
         try {
             int item_quantity = Integer.parseInt(((EditText) findViewById(R.id.ET_quantity)).getText().toString());
-            String item_name = ((EditText) findViewById(R.id.ET_name)).getText().toString();
+            String item_name = ((EditText) findViewById(R.id.ET_name)).getText().toString().toUpperCase();
             String item_location = ((EditText) findViewById(R.id.ET_location)).getText().toString();
             String item_category = ((EditText) findViewById(R.id.ET_category)).getText().toString();
             String item_datepurch = ((EditText) findViewById(R.id.ET_datepurch)).getText().toString();
