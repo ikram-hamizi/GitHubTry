@@ -39,22 +39,12 @@
                 android:textSize="18sp"
                 android:textStyle="bold|italic" />
 
-            <ScrollView
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/RV_filtertype"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:scrollbars="vertical" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <CheckBox
-                        android:id="@+id/checkBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="All" />
-                </LinearLayout>
-            </ScrollView>
         </LinearLayout>
 
         <LinearLayout
@@ -72,22 +62,12 @@
                 android:textSize="18sp"
                 android:textStyle="bold|italic" />
 
-            <ScrollView
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/RV_filterlocation"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:scrollbars="vertical" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <CheckBox
-                        android:id="@+id/checkBox2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="All" />
-                </LinearLayout>
-            </ScrollView>
         </LinearLayout>
     </LinearLayout>
 
@@ -108,7 +88,7 @@
             android:layout_weight="1" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/Bgofilter"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"

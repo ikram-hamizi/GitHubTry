@@ -9,6 +9,9 @@ import android.widget.Toast;
 
 import com.example.usp05.githubtry.AddItemActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by cstech on 3/24/18.
  */
@@ -104,5 +107,56 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         String query = "select " + ITEM_COL_NAME + " from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ?";
         Cursor cursor = appDB.rawQuery(query, new String[]{username});
         return cursor;
+    }
+
+    public List<String> getTypes(){
+        appDB = this.getReadableDatabase();
+        String query = "select " + ITEM_COL_TYPE + " from " + ITEM_TABLE_NAME;
+        Cursor cursor = appDB.rawQuery(query,null);
+
+        List<String> results = new ArrayList<String>();
+        results.add("All");
+        String newString;
+
+        if(cursor.moveToFirst()){
+            do {
+                newString = cursor.getString(0);
+                for(String str: results) {
+                    if(!str.trim().toLowerCase().contains(newString.trim().toLowerCase())) {
+                        results.add(newString);
+                        break;
+                    }
+                }
+
+            } while(cursor.moveToNext());
+        }
+
+        return results;
+    }
+
+    public List<String> getLocations() {
+        appDB = this.getReadableDatabase();
+        String query = "select " + ITEM_COL_LOCATION + " from " + ITEM_TABLE_NAME;
+        Cursor cursor = appDB.rawQuery(query,null);
+
+        List<String> results = new ArrayList<String>();
+        results.add("All");
+        String newString;
+
+        // TODO: Fix filter search (for type and location) so that it doesn't duplicate results
+        if(cursor.moveToFirst()){
+            do {
+                newString = cursor.getString(0);
+                for(String str: results) {
+                    if(!str.trim().toLowerCase().contains(newString)) {
+                        results.add(newString);
+                        break;
+                    }
+                }
+
+            } while(cursor.moveToNext());
+        }
+
+        return results;
     }
 }
