@@ -24,7 +24,6 @@ public class User {
         return this.username;
     }
 
-
     public void setPassword(String password) {
         this.password = password;
     }
@@ -32,7 +31,6 @@ public class User {
     public String getPassword() {
         return this.password;
     }
-
 
     public void setPassword2(String password2) {
         this.password2 = password2;
@@ -42,13 +40,11 @@ public class User {
         return this.password2;
     }
 
-
     public void setSecQuestion1(String secQuestion1) { this.secQuestion1 = secQuestion1; }
 
     public String getSecQuestion1() {
         return this.secQuestion1;
     }
-
 
     public void setSecQuestion2(String secQuestion2) {
         this.secQuestion2 = secQuestion2;
@@ -57,7 +53,6 @@ public class User {
     public String getSecQuestion2() {
         return this.secQuestion2;
     }
-
 
     public void setSecQuestion3(String secQuestion3) {
         this.secQuestion3 = secQuestion3;

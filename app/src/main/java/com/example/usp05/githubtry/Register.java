@@ -52,6 +52,12 @@ public class Register extends Activity {
             else {
                 // insert details into database
                 User a = new User(usernameStr, passwordStr, password2Str, secQuestion1Str, secQuestion2Str, secQuestion3Str);
+//                a.setUsername(usernameStr);
+//                a.setPassword(passwordStr);
+//                a.setPassword2(password2Str);
+//                a.setSecQuestion1(secQuestion1Str);
+//                a.setSecQuestion2(secQuestion2Str);
+//                a.setSecQuestion3(secQuestion3Str);
                 helper.insertUser(a);
                 Toast message = Toast.makeText(Register.this, "Registration Successful!", Toast.LENGTH_SHORT);
                 message.show();
