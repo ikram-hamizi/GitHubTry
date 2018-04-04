@@ -12,8 +12,6 @@ import java.lang.Integer;
 import com.example.usp05.githubtry.DataModel.DBItemsHelper;
 import com.example.usp05.githubtry.DataModel.Item;
 
-import static com.example.usp05.githubtry.R.layout.add_item;
-
 /**
  * Created by minh on 3/24/18.
  */
@@ -33,17 +31,22 @@ public class AddItemActivity extends AppCompatActivity
     //ACTION
     public void onSaveClick (View view)
     {
-        String item_name = ((EditText) findViewById(R.id.ET_name)).getText().toString();
+        String item_name = ((EditText) findViewById(R.id.ET_name)).getText().toString().toUpperCase();
         try {
             String item_location = ((EditText) findViewById(R.id.ET_location)).getText().toString();
             String item_category = ((EditText) findViewById(R.id.ET_category)).getText().toString();
             String item_datepurch = ((EditText) findViewById(R.id.ET_datepurch)).getText().toString();
-            //String item_dateexpired = ((EditText) findViewById(R.id.ET_dateexpired)).getText().toString();
-            String item_price = ((EditText) findViewById(R.id.ET_price)).getText().toString();
+            String item_dateexpired = ((EditText) findViewById(R.id.ET_dateexp)).getText().toString();
+            String item_price = ((EditText) findViewById(R.id.ET_dateexp)).getText().toString();
             String item_note = ((EditText) findViewById(R.id.ET_note)).getText().toString();
             int item_quantity = Integer.parseInt(((EditText) findViewById(R.id.ET_quantity)).getText().toString());
 
-            Item newItem = new Item(username, item_name, item_location, item_category, item_datepurch, "no date of exp",
+            if(item_name == "" || String.valueOf(item_quantity) == "") {
+                Toast message = Toast.makeText(AddItemActivity.this, "Name and quantity must be filled", Toast.LENGTH_SHORT);
+                message.show();
+            }
+
+            Item newItem = new Item(username, item_name, item_location, item_category, item_datepurch, item_dateexpired,
                     item_note, item_quantity);
 
             db_helper.insertItem(newItem); //Insert Item to DB
