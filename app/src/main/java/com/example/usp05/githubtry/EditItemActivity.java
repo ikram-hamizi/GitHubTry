@@ -102,7 +102,7 @@ public class EditItemActivity extends AppCompatActivity
         startActivity(i);
     }
 
-    public void onDeleteClick (View view)
+    public void onEditDeleteClick (View view)
     {
         db_helper.deleteItem(username, itemID);
         Intent intent = new Intent(EditItemActivity.this, Inventory.class);
