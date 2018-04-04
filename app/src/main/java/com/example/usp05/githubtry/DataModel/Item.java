@@ -7,7 +7,8 @@ import android.support.annotation.NonNull;
  */
 
 public class Item {
-
+    //<<<<<<<<<<<<<<<<< MPORTANT ADD PRICE TO ITEM
+    //UPDATE DATABASE
     //1- Fields: 8
     private String username, name, location, type, date_purchased, date_expired, notes;
     private int quantity;

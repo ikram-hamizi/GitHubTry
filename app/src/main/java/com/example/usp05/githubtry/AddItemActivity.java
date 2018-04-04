@@ -12,8 +12,6 @@ import java.lang.Integer;
 import com.example.usp05.githubtry.DataModel.DBItemsHelper;
 import com.example.usp05.githubtry.DataModel.Item;
 
-import static com.example.usp05.githubtry.R.layout.add_item;
-
 /**
  * Created by minh on 3/24/18.
  */
@@ -39,7 +37,7 @@ public class AddItemActivity extends AppCompatActivity
             String item_category = ((EditText) findViewById(R.id.ET_category)).getText().toString();
             String item_datepurch = ((EditText) findViewById(R.id.ET_datepurch)).getText().toString();
             //String item_dateexpired = ((EditText) findViewById(R.id.ET_dateexpired)).getText().toString();
-            String item_price = ((EditText) findViewById(R.id.ET_price)).getText().toString();
+            String item_price = ((EditText) findViewById(R.id.ET_dateexp)).getText().toString();
             String item_note = ((EditText) findViewById(R.id.ET_note)).getText().toString();
             int item_quantity = Integer.parseInt(((EditText) findViewById(R.id.ET_quantity)).getText().toString());
 

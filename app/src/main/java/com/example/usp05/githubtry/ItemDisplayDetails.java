@@ -38,6 +38,10 @@ public class ItemDisplayDetails extends AppCompatActivity {
             ((TextView) findViewById(R.id.note_info_TV)).setText(myItem.getNotes());
             ((TextView) findViewById(R.id.avgprice_info_TV)).setText("" + myItem.getAverage_price());
         }
+        else
+        {
+            finish(); //Does it work? -> Intended to go back to previous activity if item is not found.
+        }
     }
 
     public void onDeleteClick (View view)
@@ -53,6 +57,7 @@ public class ItemDisplayDetails extends AppCompatActivity {
     {
 
         Intent intent = new Intent(this, EditItemActivity.class);
+        intent.putExtra("username", username);
         intent.putExtra("id", itemID);
         startActivity(intent);
 
