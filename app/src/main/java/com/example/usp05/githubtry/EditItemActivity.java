@@ -21,24 +21,28 @@ public class EditItemActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
 
-        itemID = getIntent().getIntExtra("id", 0);
         username = getIntent().getStringExtra("username");
+        itemID = getIntent().getIntExtra("id", 0);
 
         //Load information as place-holder in the edit screen
 
         Item editedItem = db_helper.searchItem(username, itemID);
-        ((EditText) findViewById(R.id.ET_name)).setText(editedItem.getName());
-        ((EditText) findViewById(R.id.ET_quantity)).setText(editedItem.getQuantity());
-        ((EditText) findViewById(R.id.ET_location)).setText(editedItem.getLocation());
-        ((EditText) findViewById(R.id.ET_datepurch)).setText(editedItem.getDate_purchased());
-        //((EditText) findViewById(R.id.ET_price)).setText(editedItem.getAverage_price());
-        ((EditText) findViewById(R.id.ET_category)).setText(editedItem.getType());
-        ((EditText) findViewById(R.id.ET_note)).setText(editedItem.getNotes());
+        System.out.println(">>>>>>>>>>>>>> NAME: "+editedItem.getName());
 
+        if(editedItem != null) {
+            ((EditText) findViewById(R.id.ET_name)).setText(editedItem.getName());
+            ((EditText) findViewById(R.id.ET_quantity)).setText(""+editedItem.getQuantity());
+            ((EditText) findViewById(R.id.ET_location)).setText(editedItem.getLocation());
+            ((EditText) findViewById(R.id.ET_dateexp)).setText(editedItem.getDate_expired());
+            ((EditText) findViewById(R.id.ET_datepurch)).setText(editedItem.getDate_purchased());
+            //((EditText) findViewById(R.id.ET_price)).setText(editedItem.getAverage_price());
+            ((EditText) findViewById(R.id.ET_category)).setText(editedItem.getType());
+            ((EditText) findViewById(R.id.ET_note)).setText(editedItem.getNotes());
+        }
     }
 
     //ACTION
-    public void onSaveClick (View view)
+    public void onEditSaveClick (View view)
     {
 
         String[] array_cols_names_DB = {
@@ -61,11 +65,11 @@ public class EditItemActivity extends AppCompatActivity
             String item_datepurch = ((EditText) findViewById(R.id.ET_datepurch)).getText().toString();
             String item_dateexpired = ((EditText) findViewById(R.id.ET_dateexp)).getText().toString();
 
-            //String item_price = ((EditText) findViewById(R.id.ET_price)).getText().toString();
+            String item_price = ((EditText) findViewById(R.id.ET_price)).getText().toString();
             String item_note = ((EditText) findViewById(R.id.ET_note)).getText().toString();
 
             String[] array_item_components_edited = {item_name, item_location, item_category, item_datepurch, item_dateexpired, String.valueOf(item_quantity),
-                    item_note};
+                    item_price, item_note};
 
             for(int i = 2; i <= 9; i++) //IS THERE ANY ITEM COMPONENT MISSING? <<<<<<  PRICE??
             {
@@ -94,6 +98,10 @@ public class EditItemActivity extends AppCompatActivity
             Toast not_int_popup = Toast.makeText(EditItemActivity.this, "Wrong input, please enter an integer for quantity", Toast.LENGTH_SHORT);
             not_int_popup.show(); //<- Working Properly.
         }
+
+        Intent i = new Intent(EditItemActivity.this, Inventory.class);
+        i.putExtra("username", username);
+        startActivity(i);
     }
 
     public void onDeleteClick (View view)

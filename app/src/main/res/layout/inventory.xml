@@ -12,6 +12,8 @@
         android:layout_height="48dp"
         android:layout_marginEnd="16dp"
         android:layout_marginStart="258dp"
+        android:layout_marginLeft="258dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="5dp"
         android:onClick="onAddItemClick"
         android:text="Add Item"

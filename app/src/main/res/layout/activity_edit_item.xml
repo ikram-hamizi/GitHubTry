@@ -105,7 +105,7 @@ tools:context="com.example.usp05.githubtry.AddItemActivity">
         android:layout_width="159dp"
         android:layout_height="38dp"
         android:ems="10"
-        android:inputType="numberDecimal"
+        android:inputType="text"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView4"
         app:layout_constraintEnd_toEndOf="@+id/ET_datepurch" />
 
@@ -114,7 +114,7 @@ tools:context="com.example.usp05.githubtry.AddItemActivity">
         android:layout_width="159dp"
         android:layout_height="38dp"
         android:ems="10"
-        android:inputType="numberDecimal"
+        android:inputType="text"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
         app:layout_constraintEnd_toEndOf="@+id/ET_dateexp" />
 
@@ -123,7 +123,7 @@ tools:context="com.example.usp05.githubtry.AddItemActivity">
         android:layout_width="159dp"
         android:layout_height="38dp"
         android:ems="10"
-        android:inputType="date"
+        android:inputType="text"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView9"
         app:layout_constraintEnd_toEndOf="@+id/ET_location" />
 
@@ -139,9 +139,9 @@ tools:context="com.example.usp05.githubtry.AddItemActivity">
     <EditText
         android:id="@+id/ET_quantity"
         android:layout_width="159dp"
-        android:layout_height="38dp"
+        android:layout_height="42dp"
         android:ems="10"
-        android:inputType="number"
+        android:inputType="text"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="@+id/ET_name" />
 
@@ -157,15 +157,15 @@ tools:context="com.example.usp05.githubtry.AddItemActivity">
         app:layout_constraintEnd_toEndOf="parent" />
 
 
-<Button
-    android:id="@+id/saveBTN"
-    android:layout_width="78dp"
-    android:layout_height="40dp"
-    android:onClick="onSaveClick"
-    android:text="Save"
-    app:layout_constraintBottom_toBottomOf="@+id/addMoreBTN"
-    app:layout_constraintEnd_toEndOf="@+id/ET_note"
-    app:layout_constraintTop_toTopOf="@+id/addMoreBTN" />
+    <Button
+        android:id="@+id/saveBTN"
+        android:layout_width="78dp"
+        android:layout_height="40dp"
+        android:onClick="onEditSaveClick"
+        android:text="Save"
+        app:layout_constraintBottom_toBottomOf="@+id/addMoreBTN"
+        app:layout_constraintEnd_toEndOf="@+id/ET_note"
+        app:layout_constraintTop_toTopOf="@+id/addMoreBTN" />
 
 <Button
     android:id="@+id/deleteBTN"

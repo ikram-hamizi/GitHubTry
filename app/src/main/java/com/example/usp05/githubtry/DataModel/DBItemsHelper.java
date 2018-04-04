@@ -134,8 +134,8 @@ public class DBItemsHelper extends SQLiteOpenHelper{
     public void editItem(int edited_item_id, String editedColumnName, String newInfo)
     {
         appDB = this.getWritableDatabase();
-        String edit_row_query = "UPDATE "+ ITEM_TABLE_NAME + " SET " + editedColumnName + " = " + newInfo +
-                " WHERE ID = " + edited_item_id;
+        String edit_row_query = "UPDATE "+ ITEM_TABLE_NAME + " SET " + editedColumnName + " = '" + newInfo +
+                "' WHERE ID = " + edited_item_id + ";";
         appDB.execSQL(edit_row_query);
     }
 
