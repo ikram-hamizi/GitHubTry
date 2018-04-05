@@ -33,7 +33,6 @@ public class DBItemsHelper extends SQLiteOpenHelper{
 
     private long rownInsert;
     SQLiteDatabase appDB;
-
     private static final String TABLE_CREATE = "CREATE TABLE ITEM (ID INTEGER PRIMARY KEY, USERNAME TEXT NOT NULL, " +
             "NAME TEXT NOT NULL , LOCATION TEXT NOT NULL , TYPE TEXT NOT NULL , DATE_PURCHASED TEXT NOT NULL , " +
             "DATE_EXPIRED TEXT NOT NULL , QUANTITY INT NOT NULL, AVERAGE_PRICE FLOAT NOT NULL , NOTES TEXT NOT NULL);";
@@ -124,17 +123,19 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         return null;
     }
 
-    public void deleteItem(int delete_id)
+    public void deleteItem(String username, int delete_id)
     {
-        String delete_row_query = "DELETE FROM "+ ITEM_TABLE_NAME + " WHERE ID = " + delete_id;
-        appDB.rawQuery(delete_row_query, null);
+        appDB = this.getWritableDatabase();
+        String delete_row_query = "DELETE FROM "+ ITEM_TABLE_NAME + " WHERE USERNAME = '" + username + "' and ID = " + delete_id + ";";
+        appDB.execSQL(delete_row_query);
     }
 
     public void editItem(int edited_item_id, String editedColumnName, String newInfo)
     {
-        String edit_row_query = "UPDATE "+ ITEM_TABLE_NAME + " SET " + editedColumnName + " = " + newInfo +
-                " WHERE ID = " + edited_item_id;
-        appDB.rawQuery(edit_row_query, null);
+        appDB = this.getWritableDatabase();
+        String edit_row_query = "UPDATE "+ ITEM_TABLE_NAME + " SET " + editedColumnName + " = '" + newInfo +
+                "' WHERE ID = " + edited_item_id + ";";
+        appDB.execSQL(edit_row_query);
     }
 
     // gets all data from items database and displays in the ListView in inventory screen
