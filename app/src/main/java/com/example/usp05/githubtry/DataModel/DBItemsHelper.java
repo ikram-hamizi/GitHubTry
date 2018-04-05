@@ -50,9 +50,8 @@ public class DBItemsHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-
         String drop_query = "DROP TABLE IF EXISTS "+ ITEM_TABLE_NAME;
-        db.execSQL(drop_query);
+        appDB.execSQL(drop_query);
         this.onCreate(db);
     }
 
@@ -92,17 +91,64 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         return db_insert;
     }
 
-
-    public int searchItem(String search_name)
+    public Item searchItem(String username, int search_id)
     {
-        return -1;
+        appDB = this.getReadableDatabase();
+        String get_row_query = "SELECT * FROM "+ ITEM_TABLE_NAME + " WHERE USERNAME = ? and ID = ?";
+        Cursor found = appDB.rawQuery(get_row_query, new String[] {username, String.valueOf(search_id)});
+
+        String id;
+        if (found.moveToFirst() && found != null)
+        {
+            do {
+                id = found.getString(0);
+                if(search_id == Integer.parseInt(id))
+                {
+                    // USERNAME 0
+                    // ID 1
+                    // NAME 2
+                    // LOCATION 3
+                    // TYPE 4
+                    // DATE_PURCHASED 5
+                    // DATE_EXPIRED 6
+                    // QUANTITY 7
+                    // AVERAGE_PRICE 8
+                    // NOTES 9
+
+                    //public Item(String username, String name, String location, String type, String date_purchased, String date_expired, String notes, int quantity /*.float price*/)
+                    return new Item(found.getString(1), found.getString(2), found.getString(3), found.getString(4), found.getString(5),
+                            found.getString(6), found.getString(9), Integer.parseInt(found.getString(7)));
+                }
+            }while(found.moveToNext());
+        }
+        return null;
+    }
+
+    public void deleteItem(int delete_id)
+    {
+        String delete_row_query = "DELETE FROM "+ ITEM_TABLE_NAME + " WHERE ID = " + delete_id;
+        appDB.rawQuery(delete_row_query, null);
+    }
+
+    public void editItem(int edited_item_id, String editedColumnName, String newInfo)
+    {
+        String edit_row_query = "UPDATE "+ ITEM_TABLE_NAME + " SET " + editedColumnName + " = " + newInfo +
+                " WHERE ID = " + edited_item_id;
+        appDB.rawQuery(edit_row_query, null);
     }
 
     // gets all data from items database and displays in the ListView in inventory screen
     public Cursor getItems(String username) {
         appDB = this.getReadableDatabase();
-        String query = "select " + ITEM_COL_NAME + " from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ?";
+        String query = "select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ?";
         Cursor cursor = appDB.rawQuery(query, new String[]{username});
+        return cursor;
+    }
+
+    public Cursor getItemID(String username, String name) {
+        appDB = this.getReadableDatabase();
+        String query = "select " + ITEM_COL_ID + " from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ? and " + ITEM_COL_NAME + " = ?;";
+        Cursor cursor = appDB.rawQuery(query, new String[]{username, name});
         return cursor;
     }
 }
