@@ -7,13 +7,14 @@ import android.support.annotation.NonNull;
  */
 
 public class Item {
-
+    //<<<<<<<<<<<<<<<<< MPORTANT ADD PRICE TO ITEM
+    //UPDATE DATABASE
     //1- Fields: 8
     private String username, name, location, type, date_purchased, date_expired, notes;
     private int quantity;
-    private float average_price;
+    private float average_price, price;
 
-    public Item(String username, String name, String location, String type, String date_purchased, String date_expired, String notes, int quantity)
+    public Item(String username, String name, String location, String type, String date_purchased, String date_expired, String notes, int quantity /*.float price*/)
     {
         this.username = username;
         this.name = name;
@@ -24,9 +25,17 @@ public class Item {
         this.notes = notes;
         this.quantity = quantity;
         this.average_price = 0.0f;
+        //this.price = price;
     }
 
     //2- Methods
+//    public float getPrice() {return price;}
+//    public void setPrice(float price) {this.price = price;}
+
+    public void setAverage_price(float average_price) {
+        this.average_price = average_price;
+    }
+
     public float calculateAvgPrice()
     {
         return average_price;
