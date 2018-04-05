@@ -38,13 +38,24 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterHolder>{
     public void onBindViewHolder(FilterHolder holder, final int position) {
         holder.chk.setText(filters.get(position));
 
+//        if(holder.chk.getText().equals("All")){
+//            holder.chk.setChecked(true);
+//        }
+
         holder.setItemClickListener(new ItemClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
                 CheckBox chk = (CheckBox) v;
 
+                // TODO: Implement "All" checkbox
+
                 if(chk.isChecked()){
-                    checkedFilters.add(filters.get(pos));
+                    if(chk.getText().equals("All")) {
+                        checkedFilters.removeAll(checkedFilters);
+
+                    } else {
+                        checkedFilters.add(filters.get(pos));
+                    }
                 } else {
                     checkedFilters.remove(filters.get(pos));
                 }

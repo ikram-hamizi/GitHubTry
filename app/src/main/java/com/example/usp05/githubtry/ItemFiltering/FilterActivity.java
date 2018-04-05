@@ -1,6 +1,7 @@
 package com.example.usp05.githubtry.ItemFiltering;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.usp05.githubtry.DataModel.DBItemsHelper;
+import com.example.usp05.githubtry.Inventory;
 import com.example.usp05.githubtry.R;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class FilterActivity extends Activity {
 
     StringBuffer sb = null;
     FilterAdapter locationFilterAdapter, typeFilterAdapter;
+    private String username;
 
     DBItemsHelper filterDB = new DBItemsHelper(this);
 
@@ -31,6 +34,8 @@ public class FilterActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.filter_items);
+
+        username = getIntent().getStringExtra("username");
 
         locationFilterAdapter = new FilterAdapter(this, getLocationFilters());
         typeFilterAdapter = new FilterAdapter(this,getTypeFilters());
@@ -48,21 +53,14 @@ public class FilterActivity extends Activity {
         fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent i = new Intent(FilterActivity.this,Inventory.class);
+
+                i.putExtra("username", username);
+                i.putExtra("typeFilters",(ArrayList<String>)typeFilterAdapter.checkedFilters);
+                i.putExtra("locationFilters",(ArrayList<String>)locationFilterAdapter.checkedFilters);
+
+                startActivity(i);
 //                finish();
-                sb=new StringBuffer();
-
-                for(String str: locationFilterAdapter.checkedFilters){
-                    sb.append(str);
-                    sb.append("\n");
-                }
-                for(String str: typeFilterAdapter.checkedFilters){
-                    sb.append(str);
-                    sb.append("\n");
-                }
-
-                if(locationFilterAdapter.checkedFilters.size()>0){
-                    Toast.makeText(FilterActivity.this, sb.toString(), Toast.LENGTH_LONG).show();
-                }
             }
         });
 
