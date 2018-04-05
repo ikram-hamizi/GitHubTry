@@ -4,15 +4,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.usp05.githubtry.DataModel.DBItemsHelper;
+import com.example.usp05.githubtry.ItemFiltering.FilterActivity;
 
 import java.util.ArrayList;
 
@@ -35,7 +34,7 @@ public class Inventory extends AppCompatActivity {
         fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Inventory.this,FilterPopup.class));
+                startActivity(new Intent(Inventory.this,FilterActivity.class));
             }
         });
 

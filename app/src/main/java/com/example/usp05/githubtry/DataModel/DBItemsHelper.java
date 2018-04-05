@@ -121,13 +121,17 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         if(cursor.moveToFirst()){
             do {
                 newString = cursor.getString(0);
-                for(String str: results) {
-                    if(!str.trim().toLowerCase().contains(newString.trim().toLowerCase())) {
-                        results.add(newString);
-                        break;
-                    }
-                }
+                if(newString.length() > 0) {
+                    int rs = results.size();
+                    boolean isNew = true;
 
+                    for (int i = 0; i < rs; i++) {
+                        if (results.get(i).trim().equalsIgnoreCase(newString))
+                            isNew = false;
+                    }
+                    if (isNew)
+                        results.add(newString);
+                }
             } while(cursor.moveToNext());
         }
 
@@ -143,17 +147,20 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         results.add("All");
         String newString;
 
-        // TODO: Fix filter search (for type and location) so that it doesn't duplicate results
         if(cursor.moveToFirst()){
             do {
                 newString = cursor.getString(0);
-                for(String str: results) {
-                    if(!str.trim().toLowerCase().contains(newString)) {
-                        results.add(newString);
-                        break;
-                    }
-                }
+                if(newString.length() > 0) {
+                    int rs = results.size();
+                    boolean isNew = true;
 
+                    for (int i = 0; i < rs; i++) {
+                        if (results.get(i).trim().equalsIgnoreCase(newString))
+                            isNew = false;
+                    }
+                    if (isNew)
+                        results.add(newString);
+                }
             } while(cursor.moveToNext());
         }
 
