@@ -1,13 +1,22 @@
 package com.example.usp05.githubtry.DataModel;
 
+import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.CharArrayBuffer;
+import android.database.ContentObserver;
 import android.database.Cursor;
+import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.net.Uri;
+import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.usp05.githubtry.AddItemActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by cstech on 3/24/18.
@@ -33,6 +42,7 @@ public class DBItemsHelper extends SQLiteOpenHelper{
 
     private long rownInsert;
     SQLiteDatabase appDB;
+
     private static final String TABLE_CREATE = "CREATE TABLE ITEM (ID INTEGER PRIMARY KEY, USERNAME TEXT NOT NULL, " +
             "NAME TEXT NOT NULL , LOCATION TEXT NOT NULL , TYPE TEXT NOT NULL , DATE_PURCHASED TEXT NOT NULL , " +
             "DATE_EXPIRED TEXT NOT NULL , QUANTITY INT NOT NULL, AVERAGE_PRICE FLOAT NOT NULL , NOTES TEXT NOT NULL);";
@@ -92,9 +102,13 @@ public class DBItemsHelper extends SQLiteOpenHelper{
 
     public Item searchItem(String username, int search_id)
     {
+        // TODO: Fix username being null problem
+
         appDB = this.getReadableDatabase();
-        String get_row_query = "SELECT * FROM "+ ITEM_TABLE_NAME + " WHERE USERNAME = ? and ID = ?";
-        Cursor found = appDB.rawQuery(get_row_query, new String[] {username, String.valueOf(search_id)});
+//        String get_row_query = "SELECT * FROM "+ ITEM_TABLE_NAME + " WHERE USERNAME = ? and ID = ?";
+//        Cursor found = appDB.rawQuery(get_row_query, new String[] {username, String.valueOf(search_id)});
+        String get_row_query = "SELECT * FROM "+ ITEM_TABLE_NAME + " WHERE ID = ?";
+        Cursor found = appDB.rawQuery(get_row_query, new String[] {String.valueOf(search_id)});
 
         String id;
         if (found.moveToFirst() && found != null)
@@ -125,8 +139,10 @@ public class DBItemsHelper extends SQLiteOpenHelper{
 
     public void deleteItem(String username, int delete_id)
     {
+        // TODO: Fix username being null problem
         appDB = this.getWritableDatabase();
-        String delete_row_query = "DELETE FROM "+ ITEM_TABLE_NAME + " WHERE USERNAME = '" + username + "' and ID = " + delete_id + ";";
+//        String delete_row_query = "DELETE FROM "+ ITEM_TABLE_NAME + " WHERE USERNAME = '" + username + "' and ID = " + delete_id + ";";
+        String delete_row_query = "DELETE FROM "+ ITEM_TABLE_NAME + " WHERE ID = " + delete_id + ";";
         appDB.execSQL(delete_row_query);
     }
 
@@ -140,16 +156,154 @@ public class DBItemsHelper extends SQLiteOpenHelper{
 
     // gets all data from items database and displays in the ListView in inventory screen
     public Cursor getItems(String username) {
+        // TODO: Fix username being null problem
         appDB = this.getReadableDatabase();
-        String query = "select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ?";
-        Cursor cursor = appDB.rawQuery(query, new String[]{username});
+//        String query = "select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ?";
+//        Cursor cursor = appDB.rawQuery(query, new String[]{username});
+        String query = "select * from " + ITEM_TABLE_NAME;
+        Cursor cursor = appDB.rawQuery(query, null);
         return cursor;
     }
 
-    public Cursor getItemID(String username, String name) {
+    public Cursor getFilteredItems(String username, List<String> typeFilters, List<String> locationFilters){
+
+        // TODO: Fix username being null problem
         appDB = this.getReadableDatabase();
-        String query = "select " + ITEM_COL_ID + " from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ? and " + ITEM_COL_NAME + " = ?;";
-        Cursor cursor = appDB.rawQuery(query, new String[]{username, name});
+        Cursor cursor = null;
+        String query;
+        StringBuffer fquery = new StringBuffer();
+
+        if((typeFilters.size()==0) && (locationFilters.size()==0)) {
+
+//            query = "select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ?";
+//            cursor = appDB.rawQuery(query, new String[]{username});
+            query = "select * from " + ITEM_TABLE_NAME;
+            cursor = appDB.rawQuery(query, null);
+
+        } else
+            if((typeFilters.size()==0) && (locationFilters.size()>0)){
+
+//            fquery.append("select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ");
+//            fquery.append(username);
+//            fquery.append(" AND (");
+                fquery.append("select * from " + ITEM_TABLE_NAME + " where (");
+                for (String str : locationFilters) {
+                    fquery.append(ITEM_COL_LOCATION + " = '" + str + "' OR ");
+                }
+                int lastOR = fquery.lastIndexOf(" OR");
+                fquery.delete(lastOR,lastOR+4);
+                fquery.append(")");
+
+                cursor = appDB.rawQuery(fquery.toString(), null);
+
+            } else
+                if((typeFilters.size()>0) && (locationFilters.size()==0)){
+//            fquery.append("select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ");
+//            fquery.append(username);
+//            fquery.append(" AND (");
+                    fquery.append("select * from " + ITEM_TABLE_NAME + " where (");
+                    for (String str : typeFilters) {
+                        fquery.append(ITEM_COL_TYPE + " = '" + str + "' OR ");
+                    }
+                    int lastOR = fquery.lastIndexOf(" OR");
+                    fquery.delete(lastOR,lastOR+4);
+                    fquery.append(")");
+
+                    cursor = appDB.rawQuery(fquery.toString(), null);
+                } else
+                    if((typeFilters.size()>0) && (locationFilters.size()>0)){
+//            fquery.append("select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ");
+//            fquery.append(username);
+//            fquery.append(" AND (");
+                        fquery.append("select * from " + ITEM_TABLE_NAME + " where (");
+                        for (String str : typeFilters) {
+                            fquery.append(ITEM_COL_TYPE + " = '" + str + "' OR ");
+                        }
+                        int lastOR = fquery.lastIndexOf(" OR");
+                        fquery.delete(lastOR,lastOR+4);
+                        fquery.append(") AND (");
+                        for (String str : locationFilters) {
+                            fquery.append(ITEM_COL_LOCATION + " = '" + str + "' OR ");
+                        }
+                        lastOR = fquery.lastIndexOf(" OR");
+                        fquery.delete(lastOR,lastOR+4);
+                        fquery.append(")");
+
+                        cursor = appDB.rawQuery(fquery.toString(), null);
+                    }
+        return cursor;
+    }
+
+    public List<String> getTypes(){
+        appDB = this.getReadableDatabase();
+        String query = "select " + ITEM_COL_TYPE + " from " + ITEM_TABLE_NAME;
+        Cursor cursor = appDB.rawQuery(query,null);
+
+        List<String> results = new ArrayList<String>();
+
+        // TODO: Implement "All" checkbox
+//        results.add("All");
+        String newString;
+
+        if(cursor.moveToFirst()){
+            do {
+                newString = cursor.getString(0);
+                if(newString.length() > 0) {
+                    int rs = results.size();
+                    boolean isNew = true;
+
+                    for (int i = 0; i < rs; i++) {
+                        if (results.get(i).trim().equalsIgnoreCase(newString))
+                            isNew = false;
+                    }
+                    if (isNew)
+                        results.add(newString);
+                }
+            } while(cursor.moveToNext());
+        }
+
+        return results;
+    }
+
+    public List<String> getLocations() {
+        appDB = this.getReadableDatabase();
+        String query = "select " + ITEM_COL_LOCATION + " from " + ITEM_TABLE_NAME;
+        Cursor cursor = appDB.rawQuery(query,null);
+
+        List<String> results = new ArrayList<String>();
+
+        // TODO: Implement "All" checkbox
+//        results.add("All");
+        String newString;
+
+        if(cursor.moveToFirst()){
+            do {
+                newString = cursor.getString(0);
+                if(newString.length() > 0) {
+                    int rs = results.size();
+                    boolean isNew = true;
+
+                    for (int i = 0; i < rs; i++) {
+                        if (results.get(i).trim().equalsIgnoreCase(newString))
+                            isNew = false;
+                    }
+                    if (isNew)
+                        results.add(newString);
+                }
+            } while(cursor.moveToNext());
+        }
+
+        return results;
+    }
+
+    public Cursor getItemID(String username, String name) {
+
+        // TODO: Fix username being null problem
+        appDB = this.getReadableDatabase();
+//        String query = "select " + ITEM_COL_ID + " from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ? and " + ITEM_COL_NAME + " = ?;";
+//        Cursor cursor = appDB.rawQuery(query, new String[]{username, name});
+        String query = "select " + ITEM_COL_ID + " from " + ITEM_TABLE_NAME + " where " + ITEM_COL_NAME + " = ?;";
+        Cursor cursor = appDB.rawQuery(query, new String[]{name});
         return cursor;
     }
 }

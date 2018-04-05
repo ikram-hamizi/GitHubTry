@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GitHubTry.iml" filepath="$PROJECT_DIR$/GitHubTry.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../../../../USP05/Desktop/Anime Land/GitHubTry/.idea/GitHubTry.iml" filepath="$PROJECT_DIR$/../../../../../USP05/Desktop/Anime Land/GitHubTry/.idea/GitHubTry.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../../../../USP05/Desktop/Anime Land/GitHubTry/GitHubTry.iml" filepath="$PROJECT_DIR$/../../../../../USP05/Desktop/Anime Land/GitHubTry/GitHubTry.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/../../../../../USP05/Desktop/Anime Land/GitHubTry/app/app.iml" filepath="$PROJECT_DIR$/../../../../../USP05/Desktop/Anime Land/GitHubTry/app/app.iml" />
     </modules>

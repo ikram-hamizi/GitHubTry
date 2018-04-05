@@ -21,6 +21,8 @@
         <activity android:name=".Inventory"></activity>
         <activity android:name=".ItemDisplayDetails"></activity>
         <activity android:name=".EditItemActivity"></activity>
+        <!--<activity android:name=".FilterPopup"></activity>-->
+        <activity android:name=".ItemFiltering.FilterActivity"></activity>
     </application>
 
 </manifest>
