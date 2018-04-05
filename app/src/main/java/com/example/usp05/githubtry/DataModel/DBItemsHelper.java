@@ -59,7 +59,6 @@ public class DBItemsHelper extends SQLiteOpenHelper{
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-
         String drop_query = "DROP TABLE IF EXISTS "+ ITEM_TABLE_NAME;
         appDB.execSQL(drop_query);
         this.onCreate(db);
