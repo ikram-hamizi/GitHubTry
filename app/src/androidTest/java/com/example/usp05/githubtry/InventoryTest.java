@@ -19,6 +19,7 @@ import org.junit.runner.RunWith;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static android.support.test.espresso.action.ViewActions.pressImeActionButton;
 import static android.support.test.espresso.action.ViewActions.replaceText;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -27,13 +28,13 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class InventoryTest2 {
+public class InventoryTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
 
     @Test
-    public void inventoryTest2() {
+    public void inventoryTest() {
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.signUpButton), withText("Sign Up"),
                         childAtPosition(
@@ -52,7 +53,7 @@ public class InventoryTest2 {
                                         0),
                                 2),
                         isDisplayed()));
-        editText.perform(replaceText("mallikaa"), closeSoftKeyboard());
+        editText.perform(replaceText("mallika"), closeSoftKeyboard());
 
         ViewInteraction editText2 = onView(
                 allOf(withId(R.id.passwordRegister),
@@ -122,7 +123,7 @@ public class InventoryTest2 {
                                         0),
                                 3),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("mallikaa"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("mallika"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
                 allOf(withId(R.id.passwordLogin),
@@ -160,9 +161,9 @@ public class InventoryTest2 {
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                14),
+                                15),
                         isDisplayed()));
-        appCompatEditText3.perform(replaceText("Test"), closeSoftKeyboard());
+        appCompatEditText3.perform(replaceText("TestingInv"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText4 = onView(
                 allOf(withId(R.id.ET_quantity),
@@ -170,7 +171,7 @@ public class InventoryTest2 {
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                13),
+                                14),
                         isDisplayed()));
         appCompatEditText4.perform(replaceText("1"), closeSoftKeyboard());
 
@@ -180,7 +181,7 @@ public class InventoryTest2 {
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                12),
+                                13),
                         isDisplayed()));
         appCompatEditText5.perform(replaceText("VCU"), closeSoftKeyboard());
 
@@ -190,21 +191,61 @@ public class InventoryTest2 {
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                11),
+                                12),
                         isDisplayed()));
-        appCompatEditText6.perform(replaceText("4/1/2018"), closeSoftKeyboard());
+        appCompatEditText6.perform(replaceText("1//42018"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText7 = onView(
-                allOf(withId(R.id.ET_price),
+                allOf(withId(R.id.ET_datepurch), withText("1//42018"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                12),
+                        isDisplayed()));
+        appCompatEditText7.perform(click());
+
+        ViewInteraction appCompatEditText8 = onView(
+                allOf(withId(R.id.ET_datepurch), withText("1//42018"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                12),
+                        isDisplayed()));
+        appCompatEditText8.perform(replaceText("1//4/2018"));
+
+        ViewInteraction appCompatEditText9 = onView(
+                allOf(withId(R.id.ET_datepurch), withText("1//4/2018"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                12),
+                        isDisplayed()));
+        appCompatEditText9.perform(closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText10 = onView(
+                allOf(withId(R.id.ET_dateexp),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
                                 10),
                         isDisplayed()));
-        appCompatEditText7.perform(replaceText("0$"), closeSoftKeyboard());
+        appCompatEditText10.perform(replaceText("0000"), closeSoftKeyboard());
 
-        ViewInteraction appCompatEditText8 = onView(
+        ViewInteraction appCompatEditText11 = onView(
+                allOf(withId(R.id.ET_price),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                11),
+                        isDisplayed()));
+        appCompatEditText11.perform(replaceText("0"), closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText12 = onView(
                 allOf(withId(R.id.ET_category),
                         childAtPosition(
                                 childAtPosition(
@@ -212,9 +253,9 @@ public class InventoryTest2 {
                                         0),
                                 9),
                         isDisplayed()));
-        appCompatEditText8.perform(replaceText("Testing"), closeSoftKeyboard());
+        appCompatEditText12.perform(replaceText("Tests"), closeSoftKeyboard());
 
-        ViewInteraction appCompatEditText9 = onView(
+        ViewInteraction appCompatEditText13 = onView(
                 allOf(withId(R.id.ET_note),
                         childAtPosition(
                                 childAtPosition(
@@ -222,7 +263,17 @@ public class InventoryTest2 {
                                         0),
                                 8),
                         isDisplayed()));
-        appCompatEditText9.perform(replaceText("This is a Test"), closeSoftKeyboard());
+        appCompatEditText13.perform(replaceText("This is a Test"), closeSoftKeyboard());
+
+        ViewInteraction appCompatEditText14 = onView(
+                allOf(withId(R.id.ET_note), withText("This is a Test"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                8),
+                        isDisplayed()));
+        appCompatEditText14.perform(pressImeActionButton());
 
         ViewInteraction appCompatButton4 = onView(
                 allOf(withId(R.id.saveBTN), withText("Save"),
@@ -230,7 +281,7 @@ public class InventoryTest2 {
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
-                                15),
+                                16),
                         isDisplayed()));
         appCompatButton4.perform(click());
 
