@@ -11,6 +11,7 @@ import java.lang.Integer;
 
 import com.example.usp05.githubtry.DataModel.DBItemsHelper;
 import com.example.usp05.githubtry.DataModel.Item;
+import com.example.usp05.githubtry.InventoryDisplay.InventoryActivity;
 
 /**
  * Created by minh on 3/24/18.
@@ -51,7 +52,8 @@ public class AddItemActivity extends AppCompatActivity
 
             db_helper.insertItem(newItem); //Insert Item to DB
             db_helper.isInsertedToast(AddItemActivity.this).show();
-            Intent i = new Intent(AddItemActivity.this, Inventory.class);
+//            Intent i = new Intent(AddItemActivity.this, Inventory.class);
+            Intent i = new Intent(AddItemActivity.this, InventoryActivity.class);
             i.putExtra("username", username);
             startActivity(i);
         }

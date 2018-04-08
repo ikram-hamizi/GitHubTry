@@ -42,7 +42,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterHolder>{
 //            holder.chk.setChecked(true);
 //        }
 
-        holder.setItemClickListener(new ItemClickListener() {
+        holder.setFilterClickListener(new FilterClickListener() {
             @Override
             public void onItemClick(View v, int pos) {
                 CheckBox chk = (CheckBox) v;

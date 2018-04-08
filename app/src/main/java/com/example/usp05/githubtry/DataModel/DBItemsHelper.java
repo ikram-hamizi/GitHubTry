@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.usp05.githubtry.AddItemActivity;
+import com.example.usp05.githubtry.InventoryDisplay.InventoryItemDisplay;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -306,4 +307,8 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         Cursor cursor = appDB.rawQuery(query, new String[]{name});
         return cursor;
     }
+
+//    public List<InventoryItemDisplay> getRelevantItems() {
+//
+//    }
 }

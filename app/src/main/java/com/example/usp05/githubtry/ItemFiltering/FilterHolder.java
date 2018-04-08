@@ -14,7 +14,7 @@ public class FilterHolder extends RecyclerView.ViewHolder implements View.OnClic
 
     CheckBox chk;
 
-    ItemClickListener itemClickListener;
+    FilterClickListener filterClickListener;
 
     public FilterHolder(View itemView) {
         super(itemView);
@@ -24,12 +24,12 @@ public class FilterHolder extends RecyclerView.ViewHolder implements View.OnClic
         chk.setOnClickListener(this);
     }
 
-    public void setItemClickListener(ItemClickListener ic){
-        this.itemClickListener=ic;
+    public void setFilterClickListener(FilterClickListener ic){
+        this.filterClickListener =ic;
     }
 
     @Override
     public void onClick(View v) {
-        this.itemClickListener.onItemClick(v,getLayoutPosition());
+        this.filterClickListener.onItemClick(v,getLayoutPosition());
     }
 }

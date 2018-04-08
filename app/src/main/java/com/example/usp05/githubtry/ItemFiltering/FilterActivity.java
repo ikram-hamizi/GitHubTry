@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.usp05.githubtry.DataModel.DBItemsHelper;
 import com.example.usp05.githubtry.Inventory;
+import com.example.usp05.githubtry.InventoryDisplay.InventoryActivity;
 import com.example.usp05.githubtry.R;
 
 import java.util.ArrayList;
@@ -53,7 +54,8 @@ public class FilterActivity extends Activity {
         fb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(FilterActivity.this,Inventory.class);
+//                Intent i = new Intent(FilterActivity.this,Inventory.class);
+                Intent i = new Intent(FilterActivity.this,InventoryActivity.class);
 
                 i.putExtra("username", username);
                 i.putExtra("typeFilters",(ArrayList<String>)typeFilterAdapter.checkedFilters);
