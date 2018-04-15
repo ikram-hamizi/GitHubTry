@@ -16,14 +16,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Register"></activity>
-        <activity android:name=".AddItemActivity"></activity>
-        <!--<activity android:name=".Inventory"></activity>-->
-        <activity android:name=".InventoryDisplay.InventoryActivity"></activity>
-        <activity android:name=".ItemDisplayDetails"></activity>
-        <activity android:name=".EditItemActivity"></activity>
-        <!--<activity android:name=".FilterPopup"></activity>-->
-        <activity android:name=".ItemFiltering.FilterActivity"></activity>
+        <activity android:name=".Register" />
+        <activity android:name=".AddItemActivity" />
+        <!-- <activity android:name=".Inventory"></activity> -->
+        <activity android:name=".InventoryDisplay.InventoryActivity" />
+        <activity android:name=".ItemDisplayDetails" />
+        <activity android:name=".EditItemActivity" />
+        <!-- <activity android:name=".FilterPopup"></activity> -->
+        <activity android:name=".ItemFiltering.FilterActivity" />
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".InventoryDisplay.InventoryActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.usp05.githubtry.InventoryDisplay.InventoryActivity" />
+        </activity>
     </application>
 
 </manifest>

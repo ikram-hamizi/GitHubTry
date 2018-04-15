@@ -38,10 +38,6 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterHolder>{
     public void onBindViewHolder(FilterHolder holder, final int position) {
         holder.chk.setText(filters.get(position));
 
-//        if(holder.chk.getText().equals("All")){
-//            holder.chk.setChecked(true);
-//        }
-
         holder.setFilterClickListener(new FilterClickListener() {
             @Override
             public void onItemClick(View v, int pos) {

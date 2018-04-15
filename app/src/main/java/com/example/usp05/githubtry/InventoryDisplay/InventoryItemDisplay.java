@@ -8,9 +8,15 @@ import android.database.Cursor;
 
 public class InventoryItemDisplay {
 
+
+    private int itemID;
     private String itemName;
     private String itemLocation;
     private int itemQuantity;
+
+    public int getItemID() {
+        return itemID;
+    }
 
     public String getItemName() {
         return itemName;
@@ -40,9 +46,10 @@ public class InventoryItemDisplay {
 
         InventoryItemDisplay iid = new InventoryItemDisplay();
 
+        iid.itemID = cursor.getInt(cursor.getColumnIndex("ID"));
         iid.itemName = cursor.getString(cursor.getColumnIndex("NAME"));
         iid.itemLocation = cursor.getString(cursor.getColumnIndex("LOCATION"));
-        iid.itemLocation = cursor.getString(cursor.getColumnIndex("QUANTITY"));
+        iid.itemQuantity = Integer.parseInt(cursor.getString(cursor.getColumnIndex("QUANTITY")));
 
         cursor.moveToNext();
 

@@ -2,11 +2,9 @@ package com.example.usp05.githubtry.InventoryDisplay;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.CheckBox;
 import android.widget.CheckedTextView;
 import android.widget.TextView;
 
-import com.example.usp05.githubtry.InventoryDisplay.ItemClickListener;
 import com.example.usp05.githubtry.R;
 
 /**
@@ -19,7 +17,8 @@ public class InventoryHolder extends RecyclerView.ViewHolder implements View.OnC
     TextView tvLocation;
     TextView tvQuantity;
 
-    ItemClickListener itemClickListener;
+    ItemClickListener mListener;
+
 
     public InventoryHolder(View itemView) {
         super(itemView);
@@ -29,14 +28,16 @@ public class InventoryHolder extends RecyclerView.ViewHolder implements View.OnC
         ctvItem.setOnClickListener(this);
         tvLocation.setOnClickListener(this);
         tvQuantity.setOnClickListener(this);
+        itemView.setOnClickListener(this);
     }
 
-    public void setItemClickListener(ItemClickListener ic){
-        this.itemClickListener =ic;
-    }
 
     @Override
     public void onClick(View v) {
-        this.itemClickListener.onItemClick(v,getLayoutPosition());
+        this.mListener.onItemClick(v,getLayoutPosition());
+    }
+
+    public void setItemClickListener(ItemClickListener listener) {
+        this.mListener = listener;
     }
 }

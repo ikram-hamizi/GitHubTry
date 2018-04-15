@@ -44,7 +44,7 @@ public class Inventory extends AppCompatActivity {
             public void onClick(View v) {
                 Intent i = new Intent(Inventory.this,FilterActivity.class);
                 i.putExtra("username",username);
-                startActivity(new Intent(Inventory.this,FilterActivity.class));
+                startActivity(i);
             }
         });
 
