@@ -34,8 +34,11 @@ public class BadLoginTest {
 
 
     @Rule
-    public ActivityTestRule<MainActivity> mActivityRule =
+    public final ActivityTestRule<MainActivity> mActivityRule =
             new ActivityTestRule<>(MainActivity.class);
+
+    public BadLoginTest() {
+    }
 
     @Test
     public void ensureBadLoginFails() {

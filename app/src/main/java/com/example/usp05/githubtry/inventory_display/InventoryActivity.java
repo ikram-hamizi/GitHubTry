@@ -1,4 +1,4 @@
-package com.example.usp05.githubtry.InventoryDisplay;
+package com.example.usp05.githubtry.inventory_display;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -10,13 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.usp05.githubtry.ItemManipulation.AddItemActivity;
-import com.example.usp05.githubtry.DataModel.DBItemsHelper;
-import com.example.usp05.githubtry.ItemFiltering.FilterActivity;
+import com.example.usp05.githubtry.item_manipulation.AddItemActivity;
+import com.example.usp05.githubtry.data_model.DBItemsHelper;
+import com.example.usp05.githubtry.item_filtering.FilterActivity;
 import com.example.usp05.githubtry.R;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Created by Ikram 04/04/2018
@@ -27,13 +26,10 @@ import java.util.List;
  */
 
 public class InventoryActivity extends Activity {
-    private static final String TAG = "InventoryActivity";
 
-    StringBuffer sb = null;
-    InventoryCursorAdapter inventoryAdapter;
-    private String username;
+    String username;
 
-    DBItemsHelper helper = new DBItemsHelper(this);
+    private final DBItemsHelper helper = new DBItemsHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,13 +37,13 @@ public class InventoryActivity extends Activity {
         setContentView(R.layout.inventory_display_activity);
 
         username = getIntent().getStringExtra("username");
-        List<String> typeFilters = (ArrayList<String>) getIntent().getSerializableExtra("typeFilters");
-        List<String> locationFilters = (ArrayList<String>) getIntent().getSerializableExtra("locationFilters");
+        Collection<String> typeFilters = (Collection<String>) getIntent().getSerializableExtra("typeFilters");
+        Collection<String> locationFilters = (Collection<String>) getIntent().getSerializableExtra("locationFilters");
 
-        inventoryAdapter = new InventoryCursorAdapter(this, populateFilteredList(typeFilters,locationFilters), username);
+        InventoryCursorAdapter inventoryAdapter = new InventoryCursorAdapter(this, populateFilteredList(typeFilters, locationFilters), username);
 
-        Button filterButton = (Button) findViewById(R.id.BFilter);
-        Button addItemButton = (Button) findViewById(R.id.BAddItem);
+        Button filterButton = findViewById(R.id.BFilter);
+        Button addItemButton = findViewById(R.id.BAddItem);
 
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,30 +63,24 @@ public class InventoryActivity extends Activity {
             }
         });
 
-        RecyclerView RV_inventory = (RecyclerView) findViewById(R.id.RV_inventory);
+        RecyclerView RV_inventory = findViewById(R.id.RV_inventory);
         RV_inventory.setLayoutManager(new LinearLayoutManager(this));
         RV_inventory.setItemAnimator(new DefaultItemAnimator());
         RV_inventory.setAdapter(inventoryAdapter);
     }
 
-    private List<String> getLocationFilters() {
-        List<String> results = new ArrayList<String>();
-        results = helper.getLocations();
-        return results;
-    }
-
-    public Cursor populateFilteredList(List<String> typeFilters, List<String> locationFilters){
-        Cursor result;
+    private Cursor populateFilteredList(Collection<String> typeFilters, Collection<String> locationFilters){
 
         // TODO: Incorporate "You have no items" result
 
-        if((typeFilters==null) && (locationFilters==null)) {
-            result = helper.getItems(username);
+        Cursor returnCursor;
+
+        if ((typeFilters == null) && (locationFilters == null)) {
+            returnCursor = helper.getItems(username);
         } else {
-            result = helper.getFilteredItems(username, typeFilters, locationFilters);
+            returnCursor = helper.getFilteredItems(username, typeFilters, locationFilters);
         }
 
-
-        return result;
+        return returnCursor;
     }
 }

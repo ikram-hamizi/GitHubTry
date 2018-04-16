@@ -1,4 +1,4 @@
-package com.example.usp05.githubtry.ItemFiltering;
+package com.example.usp05.githubtry.item_filtering;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -10,17 +10,19 @@ import android.widget.CheckBox;
 import com.example.usp05.githubtry.R;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
  * Created by nathan on 4/4/18.
  */
 
-public class FilterAdapter extends RecyclerView.Adapter<FilterHolder>{
+@SuppressWarnings("AssignmentToCollectionOrArrayFieldFromParameter")
+class FilterAdapter extends RecyclerView.Adapter<FilterHolder>{
 
-    Context c;
-    List<String> filters;
-    List<String> checkedFilters = new ArrayList<String>();
+    private final Context c;
+    private final List<String> filters;
+    final Collection<String> checkedFilters = new ArrayList<>();
 
     public FilterAdapter(Context c, List<String> filters) {
         this.c = c;
@@ -30,12 +32,11 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterHolder>{
     @Override
     public FilterHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.filter_checkbox_layout,parent,false);
-        FilterHolder holder = new FilterHolder(v);
-        return holder;
+        return new FilterHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(FilterHolder holder, final int position) {
+    public void onBindViewHolder(FilterHolder holder, int position) {
         holder.chk.setText(filters.get(position));
 
         holder.setFilterClickListener(new FilterClickListener() {
@@ -46,7 +47,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterHolder>{
                 // TODO: Implement "All" checkbox
 
                 if(chk.isChecked()){
-                    if(chk.getText().equals("All")) {
+                    if("All".equals(chk.getText())) {
                         checkedFilters.removeAll(checkedFilters);
 
                     } else {

@@ -151,7 +151,7 @@ public class DisplayEditTest {
         appCompatButton2.perform(click());
 
         ViewInteraction appCompatButton3 = onView(
-                allOf(withId(R.id.addItemButton), withText("Add Item"),
+                allOf(withId(R.id.BAddItem), withText("Add Item"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -191,17 +191,18 @@ public class DisplayEditTest {
         appCompatEditText5.perform(replaceText("VCU"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText6 = onView(
-                allOf(withId(R.id.ET_datepurch),
+                allOf(withId(R.id.ET_datePurchased),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
                                         0),
                                 12),
                         isDisplayed()));
+        //noinspection HardcodedFileSeparator
         appCompatEditText6.perform(replaceText("4/4/2018"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText7 = onView(
-                allOf(withId(R.id.ET_dateexp),
+                allOf(withId(R.id.ET_dateExpired),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),
@@ -261,11 +262,11 @@ public class DisplayEditTest {
         appCompatButton4.perform(click());
 
         DataInteraction appCompatTextView = onData(anything())
-                .inAdapterView(allOf(withId(R.id.listItems),
+                .inAdapterView(allOf(withId(R.id.RV_inventory),
                         childAtPosition(
                                 withClassName(is("android.support.constraint.ConstraintLayout")),
                                 1)))
-                .atPosition(0);
+                .atPosition(Integer.valueOf(0));
         appCompatTextView.perform(click());
 
         ViewInteraction appCompatButton5 = onView(
@@ -369,7 +370,7 @@ public class DisplayEditTest {
         appCompatButton6.perform(click());
 
         DataInteraction appCompatTextView2 = onData(anything())
-                .inAdapterView(allOf(withId(R.id.listItems),
+                .inAdapterView(allOf(withId(R.id.RV_inventory),
                         childAtPosition(
                                 withClassName(is("android.support.constraint.ConstraintLayout")),
                                 1)))

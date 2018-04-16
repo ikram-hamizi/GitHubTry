@@ -1,4 +1,4 @@
-package com.example.usp05.githubtry.UserHandling;
+package com.example.usp05.githubtry.user_handling;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.usp05.githubtry.ItemManipulation.DatabaseHelper;
+import com.example.usp05.githubtry.item_manipulation.DatabaseHelper;
 import com.example.usp05.githubtry.MainActivity;
 import com.example.usp05.githubtry.R;
 
@@ -16,7 +16,8 @@ import com.example.usp05.githubtry.R;
  */
 
 public class Register extends Activity {
-    DatabaseHelper helper = new DatabaseHelper(this);
+    private final DatabaseHelper helper = new DatabaseHelper(this);
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.register);
@@ -24,12 +25,12 @@ public class Register extends Activity {
 
     public void onRegisterClick(View view) {
         if(view.getId() == R.id.registerButton) {
-            EditText username = (EditText)findViewById(R.id.usernameRegister);
-            EditText password = (EditText)findViewById(R.id.passwordRegister);
-            EditText password2 = (EditText)findViewById(R.id.password2Register);
-            EditText secQuestion1 = (EditText)findViewById(R.id.secQuestion1);
-            EditText secQuestion2 = (EditText)findViewById(R.id.secQuestion2);
-            EditText secQuestion3 = (EditText)findViewById(R.id.secQuestion3);
+            EditText username = findViewById(R.id.usernameRegister);
+            EditText password = findViewById(R.id.passwordRegister);
+            EditText password2 = findViewById(R.id.password2Register);
+            EditText secQuestion1 = findViewById(R.id.secQuestion1);
+            EditText secQuestion2 = findViewById(R.id.secQuestion2);
+            EditText secQuestion3 = findViewById(R.id.secQuestion3);
 
             String usernameStr = username.getText().toString();
             String passwordStr = password.getText().toString();
@@ -40,17 +41,17 @@ public class Register extends Activity {
 
             String searchUsername = helper.searchUsername(usernameStr);
 
-            if(searchUsername.equals("found")) {
-                Toast message = Toast.makeText(Register.this, "Username is already taken!", Toast.LENGTH_SHORT);
+            if("found".equals(searchUsername)) {
+                Toast message = Toast.makeText(this, "Username is already taken!", Toast.LENGTH_SHORT);
                 message.show();
             }
-            else if(usernameStr.equals("") || password.equals("") || password2.equals("") ||
-                    secQuestion1Str.equals("") || secQuestion2Str.equals("") || secQuestion3Str.equals("")) {
-                Toast message = Toast.makeText(Register.this, "Entries cannot be empty!", Toast.LENGTH_SHORT);
+            else if(((usernameStr != null) && usernameStr.isEmpty()) || "".equals(password) || "".equals(password2) ||
+                    ((secQuestion1Str != null) && secQuestion1Str.isEmpty()) || ((secQuestion2Str != null) && secQuestion2Str.isEmpty()) || ((secQuestion3Str != null) && secQuestion3Str.isEmpty())) {
+                Toast message = Toast.makeText(this, "Entries cannot be empty!", Toast.LENGTH_SHORT);
                 message.show();
             }
             else if (!(passwordStr.equals(password2Str))) {
-                Toast message = Toast.makeText(Register.this, "Passwords are not the same!", Toast.LENGTH_SHORT);
+                Toast message = Toast.makeText(this, "Passwords are not the same!", Toast.LENGTH_SHORT);
                 message.show();
             }
             else {
@@ -63,9 +64,9 @@ public class Register extends Activity {
 //                a.setSecQuestion2(secQuestion2Str);
 //                a.setSecQuestion3(secQuestion3Str);
                 helper.insertUser(a);
-                Toast message = Toast.makeText(Register.this, "Registration Successful!", Toast.LENGTH_SHORT);
+                Toast message = Toast.makeText(this, "Registration Successful!", Toast.LENGTH_SHORT);
                 message.show();
-                Intent i = new Intent(Register.this, MainActivity.class);
+                Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
             }
         }

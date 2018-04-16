@@ -1,4 +1,4 @@
-package com.example.usp05.githubtry.InventoryDisplay;
+package com.example.usp05.githubtry.inventory_display;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -13,18 +13,18 @@ import com.example.usp05.githubtry.R;
 
 public class InventoryHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    CheckedTextView ctvItem;
-    TextView tvLocation;
-    TextView tvQuantity;
+    final CheckedTextView ctvItem;
+    final TextView tvLocation;
+    final TextView tvQuantity;
 
-    ItemClickListener mListener;
+    private ItemClickListener mListener;
 
 
     public InventoryHolder(View itemView) {
         super(itemView);
-        ctvItem = (CheckedTextView) itemView.findViewById(R.id.CTV_item);
-        tvLocation = (TextView) itemView.findViewById(R.id.TV_location);
-        tvQuantity = (TextView) itemView.findViewById(R.id.TV_quantity);
+        ctvItem = itemView.findViewById(R.id.CTV_item);
+        tvLocation = itemView.findViewById(R.id.TV_location);
+        tvQuantity = itemView.findViewById(R.id.TV_quantity);
         ctvItem.setOnClickListener(this);
         tvLocation.setOnClickListener(this);
         tvQuantity.setOnClickListener(this);
@@ -34,10 +34,10 @@ public class InventoryHolder extends RecyclerView.ViewHolder implements View.OnC
 
     @Override
     public void onClick(View v) {
-        this.mListener.onItemClick(v,getLayoutPosition());
+        mListener.onItemClick(v,getLayoutPosition());
     }
 
     public void setItemClickListener(ItemClickListener listener) {
-        this.mListener = listener;
+        mListener = listener;
     }
 }

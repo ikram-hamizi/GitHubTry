@@ -1,4 +1,4 @@
-package com.example.usp05.githubtry.InventoryDisplay;
+package com.example.usp05.githubtry.inventory_display;
 
 /**
  * Imported by nathan on 4/8/18.
@@ -26,13 +26,16 @@ import android.database.Cursor;
 import android.database.DataSetObserver;
 import android.support.v7.widget.RecyclerView;
 
+import java.util.Objects;
+
 /**
  * Created by skyfishjy on 10/31/14.
  */
 
-public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
+@SuppressWarnings("ALL")
+abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
-    private Context mContext;
+    private final Context mContext;
 
     private Cursor mCursor;
 
@@ -40,9 +43,9 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
 
     private int mRowIdColumn;
 
-    private DataSetObserver mDataSetObserver;
+    private final DataSetObserver mDataSetObserver;
 
-    public CursorRecyclerViewAdapter(Context context, Cursor cursor) {
+    protected CursorRecyclerViewAdapter(Context context, Cursor cursor) {
         mContext = context;
         mCursor = cursor;
         mDataValid = cursor != null;
@@ -59,7 +62,7 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
 
     @Override
     public int getItemCount() {
-        if (mDataValid && mCursor != null) {
+        if (mDataValid && (mCursor != null)) {
             return mCursor.getCount();
         }
         return 0;
@@ -67,7 +70,7 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
 
     @Override
     public long getItemId(int position) {
-        if (mDataValid && mCursor != null && mCursor.moveToPosition(position)) {
+        if (mDataValid && (mCursor != null) && mCursor.moveToPosition(position)) {
             return mCursor.getLong(mRowIdColumn);
         }
         return 0;
@@ -78,7 +81,7 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
         super.setHasStableIds(true);
     }
 
-    public abstract void onBindViewHolder(VH viewHolder, Cursor cursor);
+    protected abstract void onBindViewHolder(VH viewHolder, Cursor cursor);
 
     @Override
     public void onBindViewHolder(VH viewHolder, int position) {
@@ -107,12 +110,12 @@ public abstract class CursorRecyclerViewAdapter<VH extends RecyclerView.ViewHold
      * {@link #changeCursor(Cursor)}, the returned old Cursor is <em>not</em>
      * closed.
      */
-    public Cursor swapCursor(Cursor newCursor) {
-        if (newCursor == mCursor) {
+    private Cursor swapCursor(Cursor newCursor) {
+        if (Objects.equals(newCursor, mCursor)) {
             return null;
         }
-        final Cursor oldCursor = mCursor;
-        if (oldCursor != null && mDataSetObserver != null) {
+        Cursor oldCursor = mCursor;
+        if ((oldCursor != null) && (mDataSetObserver != null)) {
             oldCursor.unregisterDataSetObserver(mDataSetObserver);
         }
         mCursor = newCursor;

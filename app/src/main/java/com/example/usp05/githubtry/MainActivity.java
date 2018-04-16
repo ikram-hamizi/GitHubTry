@@ -7,12 +7,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.usp05.githubtry.InventoryDisplay.InventoryActivity;
-import com.example.usp05.githubtry.ItemManipulation.DatabaseHelper;
-import com.example.usp05.githubtry.UserHandling.Register;
+import com.example.usp05.githubtry.inventory_display.InventoryActivity;
+import com.example.usp05.githubtry.item_manipulation.DatabaseHelper;
+import com.example.usp05.githubtry.user_handling.Register;
 
 public class MainActivity extends AppCompatActivity {
-    DatabaseHelper helper = new DatabaseHelper(this);
+    private final DatabaseHelper helper = new DatabaseHelper(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void onLoginClick(View view) {
         if((view.getId() == R.id.loginButton)) {
-            EditText username = (EditText)findViewById(R.id.usernameLogin);
-            EditText password = (EditText)findViewById(R.id.passwordLogin);
+            EditText username = findViewById(R.id.usernameLogin);
+            EditText password = findViewById(R.id.passwordLogin);
             String usernameStr = username.getText().toString();
             String passwordStr = password.getText().toString();
 
@@ -32,13 +33,13 @@ public class MainActivity extends AppCompatActivity {
             else if(passwordStr.isEmpty()) {
                 password.setError("Enter password");
             }
-            else if(helper.searchUsernameAndPassword(usernameStr, passwordStr).equals("not found")) {
-                Toast message = Toast.makeText(MainActivity.this, "Incorrect Username and Password!", Toast.LENGTH_SHORT);
+            else if("not found".equals(helper.searchUsernameAndPassword(usernameStr, passwordStr))) {
+                Toast message = Toast.makeText(this, "Incorrect Username and Password!", Toast.LENGTH_SHORT);
                 message.show();
             }
             else {
 //                Intent i = new Intent(MainActivity.this, Inventory.class);
-                Intent i = new Intent(MainActivity.this, InventoryActivity.class);
+                Intent i = new Intent(this, InventoryActivity.class);
                 i.putExtra("username", usernameStr);
                 startActivity(i);
             }
@@ -47,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void onSignUpClick(View view) {
         if(view.getId() == R.id.signUpButton) {
-            Intent i = new Intent(MainActivity.this, Register.class);
+            Intent i = new Intent(this, Register.class);
             startActivity(i);
         }
     }

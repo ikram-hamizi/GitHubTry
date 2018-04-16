@@ -4,7 +4,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
 xmlns:tools="http://schemas.android.com/tools"
 android:layout_width="match_parent"
 android:layout_height="match_parent"
-tools:context="com.example.usp05.githubtry.ItemManipulation.AddItemActivity">
+tools:context="com.example.usp05.githubtry.item_manipulation.AddItemActivity">
 
     <TextView
         android:id="@+id/textView1"
@@ -101,13 +101,13 @@ tools:context="com.example.usp05.githubtry.ItemManipulation.AddItemActivity">
         app:layout_constraintEnd_toEndOf="@+id/ET_price" />
 
     <EditText
-        android:id="@+id/ET_dateexp"
+        android:id="@+id/ET_dateExpired"
         android:layout_width="159dp"
         android:layout_height="38dp"
         android:ems="10"
         android:inputType="text"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView4"
-        app:layout_constraintEnd_toEndOf="@+id/ET_datepurch" />
+        app:layout_constraintEnd_toEndOf="@+id/ET_datePurchased" />
 
     <EditText
         android:id="@+id/ET_price"
@@ -116,10 +116,10 @@ tools:context="com.example.usp05.githubtry.ItemManipulation.AddItemActivity">
         android:ems="10"
         android:inputType="text"
         app:layout_constraintBaseline_toBaselineOf="@+id/textView5"
-        app:layout_constraintEnd_toEndOf="@+id/ET_dateexp" />
+        app:layout_constraintEnd_toEndOf="@+id/ET_dateExpired" />
 
     <EditText
-        android:id="@+id/ET_datepurch"
+        android:id="@+id/ET_datePurchased"
         android:layout_width="159dp"
         android:layout_height="38dp"
         android:ems="10"
