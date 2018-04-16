@@ -1,4 +1,4 @@
-package com.example.usp05.githubtry;
+package com.example.usp05.githubtry.ItemManipulation;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 import com.example.usp05.githubtry.DataModel.Item;
 import com.example.usp05.githubtry.DataModel.DBItemsHelper;
+import com.example.usp05.githubtry.InventoryDisplay.InventoryActivity;
+import com.example.usp05.githubtry.R;
 
 public class ItemDisplayDetails extends AppCompatActivity {
 
@@ -47,7 +49,7 @@ public class ItemDisplayDetails extends AppCompatActivity {
     public void onDeleteClick (View view)
     {
         db_helper.deleteItem(username, itemID);
-        Intent intent = new Intent(ItemDisplayDetails.this, Inventory.class);
+        Intent intent = new Intent(ItemDisplayDetails.this, InventoryActivity.class);
         intent.putExtra("username", username);
         startActivity(intent);
         //DELETE? IS IT WORKING? Needs to be tried with Current Inventory

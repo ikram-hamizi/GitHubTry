@@ -1,20 +1,11 @@
 package com.example.usp05.githubtry.DataModel;
 
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.CharArrayBuffer;
-import android.database.ContentObserver;
 import android.database.Cursor;
-import android.database.DataSetObserver;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.net.Uri;
-import android.os.Bundle;
 import android.widget.Toast;
-
-import com.example.usp05.githubtry.AddItemActivity;
-import com.example.usp05.githubtry.InventoryDisplay.InventoryItemDisplay;
 
 import java.util.ArrayList;
 import java.util.List;

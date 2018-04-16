@@ -1,4 +1,4 @@
-package com.example.usp05.githubtry;
+package com.example.usp05.githubtry.UserHandling;
 
 /**
  * Created by minh on 3/24/18.

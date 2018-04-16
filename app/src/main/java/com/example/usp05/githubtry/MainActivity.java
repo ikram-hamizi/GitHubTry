@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.usp05.githubtry.InventoryDisplay.InventoryActivity;
+import com.example.usp05.githubtry.ItemManipulation.DatabaseHelper;
+import com.example.usp05.githubtry.UserHandling.Register;
 
 public class MainActivity extends AppCompatActivity {
     DatabaseHelper helper = new DatabaseHelper(this);

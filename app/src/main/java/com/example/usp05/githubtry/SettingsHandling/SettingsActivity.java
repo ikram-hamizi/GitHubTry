@@ -1,4 +1,4 @@
-package com.example.usp05.githubtry;
+package com.example.usp05.githubtry.SettingsHandling;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -19,6 +19,8 @@ import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.support.v4.app.NavUtils;
+
+import com.example.usp05.githubtry.R;
 
 import java.util.List;
 

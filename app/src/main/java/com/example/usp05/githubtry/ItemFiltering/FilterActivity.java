@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.usp05.githubtry.DataModel.DBItemsHelper;
-import com.example.usp05.githubtry.Inventory;
 import com.example.usp05.githubtry.InventoryDisplay.InventoryActivity;
 import com.example.usp05.githubtry.R;
 

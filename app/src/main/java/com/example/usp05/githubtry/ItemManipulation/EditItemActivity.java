@@ -1,4 +1,4 @@
-package com.example.usp05.githubtry;
+package com.example.usp05.githubtry.ItemManipulation;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import com.example.usp05.githubtry.DataModel.DBItemsHelper;
 import com.example.usp05.githubtry.DataModel.Item;
+import com.example.usp05.githubtry.InventoryDisplay.InventoryActivity;
+import com.example.usp05.githubtry.R;
 
 public class EditItemActivity extends AppCompatActivity
 {
@@ -97,7 +99,7 @@ public class EditItemActivity extends AppCompatActivity
             not_int_popup.show(); //<- Working Properly.
         }
 
-        Intent i = new Intent(EditItemActivity.this, Inventory.class);
+        Intent i = new Intent(EditItemActivity.this, InventoryActivity.class);
         i.putExtra("username", username);
         startActivity(i);
     }
@@ -105,7 +107,7 @@ public class EditItemActivity extends AppCompatActivity
     public void onEditDeleteClick (View view)
     {
         db_helper.deleteItem(username, itemID);
-        Intent intent = new Intent(EditItemActivity.this, Inventory.class);
+        Intent intent = new Intent(EditItemActivity.this, InventoryActivity.class);
         intent.putExtra("username", username);
         startActivity(intent);
     }

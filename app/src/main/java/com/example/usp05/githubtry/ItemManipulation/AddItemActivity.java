@@ -1,4 +1,4 @@
-package com.example.usp05.githubtry;
+package com.example.usp05.githubtry.ItemManipulation;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +12,7 @@ import java.lang.Integer;
 import com.example.usp05.githubtry.DataModel.DBItemsHelper;
 import com.example.usp05.githubtry.DataModel.Item;
 import com.example.usp05.githubtry.InventoryDisplay.InventoryActivity;
+import com.example.usp05.githubtry.R;
 
 /**
  * Created by minh on 3/24/18.

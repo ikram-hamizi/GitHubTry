@@ -1,4 +1,4 @@
-package com.example.usp05.githubtry;
+package com.example.usp05.githubtry.SettingsHandling;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

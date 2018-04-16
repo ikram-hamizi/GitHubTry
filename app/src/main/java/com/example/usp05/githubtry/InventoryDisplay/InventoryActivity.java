@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.usp05.githubtry.AddItemActivity;
+import com.example.usp05.githubtry.ItemManipulation.AddItemActivity;
 import com.example.usp05.githubtry.DataModel.DBItemsHelper;
 import com.example.usp05.githubtry.ItemFiltering.FilterActivity;
 import com.example.usp05.githubtry.R;
@@ -18,17 +18,18 @@ import com.example.usp05.githubtry.R;
 import java.util.ArrayList;
 import java.util.List;
 
-//import com.example.usp05.githubtry.InventoryDisplay.InventoryAdapter;
+/**
+ * Created by Ikram 04/04/2018
+ */
 
 /**
- * Created by nathan on 4/8/18.
+ * Refactored by nathan on 4/8/18.
  */
 
 public class InventoryActivity extends Activity {
     private static final String TAG = "InventoryActivity";
 
     StringBuffer sb = null;
-//    InventoryAdapter inventoryAdapter;
     InventoryCursorAdapter inventoryAdapter;
     private String username;
 
@@ -43,7 +44,6 @@ public class InventoryActivity extends Activity {
         List<String> typeFilters = (ArrayList<String>) getIntent().getSerializableExtra("typeFilters");
         List<String> locationFilters = (ArrayList<String>) getIntent().getSerializableExtra("locationFilters");
 
-//        inventoryAdapter = new InventoryAdapter(this, getLocationFilters());
         inventoryAdapter = new InventoryCursorAdapter(this, populateFilteredList(typeFilters,locationFilters), username);
 
         Button filterButton = (Button) findViewById(R.id.BFilter);

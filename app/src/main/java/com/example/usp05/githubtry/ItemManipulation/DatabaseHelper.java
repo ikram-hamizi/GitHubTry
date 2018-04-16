@@ -1,10 +1,12 @@
-package com.example.usp05.githubtry;
+package com.example.usp05.githubtry.ItemManipulation;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.usp05.githubtry.UserHandling.User;
 
 /**
  * Created by minh on 3/24/18.

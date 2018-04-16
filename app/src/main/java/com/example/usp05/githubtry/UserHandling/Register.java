@@ -1,4 +1,4 @@
-package com.example.usp05.githubtry;
+package com.example.usp05.githubtry.UserHandling;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -6,6 +6,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.usp05.githubtry.ItemManipulation.DatabaseHelper;
+import com.example.usp05.githubtry.MainActivity;
+import com.example.usp05.githubtry.R;
 
 /**
  * Created by minh on 3/24/18.

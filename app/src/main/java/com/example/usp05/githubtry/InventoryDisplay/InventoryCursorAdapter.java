@@ -12,7 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.usp05.githubtry.ItemDisplayDetails;
+import com.example.usp05.githubtry.ItemManipulation.ItemDisplayDetails;
 import com.example.usp05.githubtry.R;
 
 import static android.content.ContentValues.TAG;

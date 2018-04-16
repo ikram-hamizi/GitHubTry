@@ -1,7 +1,7 @@
 package com.example.usp05.githubtry.InventoryDisplay;
 
 /**
- * Created by nathan on 4/8/18.
+ * Imported by nathan on 4/8/18.
  */
 
 /*
