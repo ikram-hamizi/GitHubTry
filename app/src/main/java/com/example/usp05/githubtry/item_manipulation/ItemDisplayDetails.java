@@ -1,10 +1,12 @@
 package com.example.usp05.githubtry.item_manipulation;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import com.example.usp05.githubtry.data_model.Item;
 import com.example.usp05.githubtry.data_model.DBItemsHelper;
@@ -25,13 +27,16 @@ public class ItemDisplayDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_display_details);
+        setContentView(R.layout.item_details_activity);
         username = getIntent().getStringExtra("username");
         itemID = getIntent().getIntExtra("id", 0);
 
         myItem = db_helper.searchItem(username, itemID);
         if(myItem != null) {
-            setTitle(myItem.getName());
+//            setTitle(myItem.getName());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ((android.support.v7.widget.Toolbar) findViewById(R.id.details_toolbar)).setTitle(myItem.getName());
+            }
             ((TextView) findViewById(R.id.location_info_TV)).setText(myItem.getLocation());
             ((TextView) findViewById(R.id.category_info_TV)).setText(myItem.getType());
             ((TextView) findViewById(R.id.quantity_info_TV)).setText(String.valueOf(myItem.getQuantity()));
