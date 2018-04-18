@@ -27,7 +27,7 @@
         android:inputType="text" />
 
     <TextView
-        android:id="@+id/ET_dateexp"
+        android:id="@+id/ET_dateExpired"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Password:"

@@ -9,6 +9,5 @@
         android:id="@+id/CB_filter"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onFilterCheck"
         android:text="CheckBox" />
 </LinearLayout>

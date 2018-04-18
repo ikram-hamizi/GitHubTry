@@ -1,17 +1,21 @@
-package com.example.usp05.githubtry;
+package com.example.usp05.githubtry.item_manipulation;
 
 import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
-import com.example.usp05.githubtry.DataModel.Item;
-import com.example.usp05.githubtry.DataModel.DBItemsHelper;
+import com.example.usp05.githubtry.data_model.Item;
+import com.example.usp05.githubtry.data_model.DBItemsHelper;
+import com.example.usp05.githubtry.inventory_display.InventoryActivity;
+import com.example.usp05.githubtry.R;
 
 public class ItemDisplayDetails extends AppCompatActivity {
 
-    DBItemsHelper db_helper = new DBItemsHelper(this);
+    private final DBItemsHelper db_helper = new DBItemsHelper(this);
 
     //EXTRA MESSAGE = ID
     //ID of Current Inventory Item clicked needed.
@@ -23,20 +27,23 @@ public class ItemDisplayDetails extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_item_display_details);
+        setContentView(R.layout.item_details_activity);
         username = getIntent().getStringExtra("username");
         itemID = getIntent().getIntExtra("id", 0);
 
         myItem = db_helper.searchItem(username, itemID);
         if(myItem != null) {
-            setTitle(myItem.getName());
+//            setTitle(myItem.getName());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                ((android.support.v7.widget.Toolbar) findViewById(R.id.details_toolbar)).setTitle(myItem.getName());
+            }
             ((TextView) findViewById(R.id.location_info_TV)).setText(myItem.getLocation());
             ((TextView) findViewById(R.id.category_info_TV)).setText(myItem.getType());
             ((TextView) findViewById(R.id.quantity_info_TV)).setText(String.valueOf(myItem.getQuantity()));
-            ((TextView) findViewById(R.id.dateexp_info_TV)).setText(myItem.getDate_expired());
-            ((TextView) findViewById(R.id.datepurch_info_TV)).setText(myItem.getDate_purchased());
+            ((TextView) findViewById(R.id.dateExpired_info_TV)).setText(myItem.getDate_expired());
+            ((TextView) findViewById(R.id.datePurchased_info_TV)).setText(myItem.getDate_purchased());
             ((TextView) findViewById(R.id.note_info_TV)).setText(myItem.getNotes());
-            ((TextView) findViewById(R.id.avgprice_info_TV)).setText("" + myItem.getAverage_price());
+            ((TextView) findViewById(R.id.avgPrice_info_TV)).setText(String.valueOf(myItem.getAverage_price()));
         }
 //        else
 //        {
@@ -47,7 +54,7 @@ public class ItemDisplayDetails extends AppCompatActivity {
     public void onDeleteClick (View view)
     {
         db_helper.deleteItem(username, itemID);
-        Intent intent = new Intent(ItemDisplayDetails.this, Inventory.class);
+        Intent intent = new Intent(this, InventoryActivity.class);
         intent.putExtra("username", username);
         startActivity(intent);
         //DELETE? IS IT WORKING? Needs to be tried with Current Inventory

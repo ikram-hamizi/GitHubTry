@@ -1,4 +1,4 @@
-package com.example.usp05.githubtry.ItemFiltering;
+package com.example.usp05.githubtry.item_filtering;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,24 +12,24 @@ import com.example.usp05.githubtry.R;
 
 public class FilterHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-    CheckBox chk;
+    final CheckBox chk;
 
-    ItemClickListener itemClickListener;
+    private FilterClickListener filterClickListener;
 
     public FilterHolder(View itemView) {
         super(itemView);
 
-        chk = (CheckBox) itemView.findViewById(R.id.CB_filter);
+        chk = itemView.findViewById(R.id.CB_filter);
 
         chk.setOnClickListener(this);
     }
 
-    public void setItemClickListener(ItemClickListener ic){
-        this.itemClickListener=ic;
+    public void setFilterClickListener(FilterClickListener ic){
+        filterClickListener =ic;
     }
 
     @Override
     public void onClick(View v) {
-        this.itemClickListener.onItemClick(v,getLayoutPosition());
+        filterClickListener.onItemClick(v,getLayoutPosition());
     }
 }

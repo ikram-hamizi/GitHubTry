@@ -33,10 +33,13 @@ public class SuccessfulRegistratonTest {
 
     // This string needs to be different for each iteration of this test run on the same emulator
     // i.e., there cannot be a user with this string for its username already in the database
-    private String uname = "espresso355";
+    private final String uname = "espresso355";
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
+
+    public SuccessfulRegistratonTest() {
+    }
 
     @Test
     public void mainActivityTest() {
@@ -80,7 +83,7 @@ public class SuccessfulRegistratonTest {
         appCompatButton2.perform(click());
 
 
-        ViewInteraction invScreen = onView(allOf(withId(R.id.addItemButton),isDisplayed()));
+        ViewInteraction invScreen = onView(allOf(withId(R.id.BAddItem),isDisplayed()));
     }
 
 }
