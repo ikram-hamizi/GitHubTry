@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="350dp"
+    android:layout_height="475dp"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:layout_gravity="center"
+    android:background="@color/colorPrimaryDarkBlue"
+    tools:context=".item_manipulation.PopUpAddMoreActivity">
+
+
+    <TextView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:text="X"
+        android:textStyle="bold"
+        android:layout_gravity="end"
+        android:gravity="center"
+        android:textColor="@color/colorWhite"/>
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/bag"/>
+
+
+
+</android.support.v7.widget.LinearLayoutCompat>
+
+<!--Icon made by smashicons from https://www.flaticon.com/authors/smashicons-->

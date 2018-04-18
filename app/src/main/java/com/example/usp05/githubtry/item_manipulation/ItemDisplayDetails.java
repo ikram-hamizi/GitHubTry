@@ -32,7 +32,7 @@ public class ItemDisplayDetails extends AppCompatActivity {
         itemID = getIntent().getIntExtra("id", 0);
 
         myItem = db_helper.searchItem(username, itemID);
-        if(myItem != null) {
+        if (myItem != null) {
 //            setTitle(myItem.getName());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 ((android.support.v7.widget.Toolbar) findViewById(R.id.details_toolbar)).setTitle(myItem.getName());
@@ -49,6 +49,11 @@ public class ItemDisplayDetails extends AppCompatActivity {
 //        {
 //            finish(); //Does it work? -> Intended to go back to previous activity if item is not found.
 //        }
+    }
+
+    public void onAddMoreClick(View view)
+    {
+        Intent pop = new Intent(this, PopUpAddMoreActivity.class);
     }
 
     public void onDeleteClick (View view)
