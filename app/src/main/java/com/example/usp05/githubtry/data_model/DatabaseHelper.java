@@ -17,6 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 
     // Database tables
     static final String TABLE_USER = "USER";
+    static final String TABLE_INVENTORY = "INVENTORY";
     static final String TABLE_ITEM = "ITEM";
     static final String TABLE_LOCATION = "LOCATION";
     static final String TABLE_CATEGORY = "CATEGORY";
@@ -27,6 +28,21 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     static final String KEY_CREATED_AT = "CREATED";
 
     // User table -- column names
+    private static final String USER_KEY = "KEY_ID";
+    private static final String COLUMN_USERNAME = "username";
+    private static final String COLUMN_PASSWORD = "password";
+    private static final String COLUMN_PASSWORD2 = "password2";
+    private static final String COLUMN_SECQUESTION1 = "secQuestion1";
+    private static final String COLUMN_SECQUESTION2 = "secQuestion2";
+    private static final String COLUMN_SECQUESTION3 = "secQuestion3";
+
+    // Inventory table -- column names
+    static final String INV_KEY = "INV_ID";
+    static final String INV_NAME = "NAME";
+    static final String INV_QUANTITY = "QUANTITY";
+    static final String INV_AVERAGE_PRICE = "AVERAGE_PRICE";
+    static final String INV_AVERAGE_USAGE = "AVERAGE_USAGE";
+    static final String INV_ITEM_KEY = "ITEM_KEY";
 
 
     // Item table -- column names
