@@ -8,11 +8,11 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
-import com.example.usp05.githubtry.item_manipulation.DatabaseHelper;
+import com.example.usp05.githubtry.user_handling.UserDatabaseHelper;
 import com.example.usp05.githubtry.user_handling.Register;
 
 public class MainActivity extends AppCompatActivity {
-    private final DatabaseHelper helper = new DatabaseHelper(this);
+    private final UserDatabaseHelper helper = new UserDatabaseHelper(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

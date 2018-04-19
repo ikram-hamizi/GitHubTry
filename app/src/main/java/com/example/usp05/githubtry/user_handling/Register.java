@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.usp05.githubtry.item_manipulation.DatabaseHelper;
 import com.example.usp05.githubtry.MainActivity;
 import com.example.usp05.githubtry.R;
 
@@ -16,7 +15,7 @@ import com.example.usp05.githubtry.R;
  */
 
 public class Register extends Activity {
-    private final DatabaseHelper helper = new DatabaseHelper(this);
+    private final UserDatabaseHelper helper = new UserDatabaseHelper(this);
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

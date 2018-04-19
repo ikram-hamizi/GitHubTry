@@ -1,4 +1,4 @@
-package com.example.usp05.githubtry.item_manipulation;
+package com.example.usp05.githubtry.user_handling;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -6,13 +6,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.example.usp05.githubtry.user_handling.User;
-
 /**
  * Created by minh on 3/24/18.
  */
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class UserDatabaseHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "users.db";
     private static final String TABLE_NAME = "users";
@@ -28,18 +26,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String TABLE_CREATE = "create table users (username text primary key, password text not null, " +
             "password2 text not null, secQuestion1 text not null, secQuestion2 not null, secQuestion3 not null);";
 
-    public DatabaseHelper(Context context) {
-        super(context, DatabaseHelper.DATABASE_NAME, null, DatabaseHelper.DATABASE_VERSION);
+    public UserDatabaseHelper(Context context) {
+        super(context, UserDatabaseHelper.DATABASE_NAME, null, UserDatabaseHelper.DATABASE_VERSION);
     }
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(DatabaseHelper.TABLE_CREATE);
+        db.execSQL(UserDatabaseHelper.TABLE_CREATE);
         this.db = db;
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-        String query = "DROP TABLE IF EXISTS " + DatabaseHelper.TABLE_NAME;
+        String query = "DROP TABLE IF EXISTS " + UserDatabaseHelper.TABLE_NAME;
         db.execSQL(query);
         onCreate(db);
     }
@@ -47,21 +45,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void insertUser(User a) {
         db = getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(DatabaseHelper.COLUMN_USERNAME, a.getUsername());
-        values.put(DatabaseHelper.COLUMN_PASSWORD, a.getPassword());
-        values.put(DatabaseHelper.COLUMN_PASSWORD2, a.getPassword2());
-        values.put(DatabaseHelper.COLUMN_SECQUESTION1, a.getSecQuestion1());
-        values.put(DatabaseHelper.COLUMN_SECQUESTION2, a.getSecQuestion2());
-        values.put(DatabaseHelper.COLUMN_SECQUESTION3, a.getSecQuestion3());
+        values.put(UserDatabaseHelper.COLUMN_USERNAME, a.getUsername());
+        values.put(UserDatabaseHelper.COLUMN_PASSWORD, a.getPassword());
+        values.put(UserDatabaseHelper.COLUMN_PASSWORD2, a.getPassword2());
+        values.put(UserDatabaseHelper.COLUMN_SECQUESTION1, a.getSecQuestion1());
+        values.put(UserDatabaseHelper.COLUMN_SECQUESTION2, a.getSecQuestion2());
+        values.put(UserDatabaseHelper.COLUMN_SECQUESTION3, a.getSecQuestion3());
 
-        db.insert(DatabaseHelper.TABLE_NAME, null, values);
+        db.insert(UserDatabaseHelper.TABLE_NAME, null, values);
         db.close();
     }
 
     @SuppressWarnings("BreakStatement")
     public String searchUsername(String username) {
         db = getReadableDatabase();
-        String query = "select username from " + DatabaseHelper.TABLE_NAME;
+        String query = "select username from " + UserDatabaseHelper.TABLE_NAME;
         Cursor cursor = db.rawQuery(query, null);
         String result = "not found";
         if(cursor.moveToFirst()) {
@@ -81,7 +79,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @SuppressWarnings("BreakStatement")
     public String searchUsernameAndPassword(String username, String password) {
         db = getReadableDatabase();
-        String query = "select username, password from " + DatabaseHelper.TABLE_NAME;
+        String query = "select username, password from " + UserDatabaseHelper.TABLE_NAME;
         Cursor cursor = db.rawQuery(query, null);
         String result = "not found";
         if(cursor.moveToFirst()) {
