@@ -14,6 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
     // Database information
     static final int DB_VERSION = 2;
     static final String DB_NAME = "DATABASE_MYINVENTORYAPP";
+    protected String USER_DB_NAME;
 
     // Database tables
     static final String TABLE_USER = "USER";

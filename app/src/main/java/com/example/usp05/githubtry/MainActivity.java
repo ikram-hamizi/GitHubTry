@@ -7,12 +7,14 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.usp05.githubtry.data_model.DB_Singleton;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
 import com.example.usp05.githubtry.user_handling.UserDatabaseHelper;
 import com.example.usp05.githubtry.user_handling.Register;
 
 public class MainActivity extends AppCompatActivity {
     private final UserDatabaseHelper helper = new UserDatabaseHelper(this);
+    private DB_Singleton DBS = DB_Singleton.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,12 +35,16 @@ public class MainActivity extends AppCompatActivity {
             else if(passwordStr.isEmpty()) {
                 password.setError("Enter password");
             }
-            else if("not found".equals(helper.searchUsernameAndPassword(usernameStr, passwordStr))) {
-                Toast message = Toast.makeText(this, "Incorrect Username and Password!", Toast.LENGTH_SHORT);
+            else if("not found".equals(helper.searchUsernameAndPassword(usernameStr,
+                    passwordStr))) {
+                Toast message = Toast.makeText(this,
+                        "Incorrect Username and Password!", Toast.LENGTH_SHORT);
                 message.show();
             }
             else {
-//                Intent i = new Intent(MainActivity.this, Inventory.class);
+
+                DBS.setUser(usernameStr);
+
                 Intent i = new Intent(this, InventoryActivity.class);
                 i.putExtra("username", usernameStr);
                 startActivity(i);
