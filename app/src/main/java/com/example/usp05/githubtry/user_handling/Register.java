@@ -9,13 +9,15 @@ import android.widget.Toast;
 
 import com.example.usp05.githubtry.MainActivity;
 import com.example.usp05.githubtry.R;
+import com.example.usp05.githubtry.data_model.DB_Singleton;
 
 /**
  * Created by minh on 3/24/18.
  */
 
 public class Register extends Activity {
-    private final UserDatabaseHelper helper = new UserDatabaseHelper(this);
+    private DB_Singleton DBS = DB_Singleton.getInstance(this);
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,33 +40,33 @@ public class Register extends Activity {
             String secQuestion2Str = secQuestion2.getText().toString();
             String secQuestion3Str = secQuestion3.getText().toString();
 
-            String searchUsername = helper.searchUsername(usernameStr);
-
-            if("found".equals(searchUsername)) {
-                Toast message = Toast.makeText(this, "Username is already taken!", Toast.LENGTH_SHORT);
+            if(DBS.checkUser(usernameStr)) {
+                Toast message = Toast.makeText(this, R.string.badUsername, Toast.LENGTH_SHORT);
                 message.show();
             }
             else if(((usernameStr != null) && usernameStr.isEmpty()) || "".equals(password) || "".equals(password2) ||
                     ((secQuestion1Str != null) && secQuestion1Str.isEmpty()) || ((secQuestion2Str != null) && secQuestion2Str.isEmpty()) || ((secQuestion3Str != null) && secQuestion3Str.isEmpty())) {
-                Toast message = Toast.makeText(this, "Entries cannot be empty!", Toast.LENGTH_SHORT);
+                Toast message = Toast.makeText(this, R.string.emptyRegistrationFields, Toast.LENGTH_SHORT);
                 message.show();
             }
             else if (!(passwordStr.equals(password2Str))) {
-                Toast message = Toast.makeText(this, "Passwords are not the same!", Toast.LENGTH_SHORT);
+                Toast message = Toast.makeText(this, R.string.inequalRegistrationPasswords, Toast.LENGTH_SHORT);
                 message.show();
             }
             else {
                 // insert details into database
-                User a = new User(usernameStr, passwordStr, password2Str, secQuestion1Str, secQuestion2Str, secQuestion3Str);
-//                a.setUsername(usernameStr);
-//                a.setPassword(passwordStr);
-//                a.setPassword2(password2Str);
-//                a.setSecQuestion1(secQuestion1Str);
-//                a.setSecQuestion2(secQuestion2Str);
-//                a.setSecQuestion3(secQuestion3Str);
-                helper.insertUser(a);
-                Toast message = Toast.makeText(this, "Registration Successful!", Toast.LENGTH_SHORT);
+                User newUser = new User();
+                newUser.setUsername(usernameStr);
+                newUser.setPassword(passwordStr);
+                newUser.setSecurityAnswer1(secQuestion1Str);
+                newUser.setSecurityAnswer2(secQuestion2Str);
+                newUser.setSecurityAnswer3(secQuestion3Str);
+
+                DBS.createUser(newUser);
+
+                Toast message = Toast.makeText(this, R.string.goodRegistration, Toast.LENGTH_SHORT);
                 message.show();
+
                 Intent i = new Intent(this, MainActivity.class);
                 startActivity(i);
             }

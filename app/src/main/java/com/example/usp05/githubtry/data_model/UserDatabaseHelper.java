@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.example.usp05.githubtry.user_handling.User;
 
+
+
 /**
  * Created by nathan on 4/20/18.
  */
@@ -137,21 +139,20 @@ class UserDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public void insertUser(User a) {
+    protected void insertUser(User a) {
         userDatabase = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(COLUMN_USERNAME, a.getUsername());
         values.put(COLUMN_PASSWORD, a.getPassword());
-        values.put(COLUMN_SEC_ANS_1, a.getSecQuestion1());
-        values.put(COLUMN_SEC_ANS_2, a.getSecQuestion2());
-        values.put(COLUMN_SEC_ANS_3, a.getSecQuestion3());
+        values.put(COLUMN_SEC_ANS_1, a.getSecurityAnswer1());
+        values.put(COLUMN_SEC_ANS_2, a.getSecurityAnswer2());
+        values.put(COLUMN_SEC_ANS_3, a.getSecurityAnswer3());
 
         userDatabase.insert(TABLE_NAME, null, values);
         userDatabase.close();
     }
 
-    @SuppressWarnings("BreakStatement")
-    public String searchUsername(String username) {
+    protected Boolean searchUsername(String username) {
         userDatabase = getReadableDatabase();
 
         String query = "SELECT " + COLUMN_USERNAME
@@ -159,24 +160,22 @@ class UserDatabaseHelper extends SQLiteOpenHelper {
 
         Cursor cursor = userDatabase.rawQuery(query, null);
 
-        String result = "not found";
+        Boolean result = false;
         if(cursor.moveToFirst()) {
             do {
+                // Find username
                 String a = cursor.getString(0);
-                if(a.equals(username)) {
-                    result = "found";
-                    break;
+                if (a.equals(username)) {
+                    result = true;
                 }
-            }
-            while(cursor.moveToNext());
+            } while (!result && cursor.moveToNext());
         }
         cursor.close();
 
         return result;
     }
 
-    @SuppressWarnings("BreakStatement")
-    public String searchUsernameAndPassword(String username, String password) {
+    protected Boolean searchUsernameAndPassword(String username, String password) {
         userDatabase = getReadableDatabase();
 
         String query = "SELECT " + COLUMN_USERNAME
@@ -185,25 +184,25 @@ class UserDatabaseHelper extends SQLiteOpenHelper {
 
         Cursor cursor = userDatabase.rawQuery(query, null);
 
-        String result = "not found";
+        Boolean result = false;
         if(cursor.moveToFirst()) {
             do {
-                // Finds username
+                // Find username
                 String a = cursor.getString(0);
-                if(a.equals(username)) {
-                    // gets password of username holder
+                if (a.equals(username)) {
+                    // Get password
                     String b = cursor.getString(1);
-                    // if input password and password var is same
                     if (b.equals(password)) {
-                        result = "found";
-                        break;
+                        result = true;
                     }
                 }
-            }
-            while(cursor.moveToNext());
+            } while (!result && cursor.moveToNext());
         }
+
         cursor.close();
 
         return result;
     }
+
+
 }

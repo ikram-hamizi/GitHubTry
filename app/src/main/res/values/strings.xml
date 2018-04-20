@@ -1,5 +1,11 @@
 <resources>
-    <string name="app_name">GitHubTry</string>
+    <string name="app_name" translatable="false">GitHubTry</string>
+
+    <string name="goodRegistration">Registration Successful!</string>
+    <string name="badUsername">Username is already taken!</string>
+    <string name="emptyRegistrationFields">Entries cannot be empty!</string>
+    <string name="inequalRegistrationPasswords">Passwords are not the same!</string>
+
 
     <!-- Strings related to Settings -->
 
