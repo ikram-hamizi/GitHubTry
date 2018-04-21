@@ -99,7 +99,8 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         appDB = getReadableDatabase();
 //        String get_row_query = "SELECT * FROM "+ ITEM_TABLE_NAME + " WHERE USERNAME = ? and ID = ?";
 //        Cursor found = appDB.rawQuery(get_row_query, new String[] {username, String.valueOf(search_id)});
-        String get_row_query = "SELECT * FROM "+ DBItemsHelper.ITEM_TABLE_NAME + " WHERE ID = ?";
+        String get_row_query = "SELECT * FROM "+
+                DBItemsHelper.ITEM_TABLE_NAME + " WHERE ID = ?";
         Cursor found = appDB.rawQuery(get_row_query, new String[] {String.valueOf(search_id)});
 
         if (found.moveToFirst() && (found != null))

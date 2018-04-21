@@ -1,165 +1,123 @@
 package com.example.usp05.githubtry.data_model;
 
+import java.sql.Date;
+
 /**
  * Created by Ikram Hamizi on 3/24/18.
  */
 
 public class Item {
-    //<<<<<<<<<<<<<<<<< IMPORTANT ADD PRICE TO ITEM
-    //UPDATE DATABASE
-    //1- Fields: 8
-    private String username;
+
     private String name;
     private String location;
-    private String type;
-    private String date_purchased;
-    private String date_expired;
+    private String category;
+    private Date purchase_date;
+    private Date expiration_date;
     private String notes;
     private int quantity;
-    private float average_price;
-    // --Commented out by Inspection (4/16/18 9:54 PM):private float price;
+    private float totalPrice;
+    private float unitPrice;
 
-    public Item(String username, String name, String location, String type, String date_purchased, String date_expired, String notes, int quantity /*.float price*/)
-    {
-        this.username = username;
-        this.name = name;
-        this.location = location;
-        this.type = type;
-        this.date_expired = date_expired;
-        this.date_purchased = date_purchased;
-        this.notes = notes;
-        this.quantity = quantity;
-        average_price = 0.0f;
-        //this.price = price;
+    public Item() {
     }
-
-    //2- Methods
-//    public float getPrice() {return price;}
-//    public void setPrice(float price) {this.price = price;}
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public void setAverage_price(float average_price) {
-//        this.average_price = average_price;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public float calculateAvgPrice()
-//    {
-//        return average_price;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
-
-    public float getAverage_price() {
-        return average_price;
-    }
-
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    @SuppressWarnings("MethodMayBeStatic")
-//    public int calculateRecommendedQuantity()
-//    {
-//        return 0;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
-
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    @SuppressWarnings("MethodMayBeStatic")
-//    public float rateOfUsage()
-//    {
-//        return 0.0f; //%
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
-
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public void setDate_expired(String date_expired) {
-//        this.date_expired = date_expired;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
-
-    public String getDate_expired() {
-        return date_expired;
-    }
-
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public void setDate_purchased(String date_purchased) {
-//        this.date_purchased = date_purchased;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
-
-    public String getDate_purchased() {
-        return date_purchased;
-    }
-
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public void setLocation(String location) {
-//        this.location = location;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
-
-    public String getLocation() {
-        return location;
-    }
-
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public void setUsername(String name) {
-//        username = name; }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
-
-    public String getUsername() { return username; }
-
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
 
     public String getName() {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public void setNotes(String notes) {
-//        this.notes = notes;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public Date getPurchase_date() {
+        return purchase_date;
+    }
+
+    public void setPurchase_date(Date purchase_date) {
+        this.purchase_date = purchase_date;
+    }
+
+    public Date getExpiration_date() {
+        return expiration_date;
+    }
+
+    public void setExpiration_date(Date expiration_date) {
+        this.expiration_date = expiration_date;
+    }
 
     public String getNotes() {
         return notes;
     }
 
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public void setQuantity(int quantity) {
-//        this.quantity = quantity;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
 
     public int getQuantity() {
         return quantity;
     }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public void setType(String type) {
-//        this.type = type;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
+    public float getTotalPrice() {
+        return totalPrice;
+    }
 
-    public String getType() {
-        return type;
+    public void setTotalPrice(float totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public float getUnitPrice() {
+        return unitPrice;
+    }
+
+    public void setUnitPrice(float unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    // TODO: Make sure these are the equals and hash methods we want
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Item item = (Item) o;
+
+        if (Float.compare(item.getUnitPrice(), getUnitPrice()) != 0) return false;
+        if (!getName().equals(item.getName())) return false;
+        if (!getLocation().equals(item.getLocation())) return false;
+        if (!getCategory().equals(item.getCategory())) return false;
+        if (getPurchase_date() != null ? !getPurchase_date().equals(item.getPurchase_date()) : item.getPurchase_date() != null)
+            return false;
+        return getExpiration_date() != null ? getExpiration_date().equals(item.getExpiration_date()) : item.getExpiration_date() == null;
     }
 
     @Override
-    public boolean equals (Object obj)
-    {
-        return true;
+    public int hashCode() {
+        int result = getName().hashCode();
+        result = 31 * result + getLocation().hashCode();
+        result = 31 * result + getCategory().hashCode();
+        result = 31 * result + (getUnitPrice() != +0.0f ? Float.floatToIntBits(getUnitPrice()) : 0);
+        return result;
     }
+
 }
