@@ -52,4 +52,19 @@ public class User {
     public void setSecurityAnswer3(String securityAnswer3) {
         this.securityAnswer3 = securityAnswer3;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return getUsername().equals(user.getUsername());
+    }
+
+    @Override
+    public int hashCode() {
+        return getUsername().hashCode();
+    }
 }

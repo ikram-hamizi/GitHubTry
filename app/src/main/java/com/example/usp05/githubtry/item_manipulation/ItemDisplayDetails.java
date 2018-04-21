@@ -6,9 +6,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
-import com.example.usp05.githubtry.data_model.DB_Singleton;
+import com.example.usp05.githubtry.data_model.ItemDatabaseSingleton;
 import com.example.usp05.githubtry.data_model.Item;
 import com.example.usp05.githubtry.data_model.DBItemsHelper;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
@@ -17,7 +16,7 @@ import com.example.usp05.githubtry.R;
 public class ItemDisplayDetails extends AppCompatActivity {
 
     private final DBItemsHelper db_helper = new DBItemsHelper(this);
-    private DB_Singleton DBS = DB_Singleton.getInstance();
+    private ItemDatabaseSingleton DBS = ItemDatabaseSingleton.getInstance();
 
     //EXTRA MESSAGE = ID
     //ID of Current Inventory Item clicked needed.

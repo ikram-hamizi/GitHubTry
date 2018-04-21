@@ -7,12 +7,13 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.usp05.githubtry.data_model.DB_Singleton;
+import com.example.usp05.githubtry.data_model.ItemDatabaseSingleton;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
 import com.example.usp05.githubtry.user_handling.Register;
+import com.example.usp05.githubtry.user_handling.UserDatabaseSingleton;
 
 public class MainActivity extends AppCompatActivity {
-    private DB_Singleton DBS = DB_Singleton.getInstance(this);
+    private UserDatabaseSingleton UDS = UserDatabaseSingleton.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +34,9 @@ public class MainActivity extends AppCompatActivity {
             else if(passwordStr.isEmpty()) {
                 password.setError("Enter password");
             }
-            else if(DBS.checkUser(usernameStr,passwordStr)){
-                DBS.setUser(usernameStr);
+            else if(UDS.checkUser(usernameStr,passwordStr)){
+                UDS.setUser(usernameStr);
+                ItemDatabaseSingleton DBS = ItemDatabaseSingleton.getInstance(this, UDS.getUser());
                 startActivity(new Intent(this, InventoryActivity.class));
             }
             else {

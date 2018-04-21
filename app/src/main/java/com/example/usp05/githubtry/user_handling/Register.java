@@ -9,14 +9,13 @@ import android.widget.Toast;
 
 import com.example.usp05.githubtry.MainActivity;
 import com.example.usp05.githubtry.R;
-import com.example.usp05.githubtry.data_model.DB_Singleton;
 
 /**
  * Created by minh on 3/24/18.
  */
 
 public class Register extends Activity {
-    private DB_Singleton DBS = DB_Singleton.getInstance(this);
+    private UserDatabaseSingleton UDS = UserDatabaseSingleton.getInstance(this);
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +39,7 @@ public class Register extends Activity {
             String secQuestion2Str = secQuestion2.getText().toString();
             String secQuestion3Str = secQuestion3.getText().toString();
 
-            if(DBS.checkUser(usernameStr)) {
+            if(UDS.checkUser(usernameStr)) {
                 Toast message = Toast.makeText(this, R.string.badUsername, Toast.LENGTH_SHORT);
                 message.show();
             }
@@ -62,7 +61,7 @@ public class Register extends Activity {
                 newUser.setSecurityAnswer2(secQuestion2Str);
                 newUser.setSecurityAnswer3(secQuestion3Str);
 
-                DBS.createUser(newUser);
+                UDS.createUser(newUser);
 
                 Toast message = Toast.makeText(this, R.string.goodRegistration, Toast.LENGTH_SHORT);
                 message.show();

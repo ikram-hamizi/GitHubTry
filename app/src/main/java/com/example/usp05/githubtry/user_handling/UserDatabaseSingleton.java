@@ -1,27 +1,23 @@
-package com.example.usp05.githubtry.data_model;
+package com.example.usp05.githubtry.user_handling;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
-import com.example.usp05.githubtry.user_handling.User;
 
 /**
- * Created by nathan on 4/19/18.
+ * Created by nathan on 4/21/18.
  */
 
-public class DB_Singleton {
+public class UserDatabaseSingleton {
 
-    private SQLiteDatabase userDatabase;
-    private SQLiteDatabase inventoryDatabase;
-    private DatabaseHelper DB_Helper;
     private static UserDatabaseHelper userHelper;
     private User user;
 
-    private static DB_Singleton thisInstance = new DB_Singleton();
+    private static UserDatabaseSingleton thisInstance = new UserDatabaseSingleton();
 
-    public static DB_Singleton getInstance(Context context) {
+    public static UserDatabaseSingleton getInstance(Context context) {
         if(thisInstance == null){
-            thisInstance = new DB_Singleton();
+            thisInstance = new UserDatabaseSingleton();
             userHelper = new UserDatabaseHelper(context,
                     UserDatabaseHelper.DATABASE_NAME, null,
                     UserDatabaseHelper.DATABASE_VERSION);
@@ -29,15 +25,7 @@ public class DB_Singleton {
         return thisInstance;
     }
 
-    private DB_Singleton() {}
-
-    public DatabaseHelper getDB_Helper() {
-        return DB_Helper;
-    }
-
-    public void setDB_Helper(DatabaseHelper DB_Helper) {
-        this.DB_Helper = DB_Helper;
-    }
+    private UserDatabaseSingleton() {}
 
     public User getUser() {
         return user;
@@ -48,7 +36,7 @@ public class DB_Singleton {
     }
 
     public void setUser(String username) {
-
+        this.user = userHelper.getUser(username);
     }
 
     public Boolean checkUser(String username) {

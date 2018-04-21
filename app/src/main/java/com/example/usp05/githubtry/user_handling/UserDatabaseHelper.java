@@ -1,4 +1,4 @@
-package com.example.usp05.githubtry.data_model;
+package com.example.usp05.githubtry.user_handling;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -30,7 +30,7 @@ class UserDatabaseHelper extends SQLiteOpenHelper {
     static final String DATABASE_NAME = "USERS_DATABASE";
 
     // Database tables
-    private static final String TABLE_NAME = "USERS";
+    private static final String TABLE_USERS = "USERS";
 
     /***** COLUMN NAMES FOR TABLES *****/
     // Common column names
@@ -48,7 +48,7 @@ class UserDatabaseHelper extends SQLiteOpenHelper {
 
     /***** SQL STATEMENTS *****/
     private static final String CREATE_TABLE_USERS = "CREATE TABLE "
-            + TABLE_NAME + "("
+            + TABLE_USERS + "("
             + KEY_ID + " INTEGER PRIMARY KEY,"
             + USER_KEY + " TEXT,"
             + COLUMN_USERNAME + " TEXT,"
@@ -59,7 +59,7 @@ class UserDatabaseHelper extends SQLiteOpenHelper {
             + KEY_CREATED_AT + " DATETIME" + ")";
 
     private static final String DROP_TABLE_USERS = "DROP TABLE IF EXISTS "
-            + TABLE_NAME;
+            + TABLE_USERS;
 
     long row_nInsert;
     SQLiteDatabase userDatabase;
@@ -148,7 +148,7 @@ class UserDatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_SEC_ANS_2, a.getSecurityAnswer2());
         values.put(COLUMN_SEC_ANS_3, a.getSecurityAnswer3());
 
-        userDatabase.insert(TABLE_NAME, null, values);
+        userDatabase.insert(TABLE_USERS, null, values);
         userDatabase.close();
     }
 
@@ -156,7 +156,7 @@ class UserDatabaseHelper extends SQLiteOpenHelper {
         userDatabase = getReadableDatabase();
 
         String query = "SELECT " + COLUMN_USERNAME
-                + " FROM " + TABLE_NAME;
+                + " FROM " + TABLE_USERS;
 
         Cursor cursor = userDatabase.rawQuery(query, null);
 
@@ -180,7 +180,7 @@ class UserDatabaseHelper extends SQLiteOpenHelper {
 
         String query = "SELECT " + COLUMN_USERNAME
                 + ", " + COLUMN_PASSWORD
-                + " FROM " + TABLE_NAME;
+                + " FROM " + TABLE_USERS;
 
         Cursor cursor = userDatabase.rawQuery(query, null);
 
@@ -199,6 +199,36 @@ class UserDatabaseHelper extends SQLiteOpenHelper {
             } while (!result && cursor.moveToNext());
         }
 
+        cursor.close();
+
+        return result;
+    }
+
+    protected User getUser(String username){
+        userDatabase = getReadableDatabase();
+
+        String query = "SELECT "
+                + " * " + " FROM "
+                + TABLE_USERS + ';';
+
+        Cursor cursor = userDatabase.rawQuery(query, null);
+
+        Boolean foundUser = false;
+        User result = new User();
+        if(cursor.moveToFirst()) {
+            do {
+                // Find username
+                String a = cursor.getString(0);
+                if (a.equals(username)) {
+                    foundUser = true;
+                    result.setUsername(username);
+                    result.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)));
+                    result.setSecurityAnswer1(cursor.getString(cursor.getColumnIndex(COLUMN_SEC_ANS_1)));
+                    result.setSecurityAnswer2(cursor.getString(cursor.getColumnIndex(COLUMN_SEC_ANS_2)));
+                    result.setSecurityAnswer3(cursor.getString(cursor.getColumnIndex(COLUMN_SEC_ANS_3)));
+                }
+            } while (!foundUser && cursor.moveToNext());
+        }
         cursor.close();
 
         return result;
