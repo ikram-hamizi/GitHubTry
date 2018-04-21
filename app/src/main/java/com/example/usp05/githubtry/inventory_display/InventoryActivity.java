@@ -10,8 +10,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.usp05.githubtry.data_model.ItemDatabaseSingleton;
 import com.example.usp05.githubtry.item_manipulation.AddItemActivity;
-import com.example.usp05.githubtry.data_model.DBItemsHelper;
 import com.example.usp05.githubtry.item_filtering.FilterActivity;
 import com.example.usp05.githubtry.R;
 
@@ -29,18 +29,17 @@ public class InventoryActivity extends Activity {
 
     String username;
 
-    private final DBItemsHelper helper = new DBItemsHelper(this);
+    private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inventory_display_activity);
 
-        username = getIntent().getStringExtra("username");
         Collection<String> typeFilters = (Collection<String>) getIntent().getSerializableExtra("typeFilters");
         Collection<String> locationFilters = (Collection<String>) getIntent().getSerializableExtra("locationFilters");
 
-        InventoryCursorAdapter inventoryAdapter = new InventoryCursorAdapter(this, populateFilteredList(typeFilters, locationFilters), username);
+        InventoryCursorAdapter inventoryAdapter = new InventoryCursorAdapter(this, populateFilteredList(typeFilters, locationFilters));
 
         Button filterButton = findViewById(R.id.BFilter);
         Button addItemButton = findViewById(R.id.BAddItem);
@@ -49,7 +48,6 @@ public class InventoryActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(InventoryActivity.this,FilterActivity.class);
-                i.putExtra("username",username);
                 startActivity(i);
             }
         });
@@ -58,7 +56,6 @@ public class InventoryActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(InventoryActivity.this, AddItemActivity.class);
-                i.putExtra("username", username);
                 startActivity(i);
             }
         });
@@ -73,14 +70,6 @@ public class InventoryActivity extends Activity {
 
         // TODO: Incorporate "You have no items" result
 
-        Cursor returnCursor;
-
-        if ((typeFilters == null) && (locationFilters == null)) {
-            returnCursor = helper.getItems(username);
-        } else {
-            returnCursor = helper.getFilteredItems(username, typeFilters, locationFilters);
-        }
-
-        return returnCursor;
+        return IDS.getItems(typeFilters, locationFilters);
     }
 }

@@ -1,9 +1,13 @@
 package com.example.usp05.githubtry.data_model;
 
 import android.content.Context;
+import android.database.Cursor;
 
 import com.example.usp05.githubtry.user_handling.User;
 import com.example.usp05.githubtry.user_handling.UserDatabaseSingleton;
+
+import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -46,4 +50,27 @@ public class ItemDatabaseSingleton {
         return user;
     }
 
+    public Cursor getItems(Collection<String> typeFilters, Collection<String> locationFilters){
+        return itemHelper.getItems(typeFilters, locationFilters);
+    }
+
+    public List<String> getCategories(){
+        return itemHelper.getCategories();
+    }
+
+    public List<String> getLocations(){
+        return itemHelper.getLocations();
+    }
+
+    public void insertItem(Item item){
+        itemHelper.addNewItem(item);
+    }
+
+    public Item searchItem(int itemID){
+        return itemHelper.searchItem(itemID);
+    }
+
+    public void deleteItem(int itemID){
+        itemHelper.deleteItem(itemID);
+    }
 }

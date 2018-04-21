@@ -21,13 +21,11 @@ public class InventoryCursorAdapter extends CursorRecyclerViewAdapter<InventoryH
 
     private final Context c;
     private final Cursor cursor;
-    private final String username;
 
-    public InventoryCursorAdapter(Context context, Cursor cursor, String username){
+    public InventoryCursorAdapter(Context context, Cursor cursor){
         super(context,cursor);
         c = context;
         this.cursor = cursor;
-        this.username = username;
     }
 
     static InventoryItemDisplay fromCursor(Cursor cursor) {
@@ -75,7 +73,6 @@ public class InventoryCursorAdapter extends CursorRecyclerViewAdapter<InventoryH
                 }
 
                 Intent i = new Intent(c, ItemDisplayDetails.class);
-                i.putExtra("username", username);
                 i.putExtra("id", itemID);
                 c.startActivity(i);
 

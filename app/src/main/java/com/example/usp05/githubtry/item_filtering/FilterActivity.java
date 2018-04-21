@@ -11,11 +11,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.usp05.githubtry.R;
-import com.example.usp05.githubtry.data_model.DBItemsHelper;
+import com.example.usp05.githubtry.data_model.ItemDatabaseSingleton;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * Created by nathan on 4/4/18.
@@ -24,25 +23,20 @@ import java.util.List;
 @SuppressWarnings("HardCodedStringLiteral")
 public class FilterActivity extends Activity {
 
-    private static final String USERNAME = "username";
     private static final String TYPE_FILTERS = "typeFilters";
     private static final String LOCATION_FILTERS = "locationFilters";
     FilterAdapter locationFilterAdapter;
-    FilterAdapter typeFilterAdapter;
-    String username;
+    FilterAdapter categoryFilterAdapter;
 
-    private final DBItemsHelper filterDB = new DBItemsHelper(this);
+    private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.filter_items);
 
-        //noinspection DuplicateStringLiteralInspection
-        username = getIntent().getStringExtra(FilterActivity.USERNAME);
-
-        locationFilterAdapter = new FilterAdapter(this, getLocationFilters());
-        typeFilterAdapter = new FilterAdapter(this, getTypeFilters());
+        locationFilterAdapter = new FilterAdapter(this, IDS.getLocations());
+        categoryFilterAdapter = new FilterAdapter(this, IDS.getCategories());
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -60,9 +54,7 @@ public class FilterActivity extends Activity {
                 Intent i = new Intent(FilterActivity.this,InventoryActivity.class);
 
                 //noinspection DuplicateStringLiteralInspection
-                i.putExtra(FilterActivity.USERNAME, username);
-                //noinspection DuplicateStringLiteralInspection
-                i.putExtra(FilterActivity.TYPE_FILTERS, (Serializable) typeFilterAdapter.checkedFilters);
+                i.putExtra(FilterActivity.TYPE_FILTERS, (Serializable) categoryFilterAdapter.checkedFilters);
                 //noinspection DuplicateStringLiteralInspection
                 i.putExtra(FilterActivity.LOCATION_FILTERS, (Serializable) locationFilterAdapter.checkedFilters);
 
@@ -78,14 +70,6 @@ public class FilterActivity extends Activity {
         RecyclerView RV_Type = findViewById(R.id.RV_filterType);
         RV_Type.setLayoutManager(new LinearLayoutManager(this));
         RV_Type.setItemAnimator(new DefaultItemAnimator());
-        RV_Type.setAdapter(typeFilterAdapter);
-    }
-
-    private List<String> getTypeFilters() {
-        return filterDB.getTypes();
-    }
-
-    private List<String> getLocationFilters() {
-        return filterDB.getLocations();
+        RV_Type.setAdapter(categoryFilterAdapter);
     }
 }
