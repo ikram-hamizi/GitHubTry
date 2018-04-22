@@ -8,16 +8,21 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.CursorIndexOutOfBoundsException;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.usp05.githubtry.data_model.ItemDatabase;
+import com.example.usp05.githubtry.data_model.ItemDatabaseSingleton;
 import com.example.usp05.githubtry.item_manipulation.ItemDisplayDetails;
 import com.example.usp05.githubtry.R;
 
 
 public class InventoryCursorAdapter extends CursorRecyclerViewAdapter<InventoryHolder> {
+
+    private static ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance();
 
     private final Context c;
     private final Cursor cursor;
@@ -32,10 +37,16 @@ public class InventoryCursorAdapter extends CursorRecyclerViewAdapter<InventoryH
 
         InventoryItemDisplay iid = new InventoryItemDisplay();
 
-        iid.setItemID(cursor.getInt(cursor.getColumnIndex("ID")));
-        iid.setItemName(cursor.getString(cursor.getColumnIndex("NAME")));
-        iid.setItemLocation(cursor.getString(cursor.getColumnIndex("LOCATION")));
-        iid.setItemQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex("QUANTITY"))));
+        if(cursor.isBeforeFirst()){
+            throw new CursorIndexOutOfBoundsException("Error displaying inventory contents. Cursor is out of bounds.");
+        }
+
+
+        iid.setItemID(cursor.getInt(cursor.getColumnIndex(ItemDatabase.KEY_ID)));
+        iid.setItemName(cursor.getString(cursor.getColumnIndex(ItemDatabase.INV_COL_NAME)));
+//        iid.setItemLocation(cursor.getString(cursor.getColumnIndex(IDS.getItemColLoc())));
+        iid.setItemLocation("ERROR");
+        iid.setItemQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ItemDatabase.INV_COL_QTY))));
 
         cursor.moveToNext();
 

@@ -28,7 +28,7 @@ public class FilterActivity extends Activity {
     FilterAdapter locationFilterAdapter;
     FilterAdapter categoryFilterAdapter;
 
-    private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance(this);
+    private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

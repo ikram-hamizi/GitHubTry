@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
             }
             else if(UDS.checkUser(usernameStr,passwordStr)){
                 UDS.setUser(usernameStr);
-                ItemDatabaseSingleton DBS = ItemDatabaseSingleton.getInstance(this, UDS.getUser());
+                ItemDatabaseSingleton DBS = ItemDatabaseSingleton.getInstance(UDS.getUser());
                 startActivity(new Intent(this, InventoryActivity.class));
             }
             else {

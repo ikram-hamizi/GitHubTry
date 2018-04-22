@@ -18,7 +18,7 @@ public class EditItemActivity extends AppCompatActivity
 {
     private int itemID;
 
-    private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance(this);
+    private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

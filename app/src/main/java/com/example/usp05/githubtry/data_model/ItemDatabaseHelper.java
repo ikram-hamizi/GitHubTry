@@ -5,10 +5,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,125 +18,15 @@ import java.util.List;
 import java.lang.reflect.*;
 import java.util.Set;
 
+import static com.example.usp05.githubtry.data_model.ItemDatabase.*;
+
 /**
  * Created by nathan on 4/20/18.
  */
 
 class ItemDatabaseHelper extends SQLiteOpenHelper {
 
-   /*
-    *
-    * IMPORTANT! If any changes are made to the structure
-    * of the database (e.g. changing the name of a column),
-    * the database version MUST be updated!!
-    *
-    * */
 
-    // Database information
-    static final int DATABASE_VERSION = 1;
-    static final String DATABASE_NAME = "USER_INVENTORY_DATABASE";
-    private static final String ENABLE_FOREIGN_KEYS = "PRAGMA foreign_keys = ON;";
-
-    // Database tables
-    private static final String TABLE_INVENTORY = "INVENTORY";
-    private static final String TABLE_ITEM = "ITEMS";
-    private static final String TABLE_LOCATIONS = "LOCATIONS";
-    private static final String TABLE_CATEGORIES = "CATEGORIES";
-
-    /***** COLUMN NAMES FOR TABLES *****/
-    // Common column names
-    static final String KEY_ID = "ID";
-    static final String KEY_CREATED_AT = "CREATED";
-
-    // Inventory table -- column names
-    private static final String INV_COL_NAME = "ITEM_NAME";
-    private static final String INV_COL_QTY = "TOTAL_QUANTITY";
-    private static final String INV_COL_SED = "SOONEST_EXPIRATION_DATE";
-    private static final String INV_COL_CAT = "ITEM_CATEGORY";
-    private static final String INV_COL_AVGP = "AVERAGE_PRICE";
-    private static final String INV_COL_NOTE = "INVENTORY_NOTES";
-
-    // Item table -- column names
-    private static final String ITEM_COL_INV = "INVENTORY_ID";
-    private static final String ITEM_COL_QTY = "ITEM_QUANTITY";
-    private static final String ITEM_COL_EXP = "EXPIRATION_DATE";
-    private static final String ITEM_COL_PDATE = "PURCHASE_DATE";
-    private static final String ITEM_COL_TOTCOST = "TOTAL_COST";
-    private static final String ITEM_COL_UNITCOST = "UNIT_COST";
-    private static final String ITEM_COL_LOC = "ITEM_LOCATION";
-    private static final String ITEM_COL_NOTE = "ITEM_NOTES";
-
-
-    // Location table -- column names
-    private static final String LOC_COL_LOC = "LOCATION";
-
-
-    // Category table -- column names
-    private static final String CAT_COL_CAT = "CATEGORY";
-
-
-    /***** SQL STATEMENTS *****/
-    private static final String CREATE_INVENTORY_TABLE = "CREATE TABLE "
-            + TABLE_INVENTORY + "("
-            + KEY_ID + " INTEGER PRIMARY KEY, "
-            + INV_COL_NAME + " TEXT NOT NULL UNIQUE, "
-            + INV_COL_QTY + " INTEGER NOT NULL, "
-            + INV_COL_SED + " DATETIME, "
-            + INV_COL_CAT + " INTEGER NOT NULL DEFAULT 0, "
-            + INV_COL_AVGP + " REAL, "
-            + INV_COL_NOTE + " REAL, "
-            + KEY_CREATED_AT + " DATETIME"
-            + "FOREIGN KEY ("
-            + INV_COL_CAT + ") REFERENCES "
-            + TABLE_CATEGORIES + " ("
-            + KEY_ID + ") ON DELETE SET DEFAULT"
-            + ");";
-
-    private static final String CREATE_ITEM_TABLE = "CREATE TABLE IF NOT EXISTS"
-            + TABLE_ITEM + "("
-            + KEY_ID + " INTEGER PRIMARY KEY, "
-            + ITEM_COL_INV + " INTEGER NOT NULL, "
-            + ITEM_COL_QTY + " INTEGER NOT NULL, "
-            + ITEM_COL_EXP + " DATETIME NOT NULL, "
-            + ITEM_COL_PDATE + " DATETIME NOT NULL, "
-            + ITEM_COL_TOTCOST + " REAL NOT NULL, "
-            + ITEM_COL_UNITCOST + " REAL NOT NULL, "
-            + ITEM_COL_LOC + " INTEGER NOT NULL DEFAULT 0, "
-            + ITEM_COL_NOTE + " TEXT, "
-            + KEY_CREATED_AT + " DATETIME, "
-            + "FOREIGN KEY ("
-            + ITEM_COL_INV + ") REFERENCES "
-            + TABLE_INVENTORY + " ("
-            + KEY_ID + ") ON DELETE CASCADE "
-            + "FOREIGN KEY ("
-            + ITEM_COL_LOC + ") REFERENCES "
-            + TABLE_LOCATIONS + " ("
-            + KEY_ID + ") ON DELETE SET DEFAULT"
-            + ");";
-
-    private static final String CREATE_LOCATION_TABLE = "CREATE TABLE "
-            + TABLE_LOCATIONS + "("
-            + KEY_ID + " INTEGER PRIMARY KEY, "
-            + LOC_COL_LOC + " TEXT NOT NULL UNIQUE, "
-            + KEY_CREATED_AT + " DATETIME" + ");";
-
-    private static final String CREATE_CATEGORY_TABLE = "CREATE TABLE "
-            + TABLE_CATEGORIES + "("
-            + KEY_ID + " INTEGER PRIMARY KEY, "
-            + CAT_COL_CAT + " TEXT NOT NULL UNIQUE, "
-            + KEY_CREATED_AT + " DATETIME" + ");";
-
-    private static final String DROP_INVENTORY_TABLE = "DROP TABLE IF EXISTS "
-            + TABLE_INVENTORY + ";";
-
-    private static final String DROP_ITEM_TABLE = "DROP TABLE IF EXISTS "
-            + TABLE_ITEM + ";";
-
-    private static final String DROP_LOCATION_TABLE = "DROP TABLE IF EXISTS "
-            + TABLE_LOCATIONS + ";";
-
-    private static final String DROP_CATEGORY_TABLE = "DROP TABLE IF EXISTS "
-            + TABLE_CATEGORIES + ";";
 
 
     SQLiteDatabase itemDatabase;
@@ -185,25 +77,28 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(ENABLE_FOREIGN_KEYS);
-        db.execSQL(CREATE_CATEGORY_TABLE);
-        db.execSQL(CREATE_LOCATION_TABLE);
-        db.execSQL(CREATE_INVENTORY_TABLE);
-        db.execSQL(CREATE_ITEM_TABLE);
+        createTables(db);
 
         itemDatabase = db;
 
         itemDatabase = getWritableDatabase();
 
         ContentValues categoryValues = new ContentValues();
-        categoryValues.put(CAT_COL_CAT, "Other");
+        categoryValues.put(CAT_COL_CAT, " Other ");
         itemDatabase.insertOrThrow(TABLE_CATEGORIES, null, categoryValues);
 
         ContentValues locationValues = new ContentValues();
-        locationValues.put(LOC_COL_LOC, "Other");
+        locationValues.put(LOC_COL_LOC, " Other ");
         itemDatabase.insertOrThrow(TABLE_LOCATIONS, null, locationValues);
 
-        itemDatabase.close();
+    }
+
+    private void createTables(SQLiteDatabase db) {
+        db.execSQL(ENABLE_FOREIGN_KEYS);
+        db.execSQL(CREATE_CATEGORY_TABLE);
+        db.execSQL(CREATE_LOCATION_TABLE);
+        db.execSQL(CREATE_INVENTORY_TABLE);
+        db.execSQL(CREATE_ITEM_TABLE);
     }
 
     /**
@@ -235,6 +130,35 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
+    @Override
+    public SQLiteDatabase getWritableDatabase(){
+
+        if (itemDatabase == null) {
+            itemDatabase = super.getWritableDatabase();
+        }
+        else if (itemDatabase.isOpen()){
+            if (itemDatabase.isReadOnly()) {
+                itemDatabase.close();
+                itemDatabase = super.getWritableDatabase();
+            }
+        } else {
+            itemDatabase = super.getWritableDatabase();
+        }
+
+        return itemDatabase;
+    }
+
+    @Override
+    public SQLiteDatabase getReadableDatabase(){
+        if (itemDatabase == null) {
+            itemDatabase = super.getReadableDatabase();
+        }
+        else if(!itemDatabase.isOpen()){
+            itemDatabase = super.getReadableDatabase();
+        }
+        return itemDatabase;
+    }
+
     protected void addItem(Item item){
         itemDatabase = getWritableDatabase();
 
@@ -260,8 +184,6 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         updateQuantity(foreignKey);
         updateSoonestExpirationDate(foreignKey);
         appendInventoryNotes(foreignKey);
-
-        closeDatabaseIfOpen();
     }
 
     private void updateQuantity(int inventoryKey){
@@ -336,6 +258,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         String whereArgs[] = {String.valueOf(inventoryKey)};
 
         itemDatabase.update(TABLE_INVENTORY, values, query, whereArgs);
+
     }
 
     private void appendInventoryNotes(int inventoryKey){
@@ -368,12 +291,23 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         String whereArgs[] = {String.valueOf(inventoryKey)};
 
         itemDatabase.update(TABLE_INVENTORY, values, query, whereArgs);
+
     }
 
     public void closeDatabaseIfOpen(){
         if(itemDatabase.isOpen()) {
             itemDatabase.close();
         }
+    }
+
+    private String getFormattedDate(Date date){
+        String result = null;
+
+        if (date != null) {
+            result = dateFormat.format(date);
+        }
+
+        return result;
     }
 
     protected void addNewItem(Item item) {
@@ -383,8 +317,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         ContentValues inventoryValues = new ContentValues();
         inventoryValues.put(INV_COL_NAME, item.getName());
         inventoryValues.put(INV_COL_QTY, item.getQuantity());
-        inventoryValues.put(INV_COL_SED,
-                dateFormat.format(item.getExpiration_date()));
+        inventoryValues.put(INV_COL_SED, getFormattedDate(item.getExpiration_date()));
         inventoryValues.put(INV_COL_CAT,
                 getForeignKey(item.getCategory(),
                         TABLE_CATEGORIES, CAT_COL_CAT));
@@ -399,10 +332,8 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
                 getForeignKey(item.getName(),
                         TABLE_INVENTORY, INV_COL_NAME));
         itemValues.put(ITEM_COL_QTY, item.getQuantity());
-        itemValues.put(ITEM_COL_EXP,
-                dateFormat.format(item.getExpiration_date()));
-        itemValues.put(ITEM_COL_PDATE,
-                dateFormat.format(item.getPurchase_date()));
+        itemValues.put(ITEM_COL_EXP, getFormattedDate(item.getExpiration_date()));
+        itemValues.put(ITEM_COL_PDATE, getFormattedDate(item.getPurchase_date()));
         itemValues.put(ITEM_COL_TOTCOST, item.getTotalPrice());
         itemValues.put(ITEM_COL_UNITCOST, item.getUnitPrice());
         itemValues.put(ITEM_COL_LOC,
@@ -412,21 +343,64 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         itemDatabase.insertOrThrow(TABLE_ITEM,
                 null, itemValues);
 
-        itemDatabase.close();
+
+    }
+
+    private void addCategory(String entry) {
+        itemDatabase = getWritableDatabase();
+
+        String query = "INSERT INTO "
+                + TABLE_CATEGORIES + '('
+                + CAT_COL_CAT + ") VALUES ('"
+                + entry + "');";
+
+        itemDatabase.execSQL(query);
+    }
+
+    private void addLocation(String entry) {
+        itemDatabase = getWritableDatabase();
+
+        String query = "INSERT INTO "
+                + TABLE_LOCATIONS + '('
+                + LOC_COL_LOC + ") VALUES ('"
+                + entry + "');";
+
+        itemDatabase.execSQL(query);
     }
 
     private int getForeignKey(String entry, String tableName, String columnName) {
         int foreignKey = 0;
-
-        // TODO: Implement try and catch here
+        Cursor c = null;
 
         String query = "SELECT * FROM " + tableName
                 + " WHERE " + columnName
-                + " = " + entry;
+                + " = '" + entry + "';";
 
-        Cursor c = itemDatabase.rawQuery(query, null);
+        try {
 
-        if(c.moveToFirst()){
+            c = itemDatabase.rawQuery(query, null);
+
+        } catch (SQLiteException e) {
+
+            String eStr = e.toString();
+            if(eStr.contains("no such column")) {
+
+                if(tableName.equals(TABLE_CATEGORIES)){
+                    addCategory(entry);
+                } else if(tableName.equals(TABLE_LOCATIONS)){
+                    addLocation(entry);
+                } else {
+                    throw e;
+                }
+
+                c = itemDatabase.rawQuery(query, null);
+
+            } else {
+                throw e;
+            }
+        }
+
+        if((c != null) && (c.moveToFirst())){
             foreignKey = c.getInt(0);
         } else {
             ContentValues values = new ContentValues();
@@ -444,6 +418,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
 
         c.close();
 
+
         return foreignKey;
     }
 
@@ -455,7 +430,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
                 + TABLE_INVENTORY + " WHERE " + KEY_ID + " = ?";
         Cursor c = itemDatabase.rawQuery(get_row_query, new String[] {String.valueOf(search_id)});
 
-        if (c.moveToFirst() && (c != null))
+        if ((c != null) && c.moveToFirst())
         {
             do {
                 String id = c.getString(0);
@@ -464,7 +439,9 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
                     Item result = new Item();
                     result.setName(c.getString(c.getColumnIndex(INV_COL_NAME)));
                     result.setQuantity(c.getInt(c.getColumnIndex(INV_COL_QTY)));
-                    result.setExpiration_date(Date.valueOf(c.getString(c.getColumnIndex(INV_COL_SED))));
+                    // TODO: Fix error thrown here (java.lang.IllegalArgumentException @ java.sql.Date.valueOf)
+                    // It might be happening when passed a null value
+//                    result.setExpiration_date(Date.valueOf(c.getString(c.getColumnIndex(INV_COL_SED))));
                     result.setCategory(c.getString(c.getColumnIndex(INV_COL_CAT)));
                     result.setUnitPrice(c.getFloat(c.getColumnIndex(INV_COL_AVGP)));
                     result.setNotes(c.getString(c.getColumnIndex(INV_COL_NOTE)));
@@ -474,6 +451,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
             }while(c.moveToNext());
         }
         c.close();
+
         return null;
     }
 
@@ -486,6 +464,8 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
                 + itemID + ";";
 
         itemDatabase.execSQL(query);
+
+        closeDatabaseIfOpen();
     }
 
     private Cursor doQuery(String query){
@@ -504,6 +484,8 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         if(next.size()>0) {
             // TODO: add error handling here
         }
+
+
 
     }
 
@@ -554,6 +536,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         }
 
         c.close();
+
         return values;
     }
 
@@ -562,6 +545,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
 
         String query = "SELECT * FROM " + TABLE_INVENTORY + ';';
         return itemDatabase.rawQuery(query, null);
+
     }
 
     protected Cursor getItems(Collection<String> typeFilters, Collection<String> locationFilters){
@@ -569,7 +553,11 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         Cursor c = null;
         StringBuffer query = new StringBuffer();
 
-        if((typeFilters.isEmpty()) && (locationFilters.isEmpty())) {
+        // TODO: Fix checking for filters being null
+        if ((typeFilters == null) || (locationFilters == null)) {
+            c = getItems();
+        }
+        else if((typeFilters.isEmpty()) && (locationFilters.isEmpty())) {
             c = getItems();
         } else {
             query.append("SELECT ");
@@ -629,6 +617,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
             c = itemDatabase.rawQuery(query.toString(), null);
         }
 
+
         return c;
     }
 
@@ -653,6 +642,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         }
 
         c.close();
+
         return results;
     }
 
@@ -677,6 +667,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         }
 
         c.close();
+
         return results;
     }
 

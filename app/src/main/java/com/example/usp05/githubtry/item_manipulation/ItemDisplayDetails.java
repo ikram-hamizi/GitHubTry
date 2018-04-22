@@ -14,7 +14,7 @@ import com.example.usp05.githubtry.R;
 
 public class ItemDisplayDetails extends AppCompatActivity {
 
-    private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance(this);
+    private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance();
 
     //EXTRA MESSAGE = ID
     //ID of Current Inventory Item clicked needed.
@@ -36,6 +36,8 @@ public class ItemDisplayDetails extends AppCompatActivity {
                 ((android.support.v7.widget.Toolbar) findViewById(R.id.details_toolbar)).setTitle(myItem.getName());
             }
             ((TextView) findViewById(R.id.location_info_TV)).setText(myItem.getLocation());
+
+            // TODO: Fix bug where the category id is shown instead of the category string
             ((TextView) findViewById(R.id.category_info_TV)).setText(myItem.getCategory());
             ((TextView) findViewById(R.id.quantity_info_TV)).setText(String.valueOf(myItem.getQuantity()));
 

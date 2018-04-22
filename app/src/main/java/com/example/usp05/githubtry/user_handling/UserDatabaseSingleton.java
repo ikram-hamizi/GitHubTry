@@ -3,6 +3,8 @@ package com.example.usp05.githubtry.user_handling;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 
+import static com.example.usp05.githubtry.AppContext.getContext;
+
 
 /**
  * Created by nathan on 4/21/18.
@@ -18,14 +20,15 @@ public class UserDatabaseSingleton {
     public static UserDatabaseSingleton getInstance(Context context) {
         if(thisInstance == null){
             thisInstance = new UserDatabaseSingleton();
-            userHelper = new UserDatabaseHelper(context,
-                    UserDatabaseHelper.DATABASE_NAME, null,
-                    UserDatabaseHelper.DATABASE_VERSION);
         }
         return thisInstance;
     }
 
-    private UserDatabaseSingleton() {}
+    private UserDatabaseSingleton(){
+        userHelper = new UserDatabaseHelper(getContext(),
+                UserDatabaseHelper.DATABASE_NAME, null,
+                UserDatabaseHelper.DATABASE_VERSION);
+    };
 
     public User getUser() {
         return user;

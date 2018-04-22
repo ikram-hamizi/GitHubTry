@@ -29,7 +29,7 @@ public class InventoryActivity extends Activity {
 
     String username;
 
-    private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance(this);
+    private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

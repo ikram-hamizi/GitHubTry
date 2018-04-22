@@ -54,6 +54,7 @@
                         android:layout_width="150dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:defaultFocusHighlightEnabled="true"
                         android:ems="10"
                         android:inputType="textCapWords|textAutoCorrect"
                         android:textAlignment="center" />
@@ -275,6 +276,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:onClick="onSaveClick"
                 android:text="Save" />
         </LinearLayout>
 

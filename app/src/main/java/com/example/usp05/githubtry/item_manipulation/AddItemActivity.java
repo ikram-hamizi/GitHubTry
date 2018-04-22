@@ -22,7 +22,7 @@ import java.util.List;
 
 public class AddItemActivity extends AppCompatActivity
 {
-    private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance(this);
+    private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance();
     AutoCompleteTextView location_aCTV, category_aCTV;
 
 
@@ -50,7 +50,7 @@ public class AddItemActivity extends AppCompatActivity
     //ACTION
     public void onSaveClick (View view)
     {
-        String item_name = ((TextView) findViewById(R.id.ET_name)).getText().toString();
+        String item_name = ((TextView) findViewById(R.id.ET_item_name)).getText().toString();
         try {
             String item_location = ((AutoCompleteTextView) findViewById(R.id.aCTV_item_location)).getText().toString();
             String item_category = ((AutoCompleteTextView) findViewById(R.id.aCTV_item_category)).getText().toString();
