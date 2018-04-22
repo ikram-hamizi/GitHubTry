@@ -39,7 +39,7 @@ public class EditItemActivity extends AppCompatActivity
             ((TextView) findViewById(R.id.ET_quantity)).setText(String.valueOf(editedItem.getQuantity()));
             ((TextView) findViewById(R.id.ET_location)).setText(editedItem.getLocation());
 
-            // TODO: Fix these date fields
+            // FIXME: Fix these date fields
 //            ((TextView) findViewById(R.id.ET_dateExpired)).setText(editedItem.getExpiration_date());
 //            ((TextView) findViewById(R.id.ET_datePurchased)).setText(editedItem.getPurchase_date());
             //((EditText) findViewById(R.id.ET_price)).setText(editedItem.getAverage_price());

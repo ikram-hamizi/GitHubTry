@@ -439,7 +439,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
                     Item result = new Item();
                     result.setName(c.getString(c.getColumnIndex(INV_COL_NAME)));
                     result.setQuantity(c.getInt(c.getColumnIndex(INV_COL_QTY)));
-                    // TODO: Fix error thrown here (java.lang.IllegalArgumentException @ java.sql.Date.valueOf)
+                    // FIXME: Fix error thrown here (java.lang.IllegalArgumentException @ java.sql.Date.valueOf)
                     // It might be happening when passed a null value
 //                    result.setExpiration_date(Date.valueOf(c.getString(c.getColumnIndex(INV_COL_SED))));
                     result.setCategory(c.getString(c.getColumnIndex(INV_COL_CAT)));
@@ -553,7 +553,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         Cursor c = null;
         StringBuffer query = new StringBuffer();
 
-        // TODO: Fix checking for filters being null
+        // FIXME: Fix checking for filters being null
         if ((typeFilters == null) || (locationFilters == null)) {
             c = getItems();
         }

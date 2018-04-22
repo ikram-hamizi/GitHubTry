@@ -59,7 +59,7 @@ public class ItemDatabaseSingleton {
         return user;
     }
 
-    // TODO: Fix items not showing when they are in the "Other" category or location
+    // FIXME: Fix items not showing when they are in the "Other" category or location
     public Cursor getItems(Collection<String> typeFilters, Collection<String> locationFilters){
         return itemHelper.getItems(typeFilters, locationFilters);
     }

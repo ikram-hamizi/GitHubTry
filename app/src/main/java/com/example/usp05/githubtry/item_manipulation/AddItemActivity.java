@@ -70,7 +70,7 @@ public class AddItemActivity extends AppCompatActivity
             newItem.setLocation(item_location);
             newItem.setCategory(item_category);
 
-            // TODO: Fix newItem date and price formatting
+            // FIXME: Fix newItem date and price formatting
 //            newItem.setPurchase_date(item_datePurchased);
 //            newItem.setExpiration_date(item_dateExpired);
 //            newItem.setTotalPrice(item_price);

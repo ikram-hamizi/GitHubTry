@@ -32,16 +32,17 @@ public class ItemDisplayDetails extends AppCompatActivity {
         myItem = IDS.searchItem(itemID);
         if(myItem != null) {
 //            setTitle(myItem.getName());
+            // TODO: This version check should be changed.  If the version is not high enough, the user won't know what item they are looking at.
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 ((android.support.v7.widget.Toolbar) findViewById(R.id.details_toolbar)).setTitle(myItem.getName());
             }
             ((TextView) findViewById(R.id.location_info_TV)).setText(myItem.getLocation());
 
-            // TODO: Fix bug where the category id is shown instead of the category string
+            // FIXME: Fix bug where the category id is shown instead of the category string
             ((TextView) findViewById(R.id.category_info_TV)).setText(myItem.getCategory());
             ((TextView) findViewById(R.id.quantity_info_TV)).setText(String.valueOf(myItem.getQuantity()));
 
-            // TODO: Fix these fields so the date is properly shown
+            // FIXME: Fix these fields so the date is properly shown
 //            ((TextView) findViewById(R.id.dateExpired_info_TV)).setText(myItem.getExpiration_date());
 //            ((TextView) findViewById(R.id.datePurchased_info_TV)).setText(myItem.getPurchase_date());
             ((TextView) findViewById(R.id.note_info_TV)).setText(myItem.getNotes());
