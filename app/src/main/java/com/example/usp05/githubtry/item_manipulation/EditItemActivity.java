@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.usp05.githubtry.data_model.DateHandler;
 import com.example.usp05.githubtry.data_model.Item;
 import com.example.usp05.githubtry.data_model.ItemDatabaseSingleton;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
@@ -19,6 +20,7 @@ public class EditItemActivity extends AppCompatActivity
     private int itemID;
 
     private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance();
+    private DateHandler DH = new DateHandler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +42,8 @@ public class EditItemActivity extends AppCompatActivity
             ((TextView) findViewById(R.id.ET_location)).setText(editedItem.getLocation());
 
             // FIXME: Fix these date fields
-//            ((TextView) findViewById(R.id.ET_dateExpired)).setText(editedItem.getExpiration_date());
-//            ((TextView) findViewById(R.id.ET_datePurchased)).setText(editedItem.getPurchase_date());
+            ((TextView) findViewById(R.id.ET_dateExpired)).setText(DH.itemDateToString(editedItem.getExpiration_date()));
+            ((TextView) findViewById(R.id.ET_datePurchased)).setText(DH.itemDateToString(editedItem.getPurchase_date()));
             //((EditText) findViewById(R.id.ET_price)).setText(editedItem.getAverage_price());
             ((TextView) findViewById(R.id.ET_category)).setText(editedItem.getCategory());
             ((TextView) findViewById(R.id.ET_note)).setText(editedItem.getNotes());

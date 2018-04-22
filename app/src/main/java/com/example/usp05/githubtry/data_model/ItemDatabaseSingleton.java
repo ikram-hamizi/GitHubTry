@@ -19,6 +19,18 @@ import static com.example.usp05.githubtry.data_model.ItemDatabase.*;
 
 public class ItemDatabaseSingleton {
 
+    /*
+    * To use, instantiate in a class by including the following:
+    *
+    *   private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance();
+    *
+    *
+    *
+    *   !!! Only the main activity should use:
+    *
+    *   ItemDatabaseSingleton DBS = ItemDatabaseSingleton.getInstance(UDS.getUser());
+    */
+
     private static ItemDatabaseHelper itemHelper;
     private UserDatabaseSingleton UDS;
     private static User user;
@@ -27,7 +39,8 @@ public class ItemDatabaseSingleton {
 
     public static ItemDatabaseSingleton getInstance() {
         if(thisInstance == null){
-
+            // TODO: Get rid of this (used for testing purposes)
+            thisInstance = new ItemDatabaseSingleton("TEST");
         }
         return thisInstance;
     }
@@ -43,6 +56,13 @@ public class ItemDatabaseSingleton {
     }
 
     private ItemDatabaseSingleton() {}
+
+    private ItemDatabaseSingleton(String username){
+        String DB_Name = username + "_db";
+        itemHelper = new ItemDatabaseHelper(getContext(), DB_Name, null, DATABASE_VERSION);
+        user = new User();
+        user.setUsername(username);
+    }
 
     private ItemDatabaseSingleton(User u) {
         String DB_Name = u.getUsername() + "_db";
@@ -82,6 +102,10 @@ public class ItemDatabaseSingleton {
 
     public void deleteItem(int itemID){
         itemHelper.deleteItem(itemID);
+    }
+
+    public void shutdownDatabase(){
+        itemHelper.closeDatabaseIfOpen();
     }
 
 
