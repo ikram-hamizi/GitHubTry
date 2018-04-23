@@ -9,7 +9,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.usp05.githubtry.data_model.Item;
+import com.example.usp05.githubtry.data_model.ItemHandler;
 import com.example.usp05.githubtry.data_model.ItemDatabaseSingleton;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
 import com.example.usp05.githubtry.R;
@@ -53,7 +53,15 @@ public class AddItemActivity extends AppCompatActivity
         String item_name = ((TextView) findViewById(R.id.ET_item_name)).getText().toString();
         try {
             String item_location = ((AutoCompleteTextView) findViewById(R.id.aCTV_item_location)).getText().toString();
+            if(item_location.isEmpty()){
+                item_location = "Other";
+            }
+
             String item_category = ((AutoCompleteTextView) findViewById(R.id.aCTV_item_category)).getText().toString();
+            if(item_category.isEmpty()){
+                item_category = "Other";
+            }
+
             String item_datePurchased = ((TextView) findViewById(R.id.ET_date_purchased)).getText().toString();
             String item_dateExpired = ((TextView) findViewById(R.id.ET_expiration_date)).getText().toString();
             String item_price = ((TextView) findViewById(R.id.ET_item_price)).getText().toString();
@@ -65,20 +73,20 @@ public class AddItemActivity extends AppCompatActivity
                 message.show();
             }
 
-            Item newItem = new Item();
-            newItem.setName(item_name);
-            newItem.setLocation(item_location);
-            newItem.setCategory(item_category);
+            ItemHandler newItemHandler = new ItemHandler();
+            newItemHandler.setName(item_name);
+            newItemHandler.setLocation(item_location);
+            newItemHandler.setCategory(item_category);
 
-            // FIXME: Fix newItem date and price formatting
-//            newItem.setPurchase_date(item_datePurchased);
-//            newItem.setExpiration_date(item_dateExpired);
-//            newItem.setTotalPrice(item_price);
-            newItem.setNotes(item_note);
-            newItem.setQuantity(item_quantity);
+            // FIXME: Fix newItemHandler date and price formatting
+//            newItemHandler.setPurchase_date(item_datePurchased);
+//            newItemHandler.setExpiration_date(item_dateExpired);
+//            newItemHandler.setTotalPrice(item_price);
+            newItemHandler.setNotes(item_note);
+            newItemHandler.setQuantity(item_quantity);
 
-            //Insert Item to DB
-            IDS.insertItem(newItem);
+            //Insert ItemHandler to DB
+            IDS.insertItem(newItemHandler);
 
             // TODO: Fix this toast message
 //            db_helper.insertedToast(this).show();

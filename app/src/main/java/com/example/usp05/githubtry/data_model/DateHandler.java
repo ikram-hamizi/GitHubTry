@@ -87,8 +87,14 @@ public class DateHandler {
         return itemDate.format(inputDate);
     }
 
-    public Date itemStringToDate(String str) throws ParseException {
-        inputDate = itemDate.parse(str);
+    public Date itemStringToDate(String str){
+
+        try {
+            inputDate = itemDate.parse(str);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
         return inputDate;
     }
 

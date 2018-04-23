@@ -10,7 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.usp05.githubtry.data_model.DateHandler;
-import com.example.usp05.githubtry.data_model.Item;
+import com.example.usp05.githubtry.data_model.ItemHandler;
 import com.example.usp05.githubtry.data_model.ItemDatabaseSingleton;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
 import com.example.usp05.githubtry.R;
@@ -30,23 +30,23 @@ public class EditItemActivity extends AppCompatActivity
         itemID = getIntent().getIntExtra("id", 0);
 
         //Load information as place-holder in the edit screen
-        Item editedItem = IDS.searchItem(itemID);
+        ItemHandler editedItemHandler = IDS.searchItem(itemID);
 
         if (Log.isLoggable(ContentValues.TAG,Log.VERBOSE)){
-            Log.v(ContentValues.TAG,">>>>>>>>>>>>>> NAME: "+editedItem.getName());
+            Log.v(ContentValues.TAG,">>>>>>>>>>>>>> NAME: "+ editedItemHandler.getName());
         }
 
-        if(editedItem != null) {
-            ((TextView) findViewById(R.id.ET_name)).setText(editedItem.getName());
-            ((TextView) findViewById(R.id.ET_quantity)).setText(String.valueOf(editedItem.getQuantity()));
-            ((TextView) findViewById(R.id.ET_location)).setText(editedItem.getLocation());
+        if(editedItemHandler != null) {
+            ((TextView) findViewById(R.id.ET_name)).setText(editedItemHandler.getName());
+            ((TextView) findViewById(R.id.ET_quantity)).setText(String.valueOf(editedItemHandler.getQuantity()));
+            ((TextView) findViewById(R.id.ET_location)).setText(editedItemHandler.getLocation());
 
             // FIXME: Fix these date fields
-            ((TextView) findViewById(R.id.ET_dateExpired)).setText(DH.itemDateToString(editedItem.getExpiration_date()));
-            ((TextView) findViewById(R.id.ET_datePurchased)).setText(DH.itemDateToString(editedItem.getPurchase_date()));
-            //((EditText) findViewById(R.id.ET_price)).setText(editedItem.getAverage_price());
-            ((TextView) findViewById(R.id.ET_category)).setText(editedItem.getCategory());
-            ((TextView) findViewById(R.id.ET_note)).setText(editedItem.getNotes());
+            ((TextView) findViewById(R.id.ET_dateExpired)).setText(DH.itemDateToString(editedItemHandler.getExpiration_date()));
+            ((TextView) findViewById(R.id.ET_datePurchased)).setText(DH.itemDateToString(editedItemHandler.getPurchase_date()));
+            //((EditText) findViewById(R.id.ET_price)).setText(editedItemHandler.getAverage_price());
+            ((TextView) findViewById(R.id.ET_category)).setText(editedItemHandler.getCategory());
+            ((TextView) findViewById(R.id.ET_note)).setText(editedItemHandler.getNotes());
         }
     }
 

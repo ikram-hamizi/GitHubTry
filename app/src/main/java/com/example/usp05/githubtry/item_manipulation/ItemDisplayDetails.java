@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.example.usp05.githubtry.data_model.ItemDatabaseSingleton;
-import com.example.usp05.githubtry.data_model.Item;
+import com.example.usp05.githubtry.data_model.ItemHandler;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
 import com.example.usp05.githubtry.R;
 
@@ -17,10 +17,10 @@ public class ItemDisplayDetails extends AppCompatActivity {
     private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance();
 
     //EXTRA MESSAGE = ID
-    //ID of Current Inventory Item clicked needed.
+    //ID of Current Inventory ItemHandler clicked needed.
 
     private String username;
-    private Item myItem;
+    private ItemHandler myItemHandler;
     private int itemID;
 
     @Override
@@ -29,26 +29,24 @@ public class ItemDisplayDetails extends AppCompatActivity {
         setContentView(R.layout.item_details_activity);
         itemID = getIntent().getIntExtra("id", 0);
 
-        myItem = IDS.searchItem(itemID);
-        if(myItem != null) {
-//            setTitle(myItem.getName());
+        myItemHandler = IDS.searchItem(itemID);
+        if(myItemHandler != null) {
+//            setTitle(myItemHandler.getName());
             // TODO: This version check should be changed.  If the version is not high enough, the user won't know what item they are looking at.
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                ((android.support.v7.widget.Toolbar) findViewById(R.id.details_toolbar)).setTitle(myItem.getName());
+                ((android.support.v7.widget.Toolbar) findViewById(R.id.details_toolbar)).setTitle(myItemHandler.getName());
             }
-            ((TextView) findViewById(R.id.location_info_TV)).setText(myItem.getLocation());
-
-            // FIXME: Fix bug where the category id is shown instead of the category string
-            ((TextView) findViewById(R.id.category_info_TV)).setText(myItem.getCategory());
-            ((TextView) findViewById(R.id.quantity_info_TV)).setText(String.valueOf(myItem.getQuantity()));
+            ((TextView) findViewById(R.id.location_info_TV)).setText(myItemHandler.getLocation());
+            ((TextView) findViewById(R.id.category_info_TV)).setText(myItemHandler.getCategory());
+            ((TextView) findViewById(R.id.quantity_info_TV)).setText(String.valueOf(myItemHandler.getQuantity()));
 
             // FIXME: Fix these fields so the date is properly shown
-//            ((TextView) findViewById(R.id.dateExpired_info_TV)).setText(myItem.getExpiration_date());
-//            ((TextView) findViewById(R.id.datePurchased_info_TV)).setText(myItem.getPurchase_date());
-            ((TextView) findViewById(R.id.note_info_TV)).setText(myItem.getNotes());
+//            ((TextView) findViewById(R.id.dateExpired_info_TV)).setText(myItemHandler.getExpiration_date());
+//            ((TextView) findViewById(R.id.datePurchased_info_TV)).setText(myItemHandler.getPurchase_date());
+            ((TextView) findViewById(R.id.note_info_TV)).setText(myItemHandler.getNotes());
 
             // TODO: Fix this so it shows the average price
-//            ((TextView) findViewById(R.id.avgPrice_info_TV)).setText(String.valueOf(myItem.getTotalPrice()));
+//            ((TextView) findViewById(R.id.avgPrice_info_TV)).setText(String.valueOf(myItemHandler.getTotalPrice()));
         }
 //        else
 //        {

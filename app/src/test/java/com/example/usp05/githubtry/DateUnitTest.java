@@ -62,7 +62,7 @@ public class DateUnitTest {
 
         try {
             DH.itemStringToDate(input);
-        } catch (ParseException e) {
+        } catch (Exception e) {
             System.out.println(e);
         } finally {
             output = DH.itemDateToString();

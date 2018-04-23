@@ -149,7 +149,7 @@ public class InventoryTest {
         appCompatButton2.perform(click());
 
         ViewInteraction appCompatButton3 = onView(
-                allOf(withId(R.id.BAddItem), withText("Add Item"),
+                allOf(withId(R.id.BAddItem), withText("Add ItemHandler"),
                         childAtPosition(
                                 childAtPosition(
                                         withId(android.R.id.content),

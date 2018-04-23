@@ -1,6 +1,5 @@
 package com.example.usp05.githubtry.data_model;
 
-import android.content.Context;
 import android.database.Cursor;
 
 import com.example.usp05.githubtry.user_handling.User;
@@ -39,8 +38,6 @@ public class ItemDatabaseSingleton {
 
     public static ItemDatabaseSingleton getInstance() {
         if(thisInstance == null){
-            // TODO: Get rid of this (used for testing purposes)
-            thisInstance = new ItemDatabaseSingleton("TEST");
         }
         return thisInstance;
     }
@@ -79,7 +76,6 @@ public class ItemDatabaseSingleton {
         return user;
     }
 
-    // FIXME: Fix items not showing when they are in the "Other" category or location
     public Cursor getItems(Collection<String> typeFilters, Collection<String> locationFilters){
         return itemHelper.getItems(typeFilters, locationFilters);
     }
@@ -92,11 +88,11 @@ public class ItemDatabaseSingleton {
         return itemHelper.getLocations();
     }
 
-    public void insertItem(Item item){
-        itemHelper.addNewItem(item);
+    public void insertItem(ItemHandler itemHandler){
+        itemHelper.addNewItem(itemHandler);
     }
 
-    public Item searchItem(int itemID){
+    public ItemHandler searchItem(int itemID){
         return itemHelper.searchItem(itemID);
     }
 

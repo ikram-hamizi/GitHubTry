@@ -15,7 +15,7 @@ public class ItemDatabase {
     * */
 
     // Database information
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
     public static final String DATABASE_NAME = "USER_INVENTORY_DATABASE";
     public static final String ENABLE_FOREIGN_KEYS = "PRAGMA foreign_keys = ON;";
 
@@ -39,7 +39,7 @@ public class ItemDatabase {
      public static final String INV_COL_AVGP = "AVERAGE_PRICE";
      public static final String INV_COL_NOTE = "INVENTORY_NOTES";
 
-    // Item table -- column names
+    // ItemHandler table -- column names
      public static final String ITEM_COL_INV = "INVENTORY_ID";
      public static final String ITEM_COL_QTY = "ITEM_QUANTITY";
      public static final String ITEM_COL_EXP = "EXPIRATION_DATE";

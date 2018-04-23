@@ -9,16 +9,15 @@ import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 
-import java.sql.Date;
-import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.lang.reflect.*;
-import java.util.Set;
 
 import static com.example.usp05.githubtry.data_model.ItemDatabase.*;
+import com.example.usp05.githubtry.data_model.ItemHelper.*;
 
 /**
  * Created by nathan on 4/20/18.
@@ -26,11 +25,9 @@ import static com.example.usp05.githubtry.data_model.ItemDatabase.*;
 
 class ItemDatabaseHelper extends SQLiteOpenHelper {
 
-
-
-
-    SQLiteDatabase itemDatabase;
+    private SQLiteDatabase itemDatabase;
     SimpleDateFormat dateFormat = new SimpleDateFormat("d.M.y");
+    DateHandler DH = new DateHandler();
 
     /**
      * Create a helper object to create, open, and/or manage a database.
@@ -83,12 +80,14 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
 
         itemDatabase = getWritableDatabase();
 
+        StringBuffer sb = new StringBuffer();
+
         ContentValues categoryValues = new ContentValues();
-        categoryValues.put(CAT_COL_CAT, " Other ");
+        categoryValues.put(CAT_COL_CAT, "Other");
         itemDatabase.insertOrThrow(TABLE_CATEGORIES, null, categoryValues);
 
         ContentValues locationValues = new ContentValues();
-        locationValues.put(LOC_COL_LOC, " Other ");
+        locationValues.put(LOC_COL_LOC, "Other");
         itemDatabase.insertOrThrow(TABLE_LOCATIONS, null, locationValues);
 
     }
@@ -159,25 +158,40 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         return itemDatabase;
     }
 
-    protected void addItem(Item item){
+    public void closeDatabaseIfOpen(){
+        if(itemDatabase.isOpen()) {
+            itemDatabase.close();
+        }
+    }
+
+    protected void deleteDatabase(){
+        itemDatabase.getPath();
+
+    }
+
+    private Cursor doQuery(String query){
+        return itemDatabase.rawQuery(query, null);
+    }
+
+    protected void addItem(ItemHandler itemHandler) throws ParseException {
         itemDatabase = getWritableDatabase();
 
-        int foreignKey = getForeignKey(item.getName(), TABLE_INVENTORY, INV_COL_NAME);
+        int foreignKey = getForeignKey(itemHandler.getName(), TABLE_INVENTORY, INV_COL_NAME);
 
-        // Add the item to the item table
+        // Add the itemHandler to the itemHandler table
         ContentValues itemValues = new ContentValues();
         itemValues.put(ITEM_COL_INV, foreignKey);
-        itemValues.put(ITEM_COL_QTY, item.getQuantity());
+        itemValues.put(ITEM_COL_QTY, itemHandler.getQuantity());
         itemValues.put(ITEM_COL_EXP,
-                dateFormat.format(item.getExpiration_date()));
+                dateFormat.format(itemHandler.getExpiration_date()));
         itemValues.put(ITEM_COL_PDATE,
-                dateFormat.format(item.getPurchase_date()));
-        itemValues.put(ITEM_COL_TOTCOST, item.getTotalPrice());
-        itemValues.put(ITEM_COL_UNITCOST, item.getUnitPrice());
+                dateFormat.format(itemHandler.getPurchase_date()));
+        itemValues.put(ITEM_COL_TOTCOST, itemHandler.getTotalPrice());
+        itemValues.put(ITEM_COL_UNITCOST, itemHandler.getUnitPrice());
         itemValues.put(ITEM_COL_LOC,
-                getForeignKey(item.getLocation(),
+                getForeignKey(itemHandler.getLocation(),
                         TABLE_LOCATIONS, LOC_COL_LOC));
-        itemValues.put(ITEM_COL_NOTE, item.getNotes());
+        itemValues.put(ITEM_COL_NOTE, itemHandler.getNotes());
         itemDatabase.insertOrThrow(TABLE_ITEM,
                 null, itemValues);
 
@@ -185,6 +199,145 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         updateSoonestExpirationDate(foreignKey);
         appendInventoryNotes(foreignKey);
     }
+
+    protected void addNewItem(ItemHandler itemHandler) {
+        itemDatabase = getWritableDatabase();
+
+        // Add the itemHandler to the inventory table
+        ContentValues inventoryValues = new ContentValues();
+        inventoryValues.put(INV_COL_NAME, itemHandler.getName());
+        inventoryValues.put(INV_COL_QTY, itemHandler.getQuantity());
+        inventoryValues.put(INV_COL_SED, getFormattedDate(itemHandler.getExpiration_date()));
+        inventoryValues.put(INV_COL_CAT,
+                getForeignKey(itemHandler.getCategory(),
+                        TABLE_CATEGORIES, CAT_COL_CAT));
+        inventoryValues.put(INV_COL_AVGP, itemHandler.getUnitPrice());
+        inventoryValues.put(INV_COL_NOTE, itemHandler.getNotes());
+        itemDatabase.insertOrThrow(TABLE_INVENTORY,
+                null, inventoryValues);
+
+        // Add the itemHandler to the itemHandler table
+        ContentValues itemValues = new ContentValues();
+        itemValues.put(ITEM_COL_INV,
+                getForeignKey(itemHandler.getName(),
+                        TABLE_INVENTORY, INV_COL_NAME));
+        itemValues.put(ITEM_COL_QTY, itemHandler.getQuantity());
+        itemValues.put(ITEM_COL_EXP, getFormattedDate(itemHandler.getExpiration_date()));
+        itemValues.put(ITEM_COL_PDATE, getFormattedDate(itemHandler.getPurchase_date()));
+        itemValues.put(ITEM_COL_TOTCOST, itemHandler.getTotalPrice());
+        itemValues.put(ITEM_COL_UNITCOST, itemHandler.getUnitPrice());
+        itemValues.put(ITEM_COL_LOC,
+                getForeignKey(itemHandler.getLocation(),
+                        TABLE_LOCATIONS, LOC_COL_LOC));
+        itemValues.put(ITEM_COL_NOTE, itemHandler.getNotes());
+        itemDatabase.insertOrThrow(TABLE_ITEM,
+                null, itemValues);
+
+
+    }
+
+    protected void editItem(int invID, ContentValues values) {
+
+        itemDatabase = getWritableDatabase();
+
+        ContentValues next = updateTableWithCV(TABLE_INVENTORY, invID, values);
+        next = updateTableWithCV(TABLE_ITEM, invID, next);
+        next = updateTableWithCV(TABLE_LOCATIONS, invID, next);
+        next = updateTableWithCV(TABLE_CATEGORIES, invID, next);
+
+        if(next.size()>0) {
+            // TODO: add error handling here
+        }
+
+
+
+    }
+
+    protected void deleteItem(int itemID){
+        itemDatabase = getWritableDatabase();
+
+        String query = "DELETE FROM "
+                + TABLE_INVENTORY + " WHERE "
+                + KEY_ID + " = "
+                + itemID + ";";
+
+        itemDatabase.execSQL(query);
+
+        closeDatabaseIfOpen();
+    }
+
+    protected ArrayList<ItemDetails> returnMatchingItems(BaseItem baseItem){
+        ArrayList<ItemDetails> result = new ArrayList<>();
+
+        return result;
+    }
+
+
+    @Nullable
+    protected ItemHandler searchItem(int search_id){
+
+        itemDatabase = getReadableDatabase();
+
+        StringBuffer sb = new StringBuffer();
+
+        sb.append("SELECT * FROM ");
+        sb.append(TABLE_INVENTORY);
+        sb.append(" INNER JOIN ");
+        sb.append(TABLE_CATEGORIES);
+        sb.append(" ON ");
+        sb.append(INV_COL_CAT);
+        sb.append(" = ");
+        sb.append(TABLE_CATEGORIES).append('.').append(KEY_ID);
+        sb.append(" WHERE ");
+        sb.append(TABLE_INVENTORY).append('.').append(KEY_ID);
+        sb.append(" = ").append(search_id).append(';');
+
+
+        String get_row_query = "SELECT * FROM "
+                + TABLE_INVENTORY + " WHERE " + KEY_ID + " = ?";
+//        Cursor c = itemDatabase.rawQuery(get_row_query, new String[] {String.valueOf(search_id)});
+        Cursor c = itemDatabase.rawQuery(sb.toString(),null);
+
+
+        if ((c != null) && c.moveToFirst())
+        {
+            do {
+                String id = c.getString(0);
+                if(search_id == Integer.parseInt(id))
+                {
+                    ItemHandler result = new ItemHandler();
+
+                    String cName = c.getString(c.getColumnIndex(INV_COL_NAME));
+                    int cQty = c.getInt(c.getColumnIndex(INV_COL_QTY));
+                    String expString = c.getString(c.getColumnIndex(INV_COL_SED));
+                    Date cExpDate = null;
+                    if((expString != null) && (!expString.isEmpty())) {
+                        DH.itemStringToDate(expString);
+                    }
+                    String cCat = c.getString(c.getColumnIndex(CAT_COL_CAT));
+                    float cPrice = c.getFloat(c.getColumnIndex(INV_COL_AVGP));
+                    String cNotes = c.getString(c.getColumnIndex(INV_COL_NOTE));
+
+                    result.setName(cName);
+                    result.setQuantity(cQty);
+                    result.setExpiration_date(cExpDate);
+                    result.setCategory(cCat);
+                    result.setUnitPrice(cPrice);
+                    result.setNotes(cNotes);
+
+                    return result;
+                }
+            }while(c.moveToNext());
+        }
+        c.close();
+
+        return null;
+    }
+
+
+
+
+
 
     private void updateQuantity(int inventoryKey){
 
@@ -218,7 +371,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    private void updateSoonestExpirationDate(int inventoryKey){
+    private void updateSoonestExpirationDate(int inventoryKey) throws ParseException {
 
         itemDatabase = getWritableDatabase();
 
@@ -237,11 +390,11 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         if(c.moveToFirst()){
             do{
                 if(oldestDate == null){
-                    oldestDate = Date.valueOf(c.getString(0));
-                    dateFormat.format(oldestDate);
+                    oldestDate = DH.itemStringToDate(c.getString(0));
+//                    dateFormat.format(oldestDate);
                 } else {
-                    d = Date.valueOf(c.getString(0));
-                    dateFormat.format(d);
+                    d = DH.itemStringToDate(c.getString(0));
+//                    dateFormat.format(d);
 
                     if(d.before(oldestDate)){
                         oldestDate = d;
@@ -294,11 +447,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void closeDatabaseIfOpen(){
-        if(itemDatabase.isOpen()) {
-            itemDatabase.close();
-        }
-    }
+
 
     private String getFormattedDate(Date date){
         String result = null;
@@ -310,41 +459,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-    protected void addNewItem(Item item) {
-        itemDatabase = getWritableDatabase();
 
-        // Add the item to the inventory table
-        ContentValues inventoryValues = new ContentValues();
-        inventoryValues.put(INV_COL_NAME, item.getName());
-        inventoryValues.put(INV_COL_QTY, item.getQuantity());
-        inventoryValues.put(INV_COL_SED, getFormattedDate(item.getExpiration_date()));
-        inventoryValues.put(INV_COL_CAT,
-                getForeignKey(item.getCategory(),
-                        TABLE_CATEGORIES, CAT_COL_CAT));
-        inventoryValues.put(INV_COL_AVGP, item.getUnitPrice());
-        inventoryValues.put(INV_COL_NOTE, item.getNotes());
-        itemDatabase.insertOrThrow(TABLE_INVENTORY,
-                null, inventoryValues);
-
-        // Add the item to the item table
-        ContentValues itemValues = new ContentValues();
-        itemValues.put(ITEM_COL_INV,
-                getForeignKey(item.getName(),
-                        TABLE_INVENTORY, INV_COL_NAME));
-        itemValues.put(ITEM_COL_QTY, item.getQuantity());
-        itemValues.put(ITEM_COL_EXP, getFormattedDate(item.getExpiration_date()));
-        itemValues.put(ITEM_COL_PDATE, getFormattedDate(item.getPurchase_date()));
-        itemValues.put(ITEM_COL_TOTCOST, item.getTotalPrice());
-        itemValues.put(ITEM_COL_UNITCOST, item.getUnitPrice());
-        itemValues.put(ITEM_COL_LOC,
-                getForeignKey(item.getLocation(),
-                        TABLE_LOCATIONS, LOC_COL_LOC));
-        itemValues.put(ITEM_COL_NOTE, item.getNotes());
-        itemDatabase.insertOrThrow(TABLE_ITEM,
-                null, itemValues);
-
-
-    }
 
     private void addCategory(String entry) {
         itemDatabase = getWritableDatabase();
@@ -422,72 +537,13 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         return foreignKey;
     }
 
-    @Nullable
-    protected Item searchItem(int search_id){
-
-        itemDatabase = getReadableDatabase();
-        String get_row_query = "SELECT * FROM "
-                + TABLE_INVENTORY + " WHERE " + KEY_ID + " = ?";
-        Cursor c = itemDatabase.rawQuery(get_row_query, new String[] {String.valueOf(search_id)});
-
-        if ((c != null) && c.moveToFirst())
-        {
-            do {
-                String id = c.getString(0);
-                if(search_id == Integer.parseInt(id))
-                {
-                    Item result = new Item();
-                    result.setName(c.getString(c.getColumnIndex(INV_COL_NAME)));
-                    result.setQuantity(c.getInt(c.getColumnIndex(INV_COL_QTY)));
-                    // FIXME: Fix error thrown here (java.lang.IllegalArgumentException @ java.sql.Date.valueOf)
-                    // It might be happening when passed a null value
-//                    result.setExpiration_date(Date.valueOf(c.getString(c.getColumnIndex(INV_COL_SED))));
-                    result.setCategory(c.getString(c.getColumnIndex(INV_COL_CAT)));
-                    result.setUnitPrice(c.getFloat(c.getColumnIndex(INV_COL_AVGP)));
-                    result.setNotes(c.getString(c.getColumnIndex(INV_COL_NOTE)));
-
-                    return result;
-                }
-            }while(c.moveToNext());
-        }
-        c.close();
-
-        return null;
-    }
-
-    protected void deleteItem(int itemID){
-        itemDatabase = getWritableDatabase();
-
-        String query = "DELETE FROM "
-                + TABLE_INVENTORY + " WHERE "
-                + KEY_ID + " = "
-                + itemID + ";";
-
-        itemDatabase.execSQL(query);
-
-        closeDatabaseIfOpen();
-    }
-
-    private Cursor doQuery(String query){
-        return itemDatabase.rawQuery(query, null);
-    }
-
-    protected void editItem(int invID, ContentValues values) {
-
-        itemDatabase = getWritableDatabase();
-
-        ContentValues next = updateTableWithCV(TABLE_INVENTORY, invID, values);
-        next = updateTableWithCV(TABLE_ITEM, invID, next);
-        next = updateTableWithCV(TABLE_LOCATIONS, invID, next);
-        next = updateTableWithCV(TABLE_CATEGORIES, invID, next);
-
-        if(next.size()>0) {
-            // TODO: add error handling here
-        }
 
 
 
-    }
+
+
+
+
 
     private ContentValues updateTableWithCV(String table, int invID, ContentValues values){
 
@@ -540,12 +596,22 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         return values;
     }
 
-    protected Cursor getItems(){
+    public Cursor getItems(){
         itemDatabase = getReadableDatabase();
 
-        String query = "SELECT * FROM " + TABLE_INVENTORY + ';';
-        return itemDatabase.rawQuery(query, null);
+        StringBuffer sb = new StringBuffer();
 
+        sb.append("SELECT * FROM ");
+        sb.append(TABLE_INVENTORY);
+        sb.append(" INNER JOIN ");
+        sb.append(TABLE_CATEGORIES);
+        sb.append(" ON ");
+        sb.append(INV_COL_CAT);
+        sb.append(" = ");
+        sb.append(TABLE_CATEGORIES).append('.').append(KEY_ID);
+        sb.append(';');
+
+        return itemDatabase.rawQuery(sb.toString(),null);
     }
 
     protected Cursor getItems(Collection<String> typeFilters, Collection<String> locationFilters){
@@ -594,12 +660,18 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
                     query.append(str);
                     query.append("' OR ");
                 }
+                if(!typeFilters.isEmpty()) {
+                    for (String str : typeFilters) {
+                        query.append(TABLE_CATEGORIES).append('.').append(CAT_COL_CAT);
+                        query.append(" = '");
+                        query.append(str);
+                        query.append("' OR ");
+                    }
+                }
                 int lastOR = query.lastIndexOf(" OR");
                 query.delete(lastOR, lastOR + 4);
                 query.append(") ");
-            }
-
-            if(!typeFilters.isEmpty()) {
+            } else if(!typeFilters.isEmpty()) {
                 query.append(" WHERE (");
                 for (String str : typeFilters) {
                     query.append(TABLE_CATEGORIES).append('.').append(CAT_COL_CAT);
@@ -670,6 +742,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
 
         return results;
     }
+
 
 
 }
