@@ -93,6 +93,7 @@ public class PopUpAddMoreActivity extends AppCompatActivity {
                 savedPurchDate.setText(date);
             }
         };
+<<<<<<< HEAD
     }
 
     public void onClickSave(View view)
@@ -104,5 +105,9 @@ public class PopUpAddMoreActivity extends AppCompatActivity {
         //3. Go back to previous Activity
         finishActivity(0);
         onBackPressed();
+=======
+>>>>>>> 5a1c4fba243c94ede9c513535136608656368f5d
     }
+
+
 }
