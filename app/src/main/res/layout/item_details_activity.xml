@@ -144,7 +144,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="onAddMoreClick"
-            android:text="Add More" />
+            android:text="Add More"
+            android:textSize="11sp" />
 
         <Button
             android:id="@+id/itemSave"
