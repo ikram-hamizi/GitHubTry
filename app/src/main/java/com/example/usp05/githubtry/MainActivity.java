@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import com.example.usp05.githubtry.data_model.DatabaseConnector;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
+import com.example.usp05.githubtry.user_handling.ForgotPassword;
 import com.example.usp05.githubtry.user_handling.Register;
 import com.example.usp05.githubtry.user_handling.UserDatabaseSingleton;
 
@@ -53,5 +54,13 @@ public class MainActivity extends AppCompatActivity {
             Intent i = new Intent(this, Register.class);
             startActivity(i);
         }
+    }
+
+    public void onForgotPasswordClick(View view) {
+        if(view.getId() == R.id.forgotPassword) {
+            Intent intent = new Intent(this, ForgotPassword.class);
+            startActivity(intent);
+        }
+
     }
 }

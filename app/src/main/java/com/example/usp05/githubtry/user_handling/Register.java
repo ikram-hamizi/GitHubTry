@@ -25,41 +25,35 @@ public class Register extends Activity {
 
     public void onRegisterClick(View view) {
         if(view.getId() == R.id.registerButton) {
-            EditText username = findViewById(R.id.usernameRegister);
-            EditText password = findViewById(R.id.passwordRegister);
-            EditText password2 = findViewById(R.id.password2Register);
-            EditText secQuestion1 = findViewById(R.id.secQuestion1);
-            EditText secQuestion2 = findViewById(R.id.secQuestion2);
-            EditText secQuestion3 = findViewById(R.id.secQuestion3);
 
-            String usernameStr = username.getText().toString();
-            String passwordStr = password.getText().toString();
-            String password2Str = password2.getText().toString();
-            String secQuestion1Str = secQuestion1.getText().toString();
-            String secQuestion2Str = secQuestion2.getText().toString();
-            String secQuestion3Str = secQuestion3.getText().toString();
+            String username = ((EditText) findViewById(R.id.usernameRegister)).getText().toString();
+            String password = ((EditText) findViewById(R.id.passwordRegister)).getText().toString();
+            String password2 = ((EditText) findViewById(R.id.password2Register)).getText().toString();
+            String secQuestion1 = ((EditText) findViewById(R.id.secQuestion1)).getText().toString();
+            String secQuestion2 = ((EditText) findViewById(R.id.secQuestion2)).getText().toString();
+            String secQuestion3 = ((EditText) findViewById(R.id.secQuestion3)).getText().toString();
 
-            if(UDS.checkUser(usernameStr)) {
+            if(UDS.checkUser(username)) {
                 Toast message = Toast.makeText(this, R.string.badUsername, Toast.LENGTH_SHORT);
                 message.show();
             }
-            else if(((usernameStr != null) && usernameStr.isEmpty()) || "".equals(password) || "".equals(password2) ||
-                    ((secQuestion1Str != null) && secQuestion1Str.isEmpty()) || ((secQuestion2Str != null) && secQuestion2Str.isEmpty()) || ((secQuestion3Str != null) && secQuestion3Str.isEmpty())) {
+            else if(username.isEmpty() || password.isEmpty() || password2.isEmpty() || secQuestion1.isEmpty()
+                    || secQuestion2.isEmpty() || secQuestion3.isEmpty()) {
                 Toast message = Toast.makeText(this, R.string.emptyRegistrationFields, Toast.LENGTH_SHORT);
                 message.show();
             }
-            else if (!(passwordStr.equals(password2Str))) {
+            else if (!(password.equals(password2))) {
                 Toast message = Toast.makeText(this, R.string.inequalRegistrationPasswords, Toast.LENGTH_SHORT);
                 message.show();
             }
             else {
                 // insert details into database
                 User newUser = new User();
-                newUser.setUsername(usernameStr);
-                newUser.setPassword(passwordStr);
-                newUser.setSecurityAnswer1(secQuestion1Str);
-                newUser.setSecurityAnswer2(secQuestion2Str);
-                newUser.setSecurityAnswer3(secQuestion3Str);
+                newUser.setUsername(username);
+                newUser.setPassword(password);
+                newUser.setSecurityAnswer1(secQuestion1);
+                newUser.setSecurityAnswer2(secQuestion2);
+                newUser.setSecurityAnswer3(secQuestion3);
 
                 UDS.createUser(newUser);
 

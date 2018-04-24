@@ -23,6 +23,8 @@
         <activity android:name=".item_manipulation.ItemDisplayDetails" />
         <activity android:name=".item_manipulation.EditItemActivity" />
         <activity android:name=".item_filtering.FilterActivity" />
+        <activity android:name=".user_handling.ForgotPassword"></activity>
+        <activity android:name=".user_handling.ChangePassword"></activity>
     </application>
 
 </manifest>

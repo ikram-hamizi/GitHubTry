@@ -204,6 +204,16 @@ class UserDatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    protected Cursor getSecAnswers(String username) {
+        userDatabase = getReadableDatabase();
+        String query = "SELECT " + COLUMN_SEC_ANS_1 + ", " +  COLUMN_SEC_ANS_2 + ", " + COLUMN_SEC_ANS_3
+                + " FROM " + TABLE_USERS
+                + " WHERE " + COLUMN_USERNAME + " = '" + username + "';";
+        Cursor cursor = userDatabase.rawQuery(query, null);
+        return cursor;
+    }
+
+    // TODO: this method does not work
     protected User getUser(String username){
         userDatabase = getReadableDatabase();
 
@@ -234,5 +244,12 @@ class UserDatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
-
+    protected void updatePassword(String username, String password) {
+        userDatabase = this.getWritableDatabase();
+        String query = "UPDATE " + TABLE_USERS +
+                " SET " + COLUMN_PASSWORD + " = '" + password + "'" +
+                " WHERE " + COLUMN_USERNAME + " = '" + username + "';";
+        userDatabase.execSQL(query);
+        userDatabase.close();
+    }
 }

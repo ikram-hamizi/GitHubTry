@@ -5,6 +5,9 @@
     <string name="badUsername">Username is already taken!</string>
     <string name="emptyRegistrationFields">Entries cannot be empty!</string>
     <string name="inequalRegistrationPasswords">Passwords are not the same!</string>
+    <string name="invalidUsername">Invalid Username!</string>
+    <string name="invalidSecQuestions">Answers for security questions are not correct!</string>
+    <string name="passwordChangeSuccess">Password Change Successful!</string>
 
 
     <!-- Strings related to Settings -->
