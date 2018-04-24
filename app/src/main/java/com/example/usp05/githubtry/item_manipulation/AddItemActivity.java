@@ -9,8 +9,8 @@ import android.widget.AutoCompleteTextView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.usp05.githubtry.data_model.ItemHandler;
-import com.example.usp05.githubtry.data_model.ItemDatabaseSingleton;
+import com.example.usp05.githubtry.data_model.DatabaseConnector;
+import com.example.usp05.githubtry.data_model.Item;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
 import com.example.usp05.githubtry.R;
 
@@ -22,7 +22,8 @@ import java.util.List;
 
 public class AddItemActivity extends AppCompatActivity
 {
-    private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance();
+
+    DatabaseConnector DBC = DatabaseConnector.getInstance();
     AutoCompleteTextView location_aCTV, category_aCTV;
 
 
@@ -32,12 +33,12 @@ public class AddItemActivity extends AppCompatActivity
         setContentView(R.layout.add_item_activity);
 
         location_aCTV = (AutoCompleteTextView) findViewById(R.id.aCTV_item_location);
-        List<String> locations = IDS.getLocations();
+        List<String> locations = DBC.getLocations();
         String[] location_suggestions = locations.toArray(new String[locations.size()]);
         ArrayAdapter<String> locationAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,location_suggestions);
 
         category_aCTV = (AutoCompleteTextView) findViewById(R.id.aCTV_item_category);
-        List<String> categories = IDS.getCategories();
+        List<String> categories = DBC.getCategories();
         String[] category_suggestions = categories.toArray(new String[categories.size()]);
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,category_suggestions);
 
@@ -73,20 +74,21 @@ public class AddItemActivity extends AppCompatActivity
                 message.show();
             }
 
-            ItemHandler newItemHandler = new ItemHandler();
-            newItemHandler.setName(item_name);
-            newItemHandler.setLocation(item_location);
-            newItemHandler.setCategory(item_category);
+            Item item = new Item();
+
+            item.setName(item_name);
+            item.setLocation(item_location);
+            item.setCategory(item_category);
 
             // FIXME: Fix newItemHandler date and price formatting
-//            newItemHandler.setPurchase_date(item_datePurchased);
-//            newItemHandler.setExpiration_date(item_dateExpired);
-//            newItemHandler.setTotalPrice(item_price);
-            newItemHandler.setNotes(item_note);
-            newItemHandler.setQuantity(item_quantity);
+            item.setPurchaseDateString(item_datePurchased);
+            item.setExpirationDateString(item_dateExpired);
+            item.setPrice(Integer.valueOf(item_price));
+            item.setNotes(item_note);
+            item.setQuantity(item_quantity);
 
             //Insert ItemHandler to DB
-            IDS.insertItem(newItemHandler);
+            DBC.addItem(item);
 
             // TODO: Fix this toast message
 //            db_helper.insertedToast(this).show();

@@ -1,4 +1,4 @@
-package com.example.usp05.githubtry.data_model;
+package com.example.usp05.githubtry.temp_backup;
 
 import android.database.Cursor;
 
@@ -9,7 +9,6 @@ import java.util.Collection;
 import java.util.List;
 
 import static com.example.usp05.githubtry.AppContext.getContext;
-import static com.example.usp05.githubtry.data_model.ItemDatabase.*;
 
 
 /**
@@ -56,14 +55,14 @@ public class ItemDatabaseSingleton {
 
     private ItemDatabaseSingleton(String username){
         String DB_Name = username + "_db";
-        itemHelper = new ItemDatabaseHelper(getContext(), DB_Name, null, DATABASE_VERSION);
+        itemHelper = new ItemDatabaseHelper(getContext(), DB_Name, null, ItemDatabase.DATABASE_VERSION);
         user = new User();
         user.setUsername(username);
     }
 
     private ItemDatabaseSingleton(User u) {
         String DB_Name = u.getUsername() + "_db";
-        itemHelper = new ItemDatabaseHelper(getContext(), DB_Name, null, DATABASE_VERSION);
+        itemHelper = new ItemDatabaseHelper(getContext(), DB_Name, null, ItemDatabase.DATABASE_VERSION);
         user = u;
     }
 
@@ -106,90 +105,90 @@ public class ItemDatabaseSingleton {
 
 
     public static String getTableInventory() {
-        return TABLE_INVENTORY;
+        return ItemDatabase.TABLE_INVENTORY;
     }
 
     public static String getTableItem() {
-        return TABLE_ITEM;
+        return ItemDatabase.TABLE_ITEM;
     }
 
     public static String getTableLocations() {
-        return TABLE_LOCATIONS;
+        return ItemDatabase.TABLE_LOCATIONS;
     }
 
     public static String getTableCategories() {
-        return TABLE_CATEGORIES;
+        return ItemDatabase.TABLE_CATEGORIES;
     }
 
     public static String getKeyId() {
-        return KEY_ID;
+        return ItemDatabase.KEY_ID;
     }
 
     public static String getKeyCreatedAt() {
-        return KEY_CREATED_AT;
+        return ItemDatabase.KEY_CREATED_AT;
     }
 
     public static String getInvColName() {
-        return INV_COL_NAME;
+        return ItemDatabase.INV_COL_NAME;
     }
 
     public static String getInvColQty() {
-        return INV_COL_QTY;
+        return ItemDatabase.INV_COL_QTY;
     }
 
     public static String getInvColSed() {
-        return INV_COL_SED;
+        return ItemDatabase.INV_COL_SED;
     }
 
     public static String getInvColCat() {
-        return INV_COL_CAT;
+        return ItemDatabase.INV_COL_CAT;
     }
 
     public static String getInvColAvgp() {
-        return INV_COL_AVGP;
+        return ItemDatabase.INV_COL_AVGP;
     }
 
     public static String getInvColNote() {
-        return INV_COL_NOTE;
+        return ItemDatabase.INV_COL_NOTE;
     }
 
     public static String getItemColInv() {
-        return ITEM_COL_INV;
+        return ItemDatabase.ITEM_COL_INV;
     }
 
     public static String getItemColQty() {
-        return ITEM_COL_QTY;
+        return ItemDatabase.ITEM_COL_QTY;
     }
 
     public static String getItemColExp() {
-        return ITEM_COL_EXP;
+        return ItemDatabase.ITEM_COL_EXP;
     }
 
     public static String getItemColPdate() {
-        return ITEM_COL_PDATE;
+        return ItemDatabase.ITEM_COL_PDATE;
     }
 
     public static String getItemColTotcost() {
-        return ITEM_COL_TOTCOST;
+        return ItemDatabase.ITEM_COL_TOTCOST;
     }
 
     public static String getItemColUnitcost() {
-        return ITEM_COL_UNITCOST;
+        return ItemDatabase.ITEM_COL_UNITCOST;
     }
 
     public static String getItemColLoc() {
-        return ITEM_COL_LOC;
+        return ItemDatabase.ITEM_COL_LOC;
     }
 
     public static String getItemColNote() {
-        return ITEM_COL_NOTE;
+        return ItemDatabase.ITEM_COL_NOTE;
     }
 
     public static String getLocColLoc() {
-        return LOC_COL_LOC;
+        return ItemDatabase.LOC_COL_LOC;
     }
 
     public static String getCatColCat() {
-        return CAT_COL_CAT;
+        return ItemDatabase.CAT_COL_CAT;
     }
 }

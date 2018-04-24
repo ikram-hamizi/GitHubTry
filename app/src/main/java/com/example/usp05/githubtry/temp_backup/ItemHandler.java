@@ -1,20 +1,8 @@
-package com.example.usp05.githubtry.data_model;
+package com.example.usp05.githubtry.temp_backup;
 
-import android.database.Cursor;
-
-import java.io.InvalidObjectException;
-import java.sql.SQLException;
-import java.sql.Struct;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.ListIterator;
-import java.util.Map;
-
-import com.example.usp05.githubtry.data_model.DatabaseItem.*;
-import com.example.usp05.githubtry.data_model.ItemDatabaseHelper.*;
 
 /**
  * Created by Ikram Hamizi on 3/24/18.
@@ -24,7 +12,7 @@ class ItemHandler extends ItemDetails {
 
     public ItemHandler() {}
 
-    ListIterator<itemData> litr = data.listIterator();
+    ListIterator<DatabaseItem.itemData> litr = data.listIterator();
 
     private String location;
     private Date purchase_date;
@@ -64,9 +52,9 @@ class ItemHandler extends ItemDetails {
             return false;
         }
 
-        Iterator<itemData> itr = data.iterator();
+        Iterator<DatabaseItem.itemData> itr = data.iterator();
         while (itr.hasNext()){
-            itemData id = itr.next();
+            DatabaseItem.itemData id = itr.next();
             if (id.location == null) {
                 return false;
             }
@@ -92,11 +80,11 @@ class ItemHandler extends ItemDetails {
     private void updateTotalQuantity(){
         if (this.isValid()) {
             totalQuantity = 0;
-            Iterator<itemData> itr = data.iterator();
+            Iterator<DatabaseItem.itemData> itr = data.iterator();
 
             if ((data != null) && (itr.hasNext())) {
                 while(itr.hasNext()){
-                    itemData id = itr.next();
+                    DatabaseItem.itemData id = itr.next();
                     totalQuantity += id.quantity;
                 }
             }
@@ -113,7 +101,7 @@ class ItemHandler extends ItemDetails {
 
     void createItem(Item item){
         DatabaseItem dbI = new DatabaseItem();
-        itemData id = new itemData();
+        DatabaseItem.itemData id = new DatabaseItem.itemData();
 
         id.expiration_date = item.expirationDate;
         id.location = item.location;

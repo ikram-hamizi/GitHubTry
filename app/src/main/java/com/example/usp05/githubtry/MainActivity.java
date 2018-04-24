@@ -7,7 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.usp05.githubtry.data_model.ItemDatabaseSingleton;
+import com.example.usp05.githubtry.data_model.DatabaseConnector;
+import com.example.usp05.githubtry.temp_backup.ItemDatabaseSingleton;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
 import com.example.usp05.githubtry.user_handling.Register;
 import com.example.usp05.githubtry.user_handling.UserDatabaseSingleton;
@@ -36,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
             }
             else if(UDS.checkUser(usernameStr,passwordStr)){
                 UDS.setUser(usernameStr);
-                ItemDatabaseSingleton DBS = ItemDatabaseSingleton.getInstance(UDS.getUser());
+//                ItemDatabaseSingleton DBS = ItemDatabaseSingleton.getInstance(UDS.getUser());
+                DatabaseConnector DBC = DatabaseConnector.getInstance(UDS.getUser());
                 startActivity(new Intent(this, InventoryActivity.class));
             }
             else {

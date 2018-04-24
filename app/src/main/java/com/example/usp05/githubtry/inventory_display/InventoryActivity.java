@@ -10,7 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.usp05.githubtry.data_model.ItemDatabaseSingleton;
+import com.example.usp05.githubtry.data_model.DatabaseConnector;
 import com.example.usp05.githubtry.item_manipulation.AddItemActivity;
 import com.example.usp05.githubtry.item_filtering.FilterActivity;
 import com.example.usp05.githubtry.R;
@@ -28,8 +28,8 @@ import java.util.Collection;
 public class InventoryActivity extends Activity {
 
     String username;
+    DatabaseConnector DBC = DatabaseConnector.getInstance();
 
-    private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +70,8 @@ public class InventoryActivity extends Activity {
 
         // TODO: Incorporate "You have no items" result
 
-        return IDS.getItems(typeFilters, locationFilters);
+        // TODO: Actually implement filters
+
+        return DBC.getInventoryCursor();
     }
 }

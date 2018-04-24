@@ -1,4 +1,4 @@
-package com.example.usp05.githubtry.data_model;
+package com.example.usp05.githubtry.temp_backup;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -15,9 +15,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import static com.example.usp05.githubtry.data_model.ItemDatabase.*;
-import com.example.usp05.githubtry.data_model.ItemHelper.*;
 
 /**
  * Created by nathan on 4/20/18.
@@ -83,21 +80,21 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         StringBuffer sb = new StringBuffer();
 
         ContentValues categoryValues = new ContentValues();
-        categoryValues.put(CAT_COL_CAT, "Other");
-        itemDatabase.insertOrThrow(TABLE_CATEGORIES, null, categoryValues);
+        categoryValues.put(ItemDatabase.CAT_COL_CAT, "Other");
+        itemDatabase.insertOrThrow(ItemDatabase.TABLE_CATEGORIES, null, categoryValues);
 
         ContentValues locationValues = new ContentValues();
-        locationValues.put(LOC_COL_LOC, "Other");
-        itemDatabase.insertOrThrow(TABLE_LOCATIONS, null, locationValues);
+        locationValues.put(ItemDatabase.LOC_COL_LOC, "Other");
+        itemDatabase.insertOrThrow(ItemDatabase.TABLE_LOCATIONS, null, locationValues);
 
     }
 
     private void createTables(SQLiteDatabase db) {
-        db.execSQL(ENABLE_FOREIGN_KEYS);
-        db.execSQL(CREATE_CATEGORY_TABLE);
-        db.execSQL(CREATE_LOCATION_TABLE);
-        db.execSQL(CREATE_INVENTORY_TABLE);
-        db.execSQL(CREATE_ITEM_TABLE);
+        db.execSQL(ItemDatabase.ENABLE_FOREIGN_KEYS);
+        db.execSQL(ItemDatabase.CREATE_CATEGORY_TABLE);
+        db.execSQL(ItemDatabase.CREATE_LOCATION_TABLE);
+        db.execSQL(ItemDatabase.CREATE_INVENTORY_TABLE);
+        db.execSQL(ItemDatabase.CREATE_ITEM_TABLE);
     }
 
     /**
@@ -122,10 +119,10 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
      */
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL(DROP_ITEM_TABLE);
-        db.execSQL(DROP_INVENTORY_TABLE);
-        db.execSQL(DROP_CATEGORY_TABLE);
-        db.execSQL(DROP_LOCATION_TABLE);
+        db.execSQL(ItemDatabase.DROP_ITEM_TABLE);
+        db.execSQL(ItemDatabase.DROP_INVENTORY_TABLE);
+        db.execSQL(ItemDatabase.DROP_CATEGORY_TABLE);
+        db.execSQL(ItemDatabase.DROP_LOCATION_TABLE);
         onCreate(db);
     }
 
@@ -176,23 +173,23 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
     protected void addItem(ItemHandler itemHandler) throws ParseException {
         itemDatabase = getWritableDatabase();
 
-        int foreignKey = getForeignKey(itemHandler.getName(), TABLE_INVENTORY, INV_COL_NAME);
+        int foreignKey = getForeignKey(itemHandler.getName(), ItemDatabase.TABLE_INVENTORY, ItemDatabase.INV_COL_NAME);
 
         // Add the itemHandler to the itemHandler table
         ContentValues itemValues = new ContentValues();
-        itemValues.put(ITEM_COL_INV, foreignKey);
-        itemValues.put(ITEM_COL_QTY, itemHandler.getQuantity());
-        itemValues.put(ITEM_COL_EXP,
+        itemValues.put(ItemDatabase.ITEM_COL_INV, foreignKey);
+        itemValues.put(ItemDatabase.ITEM_COL_QTY, itemHandler.getQuantity());
+        itemValues.put(ItemDatabase.ITEM_COL_EXP,
                 dateFormat.format(itemHandler.getExpiration_date()));
-        itemValues.put(ITEM_COL_PDATE,
+        itemValues.put(ItemDatabase.ITEM_COL_PDATE,
                 dateFormat.format(itemHandler.getPurchase_date()));
-        itemValues.put(ITEM_COL_TOTCOST, itemHandler.getTotalPrice());
-        itemValues.put(ITEM_COL_UNITCOST, itemHandler.getUnitPrice());
-        itemValues.put(ITEM_COL_LOC,
+        itemValues.put(ItemDatabase.ITEM_COL_TOTCOST, itemHandler.getTotalPrice());
+        itemValues.put(ItemDatabase.ITEM_COL_UNITCOST, itemHandler.getUnitPrice());
+        itemValues.put(ItemDatabase.ITEM_COL_LOC,
                 getForeignKey(itemHandler.getLocation(),
-                        TABLE_LOCATIONS, LOC_COL_LOC));
-        itemValues.put(ITEM_COL_NOTE, itemHandler.getNotes());
-        itemDatabase.insertOrThrow(TABLE_ITEM,
+                        ItemDatabase.TABLE_LOCATIONS, ItemDatabase.LOC_COL_LOC));
+        itemValues.put(ItemDatabase.ITEM_COL_NOTE, itemHandler.getNotes());
+        itemDatabase.insertOrThrow(ItemDatabase.TABLE_ITEM,
                 null, itemValues);
 
         updateQuantity(foreignKey);
@@ -205,32 +202,32 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
 
         // Add the itemHandler to the inventory table
         ContentValues inventoryValues = new ContentValues();
-        inventoryValues.put(INV_COL_NAME, itemHandler.getName());
-        inventoryValues.put(INV_COL_QTY, itemHandler.getQuantity());
-        inventoryValues.put(INV_COL_SED, getFormattedDate(itemHandler.getExpiration_date()));
-        inventoryValues.put(INV_COL_CAT,
+        inventoryValues.put(ItemDatabase.INV_COL_NAME, itemHandler.getName());
+        inventoryValues.put(ItemDatabase.INV_COL_QTY, itemHandler.getQuantity());
+        inventoryValues.put(ItemDatabase.INV_COL_SED, getFormattedDate(itemHandler.getExpiration_date()));
+        inventoryValues.put(ItemDatabase.INV_COL_CAT,
                 getForeignKey(itemHandler.getCategory(),
-                        TABLE_CATEGORIES, CAT_COL_CAT));
-        inventoryValues.put(INV_COL_AVGP, itemHandler.getUnitPrice());
-        inventoryValues.put(INV_COL_NOTE, itemHandler.getNotes());
-        itemDatabase.insertOrThrow(TABLE_INVENTORY,
+                        ItemDatabase.TABLE_CATEGORIES, ItemDatabase.CAT_COL_CAT));
+        inventoryValues.put(ItemDatabase.INV_COL_AVGP, itemHandler.getUnitPrice());
+        inventoryValues.put(ItemDatabase.INV_COL_NOTE, itemHandler.getNotes());
+        itemDatabase.insertOrThrow(ItemDatabase.TABLE_INVENTORY,
                 null, inventoryValues);
 
         // Add the itemHandler to the itemHandler table
         ContentValues itemValues = new ContentValues();
-        itemValues.put(ITEM_COL_INV,
+        itemValues.put(ItemDatabase.ITEM_COL_INV,
                 getForeignKey(itemHandler.getName(),
-                        TABLE_INVENTORY, INV_COL_NAME));
-        itemValues.put(ITEM_COL_QTY, itemHandler.getQuantity());
-        itemValues.put(ITEM_COL_EXP, getFormattedDate(itemHandler.getExpiration_date()));
-        itemValues.put(ITEM_COL_PDATE, getFormattedDate(itemHandler.getPurchase_date()));
-        itemValues.put(ITEM_COL_TOTCOST, itemHandler.getTotalPrice());
-        itemValues.put(ITEM_COL_UNITCOST, itemHandler.getUnitPrice());
-        itemValues.put(ITEM_COL_LOC,
+                        ItemDatabase.TABLE_INVENTORY, ItemDatabase.INV_COL_NAME));
+        itemValues.put(ItemDatabase.ITEM_COL_QTY, itemHandler.getQuantity());
+        itemValues.put(ItemDatabase.ITEM_COL_EXP, getFormattedDate(itemHandler.getExpiration_date()));
+        itemValues.put(ItemDatabase.ITEM_COL_PDATE, getFormattedDate(itemHandler.getPurchase_date()));
+        itemValues.put(ItemDatabase.ITEM_COL_TOTCOST, itemHandler.getTotalPrice());
+        itemValues.put(ItemDatabase.ITEM_COL_UNITCOST, itemHandler.getUnitPrice());
+        itemValues.put(ItemDatabase.ITEM_COL_LOC,
                 getForeignKey(itemHandler.getLocation(),
-                        TABLE_LOCATIONS, LOC_COL_LOC));
-        itemValues.put(ITEM_COL_NOTE, itemHandler.getNotes());
-        itemDatabase.insertOrThrow(TABLE_ITEM,
+                        ItemDatabase.TABLE_LOCATIONS, ItemDatabase.LOC_COL_LOC));
+        itemValues.put(ItemDatabase.ITEM_COL_NOTE, itemHandler.getNotes());
+        itemDatabase.insertOrThrow(ItemDatabase.TABLE_ITEM,
                 null, itemValues);
 
 
@@ -240,10 +237,10 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
 
         itemDatabase = getWritableDatabase();
 
-        ContentValues next = updateTableWithCV(TABLE_INVENTORY, invID, values);
-        next = updateTableWithCV(TABLE_ITEM, invID, next);
-        next = updateTableWithCV(TABLE_LOCATIONS, invID, next);
-        next = updateTableWithCV(TABLE_CATEGORIES, invID, next);
+        ContentValues next = updateTableWithCV(ItemDatabase.TABLE_INVENTORY, invID, values);
+        next = updateTableWithCV(ItemDatabase.TABLE_ITEM, invID, next);
+        next = updateTableWithCV(ItemDatabase.TABLE_LOCATIONS, invID, next);
+        next = updateTableWithCV(ItemDatabase.TABLE_CATEGORIES, invID, next);
 
         if(next.size()>0) {
             // TODO: add error handling here
@@ -257,8 +254,8 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         itemDatabase = getWritableDatabase();
 
         String query = "DELETE FROM "
-                + TABLE_INVENTORY + " WHERE "
-                + KEY_ID + " = "
+                + ItemDatabase.TABLE_INVENTORY + " WHERE "
+                + ItemDatabase.KEY_ID + " = "
                 + itemID + ";";
 
         itemDatabase.execSQL(query);
@@ -266,7 +263,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         closeDatabaseIfOpen();
     }
 
-    protected ArrayList<ItemDetails> returnMatchingItems(BaseItem baseItem){
+    protected ArrayList<ItemDetails> returnMatchingItems(ItemHelper.BaseItem baseItem){
         ArrayList<ItemDetails> result = new ArrayList<>();
 
         return result;
@@ -281,20 +278,20 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         StringBuffer sb = new StringBuffer();
 
         sb.append("SELECT * FROM ");
-        sb.append(TABLE_INVENTORY);
+        sb.append(ItemDatabase.TABLE_INVENTORY);
         sb.append(" INNER JOIN ");
-        sb.append(TABLE_CATEGORIES);
+        sb.append(ItemDatabase.TABLE_CATEGORIES);
         sb.append(" ON ");
-        sb.append(INV_COL_CAT);
+        sb.append(ItemDatabase.INV_COL_CAT);
         sb.append(" = ");
-        sb.append(TABLE_CATEGORIES).append('.').append(KEY_ID);
+        sb.append(ItemDatabase.TABLE_CATEGORIES).append('.').append(ItemDatabase.KEY_ID);
         sb.append(" WHERE ");
-        sb.append(TABLE_INVENTORY).append('.').append(KEY_ID);
+        sb.append(ItemDatabase.TABLE_INVENTORY).append('.').append(ItemDatabase.KEY_ID);
         sb.append(" = ").append(search_id).append(';');
 
 
         String get_row_query = "SELECT * FROM "
-                + TABLE_INVENTORY + " WHERE " + KEY_ID + " = ?";
+                + ItemDatabase.TABLE_INVENTORY + " WHERE " + ItemDatabase.KEY_ID + " = ?";
 //        Cursor c = itemDatabase.rawQuery(get_row_query, new String[] {String.valueOf(search_id)});
         Cursor c = itemDatabase.rawQuery(sb.toString(),null);
 
@@ -307,16 +304,16 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
                 {
                     ItemHandler result = new ItemHandler();
 
-                    String cName = c.getString(c.getColumnIndex(INV_COL_NAME));
-                    int cQty = c.getInt(c.getColumnIndex(INV_COL_QTY));
-                    String expString = c.getString(c.getColumnIndex(INV_COL_SED));
+                    String cName = c.getString(c.getColumnIndex(ItemDatabase.INV_COL_NAME));
+                    int cQty = c.getInt(c.getColumnIndex(ItemDatabase.INV_COL_QTY));
+                    String expString = c.getString(c.getColumnIndex(ItemDatabase.INV_COL_SED));
                     Date cExpDate = null;
                     if((expString != null) && (!expString.isEmpty())) {
                         DH.itemStringToDate(expString);
                     }
-                    String cCat = c.getString(c.getColumnIndex(CAT_COL_CAT));
-                    float cPrice = c.getFloat(c.getColumnIndex(INV_COL_AVGP));
-                    String cNotes = c.getString(c.getColumnIndex(INV_COL_NOTE));
+                    String cCat = c.getString(c.getColumnIndex(ItemDatabase.CAT_COL_CAT));
+                    float cPrice = c.getFloat(c.getColumnIndex(ItemDatabase.INV_COL_AVGP));
+                    String cNotes = c.getString(c.getColumnIndex(ItemDatabase.INV_COL_NOTE));
 
                     result.setName(cName);
                     result.setQuantity(cQty);
@@ -346,9 +343,9 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         int newQuantity = 0;
 
         String query = "SELECT "
-                + ITEM_COL_QTY + " FROM "
-                + TABLE_ITEM + " WHERE "
-                + ITEM_COL_INV + " = "
+                + ItemDatabase.ITEM_COL_QTY + " FROM "
+                + ItemDatabase.TABLE_ITEM + " WHERE "
+                + ItemDatabase.ITEM_COL_INV + " = "
                 + String.valueOf(inventoryKey)
                 + ";";
 
@@ -362,12 +359,12 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         c.close();
 
         ContentValues values = new ContentValues();
-        values.put(INV_COL_QTY, newQuantity);
+        values.put(ItemDatabase.INV_COL_QTY, newQuantity);
 
-        query = KEY_ID + " = ?";
+        query = ItemDatabase.KEY_ID + " = ?";
         String whereArgs[] = {String.valueOf(inventoryKey)};
 
-        itemDatabase.update(TABLE_INVENTORY, values, query, whereArgs);
+        itemDatabase.update(ItemDatabase.TABLE_INVENTORY, values, query, whereArgs);
 
     }
 
@@ -379,9 +376,9 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         Date d = null;
 
         String query = "SELECT "
-                + ITEM_COL_EXP + " FROM "
-                + TABLE_ITEM + " WHERE "
-                + ITEM_COL_INV + " = "
+                + ItemDatabase.ITEM_COL_EXP + " FROM "
+                + ItemDatabase.TABLE_ITEM + " WHERE "
+                + ItemDatabase.ITEM_COL_INV + " = "
                 + String.valueOf(inventoryKey)
                 + ";";
 
@@ -405,12 +402,12 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         c.close();
 
         ContentValues values = new ContentValues();
-        values.put(INV_COL_SED, dateFormat.format(oldestDate));
+        values.put(ItemDatabase.INV_COL_SED, dateFormat.format(oldestDate));
 
-        query = KEY_ID + " = ?";
+        query = ItemDatabase.KEY_ID + " = ?";
         String whereArgs[] = {String.valueOf(inventoryKey)};
 
-        itemDatabase.update(TABLE_INVENTORY, values, query, whereArgs);
+        itemDatabase.update(ItemDatabase.TABLE_INVENTORY, values, query, whereArgs);
 
     }
 
@@ -421,9 +418,9 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         StringBuilder sb = new StringBuilder();
 
         String query = "SELECT "
-                + ITEM_COL_NOTE + " FROM "
-                + TABLE_ITEM + " WHERE "
-                + ITEM_COL_INV + " = "
+                + ItemDatabase.ITEM_COL_NOTE + " FROM "
+                + ItemDatabase.TABLE_ITEM + " WHERE "
+                + ItemDatabase.ITEM_COL_INV + " = "
                 + String.valueOf(inventoryKey)
                 + ";";
 
@@ -438,12 +435,12 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         c.close();
 
         ContentValues values = new ContentValues();
-        values.put(INV_COL_NOTE, sb.toString());
+        values.put(ItemDatabase.INV_COL_NOTE, sb.toString());
 
-        query = KEY_ID + " = ?";
+        query = ItemDatabase.KEY_ID + " = ?";
         String whereArgs[] = {String.valueOf(inventoryKey)};
 
-        itemDatabase.update(TABLE_INVENTORY, values, query, whereArgs);
+        itemDatabase.update(ItemDatabase.TABLE_INVENTORY, values, query, whereArgs);
 
     }
 
@@ -465,8 +462,8 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         itemDatabase = getWritableDatabase();
 
         String query = "INSERT INTO "
-                + TABLE_CATEGORIES + '('
-                + CAT_COL_CAT + ") VALUES ('"
+                + ItemDatabase.TABLE_CATEGORIES + '('
+                + ItemDatabase.CAT_COL_CAT + ") VALUES ('"
                 + entry + "');";
 
         itemDatabase.execSQL(query);
@@ -476,8 +473,8 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         itemDatabase = getWritableDatabase();
 
         String query = "INSERT INTO "
-                + TABLE_LOCATIONS + '('
-                + LOC_COL_LOC + ") VALUES ('"
+                + ItemDatabase.TABLE_LOCATIONS + '('
+                + ItemDatabase.LOC_COL_LOC + ") VALUES ('"
                 + entry + "');";
 
         itemDatabase.execSQL(query);
@@ -500,9 +497,9 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
             String eStr = e.toString();
             if(eStr.contains("no such column")) {
 
-                if(tableName.equals(TABLE_CATEGORIES)){
+                if(tableName.equals(ItemDatabase.TABLE_CATEGORIES)){
                     addCategory(entry);
-                } else if(tableName.equals(TABLE_LOCATIONS)){
+                } else if(tableName.equals(ItemDatabase.TABLE_LOCATIONS)){
                     addLocation(entry);
                 } else {
                     throw e;
@@ -585,7 +582,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
             int lastComma = sb.lastIndexOf(", ");
             sb.delete(lastComma, lastComma+2);
             sb.append(" WHERE ");
-            sb.append(KEY_ID);
+            sb.append(ItemDatabase.KEY_ID);
             sb.append(" = ");
             sb.append(invID).append(';');
             itemDatabase.execSQL(sb.toString());
@@ -602,13 +599,13 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         StringBuffer sb = new StringBuffer();
 
         sb.append("SELECT * FROM ");
-        sb.append(TABLE_INVENTORY);
+        sb.append(ItemDatabase.TABLE_INVENTORY);
         sb.append(" INNER JOIN ");
-        sb.append(TABLE_CATEGORIES);
+        sb.append(ItemDatabase.TABLE_CATEGORIES);
         sb.append(" ON ");
-        sb.append(INV_COL_CAT);
+        sb.append(ItemDatabase.INV_COL_CAT);
         sb.append(" = ");
-        sb.append(TABLE_CATEGORIES).append('.').append(KEY_ID);
+        sb.append(ItemDatabase.TABLE_CATEGORIES).append('.').append(ItemDatabase.KEY_ID);
         sb.append(';');
 
         return itemDatabase.rawQuery(sb.toString(),null);
@@ -629,40 +626,40 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
             query.append("SELECT ");
             query.append(" * ");
             query.append(" FROM ");
-            query.append(TABLE_ITEM);
+            query.append(ItemDatabase.TABLE_ITEM);
 
             query.append(" INNER JOIN ");
-            query.append(TABLE_INVENTORY);
+            query.append(ItemDatabase.TABLE_INVENTORY);
             query.append(" ON ");
-            query.append(TABLE_INVENTORY).append('.').append(KEY_ID);
+            query.append(ItemDatabase.TABLE_INVENTORY).append('.').append(ItemDatabase.KEY_ID);
             query.append(" = ");
-            query.append(TABLE_ITEM).append('.').append(ITEM_COL_INV);
+            query.append(ItemDatabase.TABLE_ITEM).append('.').append(ItemDatabase.ITEM_COL_INV);
 
             query.append(" INNER JOIN ");
-            query.append(TABLE_LOCATIONS);
+            query.append(ItemDatabase.TABLE_LOCATIONS);
             query.append(" ON ");
-            query.append(TABLE_LOCATIONS).append('.').append(KEY_ID);
+            query.append(ItemDatabase.TABLE_LOCATIONS).append('.').append(ItemDatabase.KEY_ID);
             query.append(" = ");
-            query.append(TABLE_ITEM).append('.').append(ITEM_COL_LOC);
+            query.append(ItemDatabase.TABLE_ITEM).append('.').append(ItemDatabase.ITEM_COL_LOC);
 
             query.append(" INNER JOIN ");
-            query.append(TABLE_CATEGORIES);
+            query.append(ItemDatabase.TABLE_CATEGORIES);
             query.append(" ON ");
-            query.append(TABLE_CATEGORIES).append('.').append(KEY_ID);
+            query.append(ItemDatabase.TABLE_CATEGORIES).append('.').append(ItemDatabase.KEY_ID);
             query.append(" = ");
-            query.append(TABLE_INVENTORY).append('.').append(INV_COL_CAT);
+            query.append(ItemDatabase.TABLE_INVENTORY).append('.').append(ItemDatabase.INV_COL_CAT);
 
             if(!locationFilters.isEmpty()) {
                 query.append(" WHERE (");
                 for (String str : locationFilters) {
-                    query.append(TABLE_LOCATIONS).append('.').append(LOC_COL_LOC);
+                    query.append(ItemDatabase.TABLE_LOCATIONS).append('.').append(ItemDatabase.LOC_COL_LOC);
                     query.append(" = '");
                     query.append(str);
                     query.append("' OR ");
                 }
                 if(!typeFilters.isEmpty()) {
                     for (String str : typeFilters) {
-                        query.append(TABLE_CATEGORIES).append('.').append(CAT_COL_CAT);
+                        query.append(ItemDatabase.TABLE_CATEGORIES).append('.').append(ItemDatabase.CAT_COL_CAT);
                         query.append(" = '");
                         query.append(str);
                         query.append("' OR ");
@@ -674,7 +671,7 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
             } else if(!typeFilters.isEmpty()) {
                 query.append(" WHERE (");
                 for (String str : typeFilters) {
-                    query.append(TABLE_CATEGORIES).append('.').append(CAT_COL_CAT);
+                    query.append(ItemDatabase.TABLE_CATEGORIES).append('.').append(ItemDatabase.CAT_COL_CAT);
                     query.append(" = '");
                     query.append(str);
                     query.append("' OR ");
@@ -697,8 +694,8 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         itemDatabase = getReadableDatabase();
 
         String query = "SELECT "
-                + CAT_COL_CAT + " FROM "
-                + TABLE_CATEGORIES + ';';
+                + ItemDatabase.CAT_COL_CAT + " FROM "
+                + ItemDatabase.TABLE_CATEGORIES + ';';
 
         Cursor c = itemDatabase.rawQuery(query,null);
 
@@ -722,8 +719,8 @@ class ItemDatabaseHelper extends SQLiteOpenHelper {
         itemDatabase = getReadableDatabase();
 
         String query = "SELECT "
-                + LOC_COL_LOC + " FROM "
-                + TABLE_LOCATIONS + ';';
+                + ItemDatabase.LOC_COL_LOC + " FROM "
+                + ItemDatabase.TABLE_LOCATIONS + ';';
 
         Cursor c = itemDatabase.rawQuery(query,null);
 

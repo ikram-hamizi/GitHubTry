@@ -14,15 +14,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.usp05.githubtry.data_model.ItemDatabase;
-import com.example.usp05.githubtry.data_model.ItemDatabaseSingleton;
+import com.example.usp05.githubtry.temp_backup.ItemDatabase;
 import com.example.usp05.githubtry.item_manipulation.ItemDisplayDetails;
 import com.example.usp05.githubtry.R;
 
 
 public class InventoryCursorAdapter extends CursorRecyclerViewAdapter<InventoryHolder> {
 
-    private static ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance();
 
     private final Context c;
     private final Cursor cursor;

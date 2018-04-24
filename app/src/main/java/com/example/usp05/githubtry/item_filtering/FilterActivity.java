@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.usp05.githubtry.R;
-import com.example.usp05.githubtry.data_model.ItemDatabaseSingleton;
+import com.example.usp05.githubtry.data_model.DatabaseConnector;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
 
 import java.io.Serializable;
@@ -23,20 +23,21 @@ import java.io.Serializable;
 @SuppressWarnings("HardCodedStringLiteral")
 public class FilterActivity extends Activity {
 
+    DatabaseConnector DBC = DatabaseConnector.getInstance();
+
     private static final String TYPE_FILTERS = "typeFilters";
     private static final String LOCATION_FILTERS = "locationFilters";
     FilterAdapter locationFilterAdapter;
     FilterAdapter categoryFilterAdapter;
 
-    private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.filter_items);
 
-        locationFilterAdapter = new FilterAdapter(this, IDS.getLocations());
-        categoryFilterAdapter = new FilterAdapter(this, IDS.getCategories());
+        locationFilterAdapter = new FilterAdapter(this, DBC.getLocations());
+        categoryFilterAdapter = new FilterAdapter(this, DBC.getCategories());
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);

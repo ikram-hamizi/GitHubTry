@@ -9,17 +9,18 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.usp05.githubtry.data_model.DatabaseConnector;
 import com.example.usp05.githubtry.data_model.DateHandler;
-import com.example.usp05.githubtry.data_model.ItemHandler;
-import com.example.usp05.githubtry.data_model.ItemDatabaseSingleton;
+import com.example.usp05.githubtry.data_model.Item;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
 import com.example.usp05.githubtry.R;
 
 public class EditItemActivity extends AppCompatActivity
 {
     private int itemID;
+    private Item item = new Item();
 
-    private ItemDatabaseSingleton IDS = ItemDatabaseSingleton.getInstance();
+    DatabaseConnector DBC = DatabaseConnector.getInstance();
     private DateHandler DH = new DateHandler();
 
     @Override
@@ -30,23 +31,23 @@ public class EditItemActivity extends AppCompatActivity
         itemID = getIntent().getIntExtra("id", 0);
 
         //Load information as place-holder in the edit screen
-        ItemHandler editedItemHandler = IDS.searchItem(itemID);
+        Item item = DBC.searchItem(itemID);
 
         if (Log.isLoggable(ContentValues.TAG,Log.VERBOSE)){
-            Log.v(ContentValues.TAG,">>>>>>>>>>>>>> NAME: "+ editedItemHandler.getName());
+            Log.v(ContentValues.TAG,">>>>>>>>>>>>>> NAME: "+ item.getName());
         }
 
-        if(editedItemHandler != null) {
-            ((TextView) findViewById(R.id.ET_name)).setText(editedItemHandler.getName());
-            ((TextView) findViewById(R.id.ET_quantity)).setText(String.valueOf(editedItemHandler.getQuantity()));
-            ((TextView) findViewById(R.id.ET_location)).setText(editedItemHandler.getLocation());
+        if(item != null) {
+            ((TextView) findViewById(R.id.ET_name)).setText(item.getName());
+            ((TextView) findViewById(R.id.ET_quantity)).setText(String.valueOf(item.getTotalQuantity()));
+            ((TextView) findViewById(R.id.ET_location)).setText(item.getNumberOfLocations() + " location(s) contain this item");
 
             // FIXME: Fix these date fields
-            ((TextView) findViewById(R.id.ET_dateExpired)).setText(DH.itemDateToString(editedItemHandler.getExpiration_date()));
-            ((TextView) findViewById(R.id.ET_datePurchased)).setText(DH.itemDateToString(editedItemHandler.getPurchase_date()));
-            //((EditText) findViewById(R.id.ET_price)).setText(editedItemHandler.getAverage_price());
-            ((TextView) findViewById(R.id.ET_category)).setText(editedItemHandler.getCategory());
-            ((TextView) findViewById(R.id.ET_note)).setText(editedItemHandler.getNotes());
+            ((TextView) findViewById(R.id.ET_dateExpired)).setText(item.getNextExpirationString());
+            ((TextView) findViewById(R.id.ET_datePurchased)).setText(item.getPurchaseDateString());
+            ((TextView) findViewById(R.id.ET_price)).setText(String.valueOf(item.getAvgPrice()));
+            ((TextView) findViewById(R.id.ET_category)).setText(item.getCategory());
+            ((TextView) findViewById(R.id.ET_note)).setText(item.getNotes());
         }
     }
 
@@ -112,7 +113,7 @@ public class EditItemActivity extends AppCompatActivity
 
     public void onEditDeleteClick (View view)
     {
-        IDS.deleteItem(itemID);
+        DBC.deleteItem(itemID);
         Intent intent = new Intent(this, InventoryActivity.class);
         startActivity(intent);
     }

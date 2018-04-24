@@ -1,6 +1,4 @@
-package com.example.usp05.githubtry.data_model;
-
-import android.database.Cursor;
+package com.example.usp05.githubtry.temp_backup;
 
 /**
  * Created by nathan on 4/23/18.
