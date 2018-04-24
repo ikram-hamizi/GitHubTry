@@ -14,14 +14,14 @@ public class Item {
 
     DateHandler DH = new DateHandler();
 
-    private int DB_ID = -1;
+    private int DB_ID = 0;
     private String name = null;
-    private int totalQuantity = -1;
+    private int totalQuantity = 0;
     private String category = "Other";
     private double totalPrice = 0;
     private double avgPrice = 0;
     private Date nextExpiration = null;
-    private String notes = null;
+    private String notes = " ";
     private ArrayList<itemData> data = null;
     itemData id = new itemData();
 
@@ -30,7 +30,7 @@ public class Item {
         private String location = "Other";
         private Date purchase_date = null;
         private Date expiration_date = null;
-        private int quantity = -1;
+        private int quantity = 0;
         private double unitPrice = 0;
         private double totalPrice = 0;
 
@@ -255,10 +255,12 @@ public class Item {
 
         int result = 0;
 
-        for (int i = 0; i < data.size(); i++){
-            if(!locations.contains(data.get(i).location)) {
-                locations.add(data.get(i).location);
-                result++;
+        if (data != null) {
+            for (int i = 0; i < data.size(); i++){
+                if(!locations.contains(data.get(i).location)) {
+                    locations.add(data.get(i).location);
+                    result++;
+                }
             }
         }
 

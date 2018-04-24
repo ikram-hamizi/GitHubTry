@@ -80,7 +80,11 @@ public class DateHandler {
     }
 
     public String itemDateToString(Date date){
-        return itemDate.format(date);
+        if (date != null) {
+            return itemDate.format(date);
+        } else {
+            return "No date available";
+        }
     }
 
     public String itemDateToString(){

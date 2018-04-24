@@ -15,7 +15,7 @@ public class ItemDatabase {
     * */
 
     // Database information
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 5;
     public static final String DATABASE_NAME = "USER_INVENTORY_DATABASE";
     public static final String ENABLE_FOREIGN_KEYS = "PRAGMA foreign_keys = ON;";
 
@@ -64,11 +64,11 @@ public class ItemDatabase {
             + KEY_ID + " INTEGER PRIMARY KEY, "
             + INV_COL_NAME + " TEXT NOT NULL UNIQUE, "
             + INV_COL_QTY + " INTEGER NOT NULL, "
-            + INV_COL_SED + " DATETIME, "
-            + INV_COL_CAT + " INTEGER NOT NULL DEFAULT 0, "
+            + INV_COL_SED + " TEXT, "
+            + INV_COL_CAT + " INTEGER NOT NULL DEFAULT 1, "
             + INV_COL_AVGP + " REAL, "
-            + INV_COL_NOTE + " REAL, "
-            + KEY_CREATED_AT + " DATETIME, "
+            + INV_COL_NOTE + " TEXT, "
+            + KEY_CREATED_AT + " TEXT, "
             + " FOREIGN KEY ("
             + INV_COL_CAT + ") REFERENCES "
             + TABLE_CATEGORIES + " ("
@@ -80,13 +80,13 @@ public class ItemDatabase {
             + KEY_ID + " INTEGER PRIMARY KEY, "
             + ITEM_COL_INV + " INTEGER NOT NULL, "
             + ITEM_COL_QTY + " INTEGER NOT NULL, "
-            + ITEM_COL_EXP + " DATETIME, "
-            + ITEM_COL_PDATE + " DATETIME, "
+            + ITEM_COL_EXP + " TEXT, "
+            + ITEM_COL_PDATE + " TEXT, "
             + ITEM_COL_TOTCOST + " REAL, "
             + ITEM_COL_UNITCOST + " REAL, "
-            + ITEM_COL_LOC + " INTEGER NOT NULL DEFAULT 0, "
+            + ITEM_COL_LOC + " INTEGER NOT NULL DEFAULT 1, "
             + ITEM_COL_NOTE + " TEXT, "
-            + KEY_CREATED_AT + " DATETIME, "
+            + KEY_CREATED_AT + " TEXT, "
             + " FOREIGN KEY ("
             + ITEM_COL_INV + ") REFERENCES "
             + TABLE_INVENTORY + " ("

@@ -83,6 +83,8 @@ public class AddItemActivity extends AppCompatActivity
             // FIXME: Fix newItemHandler date and price formatting
             item.setPurchaseDateString(item_datePurchased);
             item.setExpirationDateString(item_dateExpired);
+
+            // FIXME: Empty price throws a number format exception
             item.setPrice(Integer.valueOf(item_price));
             item.setNotes(item_note);
             item.setQuantity(item_quantity);

@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseErrorHandler;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -69,7 +70,10 @@ class DatabaseHelper extends SQLiteOpenHelper {
         createTables(db);
 
         itemDatabase = db;
-        itemDatabase = getWritableDatabase();
+
+        if(!itemDatabase.isOpen()) {
+            itemDatabase = getWritableDatabase();
+        }
 
         ContentValues categoryValues = new ContentValues();
         categoryValues.put(ItemDatabase.CAT_COL_CAT, "Other");
@@ -200,11 +204,15 @@ class DatabaseHelper extends SQLiteOpenHelper {
         sb.append(" (");
         sb.append(CAT_COL_CAT);
         sb.append(") ");
-        sb.append("VALUES (");
+        sb.append("VALUES ('");
         sb.append(category);
-        sb.append(')').append(';');
+        sb.append("')").append(';');
 
-        itemDatabase.execSQL(sb.toString());
+        try {
+            itemDatabase.execSQL(sb.toString());
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
 
         return getCategoryID(category);
     }
@@ -219,11 +227,15 @@ class DatabaseHelper extends SQLiteOpenHelper {
         sb.append(" (");
         sb.append(LOC_COL_LOC);
         sb.append(") ");
-        sb.append("VALUES (");
+        sb.append("VALUES ('");
         sb.append(location);
-        sb.append(')').append(';');
+        sb.append("')").append(';');
 
-        itemDatabase.execSQL(sb.toString());
+        try {
+            itemDatabase.execSQL(sb.toString());
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
 
         return getLocationID(location);
     }
@@ -326,7 +338,21 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     int getCategoryID(String categoryName) {
 
-        Cursor cursor = itemDatabase.rawQuery(buildQuery(CAT_COL_CAT, categoryName), null);
+        // Need to run this query against just the category table, so we get some results
+
+        StringBuffer query = new StringBuffer();
+
+        query.append("SELECT ");
+        query.append(" * ");
+        query.append(" FROM ");
+        query.append(TABLE_CATEGORIES);
+        query.append(" WHERE (");
+        query.append(CAT_COL_CAT);
+        query.append(" = '");
+        query.append(categoryName);
+        query.append("');");
+
+        Cursor cursor = itemDatabase.rawQuery(query.toString(), null);
 
         if(cursor.getCount() <=0) {
             return -1;
@@ -338,7 +364,19 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     int getLocationID(String locationName) {
 
-        Cursor cursor = itemDatabase.rawQuery(buildQuery(LOC_COL_LOC, locationName), null);
+        StringBuffer query = new StringBuffer();
+
+        query.append("SELECT ");
+        query.append(" * ");
+        query.append(" FROM ");
+        query.append(TABLE_LOCATIONS);
+        query.append(" WHERE (");
+        query.append(LOC_COL_LOC);
+        query.append(" = '");
+        query.append(locationName);
+        query.append("');");
+
+        Cursor cursor = itemDatabase.rawQuery(query.toString(), null);
 
         if(cursor.getCount() <=0) {
             return -1;
@@ -476,7 +514,46 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
     Item getItemDetails(int id){
         Item result = new Item();
-        Cursor cursor = itemDatabase.rawQuery(buildQuery(TABLE_INVENTORY + '.' + KEY_ID, Integer.toString(id)), null);
+        StringBuffer query = new StringBuffer();
+
+        query.append("SELECT ");
+        query.append(" a.* ");
+        query.append(" FROM ");
+        query.append(ItemDatabase.TABLE_ITEM);
+        query.append(" a ");
+
+        query.append(" INNER JOIN ");
+        query.append(ItemDatabase.TABLE_INVENTORY);
+        query.append(" b ON ");
+        query.append(" a.").append(ITEM_COL_INV).append(" = b.").append(KEY_ID);
+//        query.append(ItemDatabase.TABLE_INVENTORY).append('.').append(ItemDatabase.KEY_ID);
+//        query.append(" = ");
+//        query.append(ItemDatabase.TABLE_ITEM).append('.').append(ItemDatabase.ITEM_COL_INV);
+
+        query.append(" INNER JOIN ");
+        query.append(ItemDatabase.TABLE_LOCATIONS);
+        query.append(" c ON ");
+        query.append(" a.").append(ITEM_COL_LOC).append(" = c.").append(KEY_ID);
+//        query.append(ItemDatabase.TABLE_LOCATIONS).append('.').append(ItemDatabase.KEY_ID);
+//        query.append(" = ");
+//        query.append(ItemDatabase.TABLE_ITEM).append('.').append(ItemDatabase.ITEM_COL_LOC);
+
+        query.append(" INNER JOIN ");
+        query.append(ItemDatabase.TABLE_CATEGORIES);
+        query.append(" d ON ");
+        query.append(" b.").append(INV_COL_CAT).append(" = d.").append(KEY_ID);
+//        query.append(ItemDatabase.TABLE_CATEGORIES).append('.').append(ItemDatabase.KEY_ID);
+//        query.append(" = ");
+//        query.append(ItemDatabase.TABLE_INVENTORY).append('.').append(ItemDatabase.INV_COL_CAT);
+
+//        query.append(" WHERE (");
+//        query.append(TABLE_INVENTORY + '.' + KEY_ID);
+//        query.append(" = ");
+//        query.append(id);
+
+        query.append(";");
+
+        Cursor cursor = itemDatabase.rawQuery(query.toString(), null);
 
         if(cursor.moveToFirst()){
             result.setName(cursor.getString(cursor.getColumnIndex(INV_COL_NAME)));
