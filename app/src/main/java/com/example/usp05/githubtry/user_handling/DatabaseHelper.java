@@ -1,12 +1,10 @@
-package com.example.usp05.githubtry.item_manipulation;
+package com.example.usp05.githubtry.user_handling;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.example.usp05.githubtry.user_handling.User;
 
 /**
  * Created by minh on 3/24/18.
@@ -99,6 +97,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 }
             }
             while(cursor.moveToNext());
+        }
+        cursor.close();
+        return result;
+    }
+
+    public User getUser(String username){
+        db = getReadableDatabase();
+        String query = "select * from " + DatabaseHelper.TABLE_NAME + " WHERE " + DatabaseHelper.COLUMN_USERNAME + " = ?";
+        Cursor cursor = db.rawQuery(query, new String[]{username});
+
+        User result = new User();
+        if(cursor.moveToFirst()) {
+            result.setUsername(cursor.getString(cursor.getColumnIndex(COLUMN_USERNAME)));
+            result.setPassword(cursor.getString(cursor.getColumnIndex(COLUMN_PASSWORD)));
+            result.setSecQuestion1(cursor.getString(cursor.getColumnIndex(COLUMN_SECQUESTION1)));
+            result.setSecQuestion2(cursor.getString(cursor.getColumnIndex(COLUMN_SECQUESTION2)));
+            result.setSecQuestion3(cursor.getString(cursor.getColumnIndex(COLUMN_SECQUESTION3)));
         }
         cursor.close();
         return result;
