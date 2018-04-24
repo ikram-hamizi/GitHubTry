@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.usp05.githubtry.data_model.DatabaseConnector;
-import com.example.usp05.githubtry.temp_backup.ItemDatabaseSingleton;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
 import com.example.usp05.githubtry.user_handling.Register;
 import com.example.usp05.githubtry.user_handling.UserDatabaseSingleton;

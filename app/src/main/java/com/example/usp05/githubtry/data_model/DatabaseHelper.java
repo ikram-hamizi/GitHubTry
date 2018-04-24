@@ -453,7 +453,18 @@ class DatabaseHelper extends SQLiteOpenHelper {
         return c;
     }
 
-    void editItem(Item item) {}
+    void editItem(Item item) {
+//        itemDatabase = getWritableDatabase();
+//
+//        ContentValues next = updateTableWithCV(ItemDatabase.TABLE_INVENTORY, invID, values);
+//        next = updateTableWithCV(ItemDatabase.TABLE_ITEM, invID, next);
+//        next = updateTableWithCV(ItemDatabase.TABLE_LOCATIONS, invID, next);
+//        next = updateTableWithCV(ItemDatabase.TABLE_CATEGORIES, invID, next);
+//
+//        if(next.size()>0) {
+//            // TODO: add error handling here
+//        }
+    }
 
     void deleteItem(Item item) {}
 
@@ -509,5 +520,59 @@ class DatabaseHelper extends SQLiteOpenHelper {
 
         return result;
     }
+
+//    private int getForeignKey(String entry, String tableName, String columnName) {
+//        int foreignKey = 0;
+//        Cursor c = null;
+//
+//        String query = "SELECT * FROM " + tableName
+//                + " WHERE " + columnName
+//                + " = '" + entry + "';";
+//
+//        try {
+//
+//            c = itemDatabase.rawQuery(query, null);
+//
+//        } catch (SQLiteException e) {
+//
+//            String eStr = e.toString();
+//            if(eStr.contains("no such column")) {
+//
+//                if(tableName.equals(ItemDatabase.TABLE_CATEGORIES)){
+//                    addCategory(entry);
+//                } else if(tableName.equals(ItemDatabase.TABLE_LOCATIONS)){
+//                    addLocation(entry);
+//                } else {
+//                    throw e;
+//                }
+//
+//                c = itemDatabase.rawQuery(query, null);
+//
+//            } else {
+//                throw e;
+//            }
+//        }
+//
+//        if((c != null) && (c.moveToFirst())){
+//            foreignKey = c.getInt(0);
+//        } else {
+//            ContentValues values = new ContentValues();
+//            values.put(columnName, entry);
+//            itemDatabase.insertOrThrow(tableName, null, values);
+//
+//            c = itemDatabase.rawQuery(query, null);
+//
+//            if (c.moveToFirst()) {
+//                foreignKey = c.getInt(0);
+//            } else {
+//                foreignKey = -1;
+//            }
+//        }
+//
+//        c.close();
+//
+//
+//        return foreignKey;
+//    }
 
 }

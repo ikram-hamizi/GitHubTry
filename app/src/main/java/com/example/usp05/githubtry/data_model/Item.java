@@ -2,6 +2,7 @@ package com.example.usp05.githubtry.data_model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -280,5 +281,59 @@ public class Item {
 
     void setItemLocation(String itemLocation) {
         id.location = itemLocation;
+    }
+
+    public boolean isValid(){
+        if (DB_ID < 0) {
+            return false;
+        }
+        if (name == null) {
+            return false;
+        }
+        if (totalQuantity < 0){
+            return false;
+        }
+        if (category == null) {
+            return false;
+        }
+        if(totalPrice < 0) {
+            return false;
+        }
+        if (avgPrice < 0){
+            return false;
+        }
+        if (nextExpiration == null) {
+            return false;
+        }
+        if (notes == null) {
+            return false;
+        }
+        if (data == null) {
+            return false;
+        }
+
+        Iterator<itemData> itr = data.iterator();
+        while (itr.hasNext()){
+            itemData id = itr.next();
+            if (id.location == null) {
+                return false;
+            }
+            if (id.purchase_date == null) {
+                return false;
+            }
+            if (id.expiration_date == null) {
+                return false;
+            }
+            if (id.quantity < 0){
+                return false;
+            }
+            if (id.unitPrice < 0){
+                return false;
+            }
+            if (id.totalPrice < 0){
+                return false;
+            }
+        }
+        return true;
     }
 }

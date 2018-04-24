@@ -14,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.usp05.githubtry.temp_backup.ItemDatabase;
+import static com.example.usp05.githubtry.data_model.ItemDatabase.*;
 import com.example.usp05.githubtry.item_manipulation.ItemDisplayDetails;
 import com.example.usp05.githubtry.R;
 
@@ -40,11 +40,11 @@ public class InventoryCursorAdapter extends CursorRecyclerViewAdapter<InventoryH
         }
 
 
-        iid.setItemID(cursor.getInt(cursor.getColumnIndex(ItemDatabase.KEY_ID)));
-        iid.setItemName(cursor.getString(cursor.getColumnIndex(ItemDatabase.INV_COL_NAME)));
+        iid.setItemID(cursor.getInt(cursor.getColumnIndex(KEY_ID)));
+        iid.setItemName(cursor.getString(cursor.getColumnIndex(INV_COL_NAME)));
 //        iid.setItemLocation(cursor.getString(cursor.getColumnIndex(IDS.getItemColLoc())));
         iid.setItemLocation("ERROR");
-        iid.setItemQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ItemDatabase.INV_COL_QTY))));
+        iid.setItemQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(INV_COL_QTY))));
 
         cursor.moveToNext();
 

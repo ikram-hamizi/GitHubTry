@@ -15,7 +15,7 @@ public class ItemDatabase {
     * */
 
     // Database information
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
     public static final String DATABASE_NAME = "USER_INVENTORY_DATABASE";
     public static final String ENABLE_FOREIGN_KEYS = "PRAGMA foreign_keys = ON;";
 
