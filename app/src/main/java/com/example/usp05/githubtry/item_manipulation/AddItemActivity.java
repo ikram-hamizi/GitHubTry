@@ -29,25 +29,26 @@ public class AddItemActivity extends AppCompatActivity implements DatePickerDial
     private final DBItemsHelper db_helper = new DBItemsHelper(this);
     private UserHandler UH = UserHandler.getInstance();
     private String username = UH.getUsername();
+    private int dateSelector = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_item);
+        setContentView(R.layout.activity_add_item);
     }
 
     //ACTION
     public void onSaveClick (View view)
     {
-        String item_name = ((TextView) findViewById(R.id.ET_name)).getText().toString().toUpperCase();
+        String item_name = ((TextView) findViewById(R.id.ET_item_name)).getText().toString().toUpperCase();
         try {
-            String item_location = ((TextView) findViewById(R.id.ET_location)).getText().toString();
-            String item_category = ((TextView) findViewById(R.id.ET_category)).getText().toString();
-            String item_datePurchased = ((TextView) findViewById(R.id.ET_datePurchased)).getText().toString();
-            String item_dateExpired = ((TextView) findViewById(R.id.ET_dateExpired)).getText().toString();
-            String item_price = ((TextView) findViewById(R.id.ET_price)).getText().toString();
-            String item_note = ((TextView) findViewById(R.id.ET_note)).getText().toString();
-            int item_quantity = Integer.parseInt(((TextView) findViewById(R.id.ET_quantity)).getText().toString());
+            String item_location = ((TextView) findViewById(R.id.aCTV_item_location)).getText().toString();
+            String item_category = ((TextView) findViewById(R.id.aCTV_item_category)).getText().toString();
+            String item_datePurchased = ((TextView) findViewById(R.id.B_purchaseDate)).getText().toString();
+            String item_dateExpired = ((TextView) findViewById(R.id.B_expirationDate)).getText().toString();
+            String item_price = ((TextView) findViewById(R.id.ET_item_price)).getText().toString();
+            String item_note = ((TextView) findViewById(R.id.ET_item_notes)).getText().toString();
+            int item_quantity = Integer.parseInt(((TextView) findViewById(R.id.ET_item_quantity)).getText().toString());
 
             if((item_name == "") || (String.valueOf(item_quantity) == "")) {
                 Toast message = Toast.makeText(this, "Name and quantity must be filled", Toast.LENGTH_SHORT);
@@ -89,9 +90,15 @@ public class AddItemActivity extends AppCompatActivity implements DatePickerDial
      * @param view
      */
     public void datePicker(View view){
-
+        if((view.getId() == R.id.B_expirationDate)) {
+            dateSelector = 1;
+        }
+        if((view.getId() == R.id.B_purchaseDate)) {
+            dateSelector = 2;
+        }
         DatePickerFragment fragment = new DatePickerFragment();
-        fragment.show(getFragmentManager(), "date");
+        fragment.show(getFragmentManager(), "SetDate");
+
     }
 
     /**
@@ -100,7 +107,13 @@ public class AddItemActivity extends AppCompatActivity implements DatePickerDial
      */
     private void setDate(final Calendar calendar) {
         final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
-        ((TextView) findViewById(R.id.showDate)).setText(dateFormat.format(calendar.getTime()));
+        if (dateSelector == 1) {
+            ((TextView) findViewById(R.id.B_expirationDate)).setText(dateFormat.format(calendar.getTime()));
+        }
+        if(dateSelector == 2) {
+            ((TextView) findViewById(R.id.B_purchaseDate)).setText(dateFormat.format(calendar.getTime()));
+        }
+
 
     }
 
