@@ -14,6 +14,7 @@ import com.example.usp05.githubtry.item_manipulation.AddItemActivity;
 import com.example.usp05.githubtry.data_model.DBItemsHelper;
 import com.example.usp05.githubtry.item_filtering.FilterActivity;
 import com.example.usp05.githubtry.R;
+import com.example.usp05.githubtry.user_handling.UserHandler;
 
 import java.util.Collection;
 
@@ -27,7 +28,8 @@ import java.util.Collection;
 
 public class InventoryActivity extends Activity {
 
-    String username;
+    private UserHandler UH = UserHandler.getInstance();
+    private String username = UH.getUsername();
 
     private final DBItemsHelper helper = new DBItemsHelper(this);
 
@@ -36,7 +38,6 @@ public class InventoryActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inventory_display_activity);
 
-        username = getIntent().getStringExtra("username");
         Collection<String> typeFilters = (Collection<String>) getIntent().getSerializableExtra("typeFilters");
         Collection<String> locationFilters = (Collection<String>) getIntent().getSerializableExtra("locationFilters");
 
@@ -49,7 +50,6 @@ public class InventoryActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(InventoryActivity.this,FilterActivity.class);
-                i.putExtra("username",username);
                 startActivity(i);
             }
         });
@@ -58,7 +58,6 @@ public class InventoryActivity extends Activity {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(InventoryActivity.this, AddItemActivity.class);
-                i.putExtra("username", username);
                 startActivity(i);
             }
         });

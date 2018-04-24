@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
                 UserHandler UH = UserHandler.getInstance(helper.getUser(usernameStr));
 
                 Intent i = new Intent(this, InventoryActivity.class);
-                i.putExtra("username", usernameStr);
                 startActivity(i);
             }
         }

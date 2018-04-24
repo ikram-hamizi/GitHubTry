@@ -8,6 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
+import com.example.usp05.githubtry.user_handling.UserHandler;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -41,8 +43,11 @@ public class DBItemsHelper extends SQLiteOpenHelper{
             "NAME TEXT NOT NULL , LOCATION TEXT NOT NULL , TYPE TEXT NOT NULL , DATE_PURCHASED TEXT NOT NULL , " +
             "DATE_EXPIRED TEXT NOT NULL , QUANTITY INT NOT NULL, AVERAGE_PRICE FLOAT NOT NULL , NOTES TEXT NOT NULL);";
 
+    UserHandler UH;
+
     public DBItemsHelper(Context context) {
         super(context, DBItemsHelper.DB_NAME, null, DBItemsHelper.DB_VERSION);
+        UH = UserHandler.getInstance();
     }
 
     @Override
@@ -65,7 +70,7 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         appDB = getWritableDatabase();
         ContentValues values = new ContentValues();
 
-        values.put(DBItemsHelper.ITEM_COL_USERNAME, item.getUsername());
+        values.put(DBItemsHelper.ITEM_COL_USERNAME, UH.getUsername());
         values.put(DBItemsHelper.ITEM_COL_NAME, item.getName());
         values.put(DBItemsHelper.ITEM_COL_LOCATION, item.getLocation());
         values.put(DBItemsHelper.ITEM_COL_TYPE, item.getType());
@@ -97,10 +102,10 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         // TODO: Fix username being null problem
 
         appDB = getReadableDatabase();
-//        String get_row_query = "SELECT * FROM "+ ITEM_TABLE_NAME + " WHERE USERNAME = ? and ID = ?";
-//        Cursor found = appDB.rawQuery(get_row_query, new String[] {username, String.valueOf(search_id)});
-        String get_row_query = "SELECT * FROM "+ DBItemsHelper.ITEM_TABLE_NAME + " WHERE ID = ?";
-        Cursor found = appDB.rawQuery(get_row_query, new String[] {String.valueOf(search_id)});
+        String get_row_query = "SELECT * FROM "+ ITEM_TABLE_NAME + " WHERE USERNAME = ? and ID = ?";
+        Cursor found = appDB.rawQuery(get_row_query, new String[] {UH.getUsername(), String.valueOf(search_id)});
+//        String get_row_query = "SELECT * FROM "+ DBItemsHelper.ITEM_TABLE_NAME + " WHERE ID = ?";
+//        Cursor found = appDB.rawQuery(get_row_query, new String[] {String.valueOf(search_id)});
 
         if (found.moveToFirst() && (found != null))
         {
@@ -133,8 +138,8 @@ public class DBItemsHelper extends SQLiteOpenHelper{
     {
         // TODO: Fix username being null problem
         appDB = getWritableDatabase();
-//        String delete_row_query = "DELETE FROM "+ ITEM_TABLE_NAME + " WHERE USERNAME = '" + username + "' and ID = " + delete_id + ";";
-        String delete_row_query = "DELETE FROM "+ DBItemsHelper.ITEM_TABLE_NAME + " WHERE ID = " + delete_id + ';';
+        String delete_row_query = "DELETE FROM "+ ITEM_TABLE_NAME + " WHERE USERNAME = '" + UH.getUsername() + "' and ID = " + delete_id + ";";
+//        String delete_row_query = "DELETE FROM "+ DBItemsHelper.ITEM_TABLE_NAME + " WHERE ID = " + delete_id + ';';
         appDB.execSQL(delete_row_query);
     }
 
@@ -150,10 +155,10 @@ public class DBItemsHelper extends SQLiteOpenHelper{
     public Cursor getItems(String username) {
         // TODO: Fix username being null problem
         appDB = getReadableDatabase();
-//        String query = "select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ?";
+        String query = "select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ?";
 //        Cursor cursor = appDB.rawQuery(query, new String[]{username});
-        String query = "select * from " + DBItemsHelper.ITEM_TABLE_NAME;
-        return appDB.rawQuery(query, null);
+//        String query = "select * from " + DBItemsHelper.ITEM_TABLE_NAME;
+        return appDB.rawQuery(query, new String[]{UH.getUsername()});
     }
 
     public Cursor getFilteredItems(String username, Collection<String> typeFilters, Collection<String> locationFilters){
@@ -165,10 +170,10 @@ public class DBItemsHelper extends SQLiteOpenHelper{
 
         if((typeFilters.isEmpty()) && (locationFilters.isEmpty())) {
 
-//            query = "select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ?";
-//            cursor = appDB.rawQuery(query, new String[]{username});
-            String query = "select * from " + DBItemsHelper.ITEM_TABLE_NAME;
-            cursor = appDB.rawQuery(query, null);
+            String query = "select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ?";
+            cursor = appDB.rawQuery(query, new String[]{UH.getUsername()});
+//            String query = "select * from " + DBItemsHelper.ITEM_TABLE_NAME;
+//            cursor = appDB.rawQuery(query, null);
 
         } else
             if((typeFilters.isEmpty()) && (!locationFilters.isEmpty())){

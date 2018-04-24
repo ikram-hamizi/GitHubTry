@@ -13,6 +13,7 @@ import android.widget.Button;
 import com.example.usp05.githubtry.R;
 import com.example.usp05.githubtry.data_model.DBItemsHelper;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
+import com.example.usp05.githubtry.user_handling.UserHandler;
 
 import java.io.Serializable;
 import java.util.List;
@@ -24,12 +25,12 @@ import java.util.List;
 @SuppressWarnings("HardCodedStringLiteral")
 public class FilterActivity extends Activity {
 
-    private static final String USERNAME = "username";
+    private UserHandler UH = UserHandler.getInstance();
+    private String username = UH.getUsername();
     private static final String TYPE_FILTERS = "typeFilters";
     private static final String LOCATION_FILTERS = "locationFilters";
     FilterAdapter locationFilterAdapter;
     FilterAdapter typeFilterAdapter;
-    String username;
 
     private final DBItemsHelper filterDB = new DBItemsHelper(this);
 
@@ -38,8 +39,6 @@ public class FilterActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.filter_items);
 
-        //noinspection DuplicateStringLiteralInspection
-        username = getIntent().getStringExtra(FilterActivity.USERNAME);
 
         locationFilterAdapter = new FilterAdapter(this, getLocationFilters());
         typeFilterAdapter = new FilterAdapter(this, getTypeFilters());
@@ -59,8 +58,6 @@ public class FilterActivity extends Activity {
             public void onClick(View v) {
                 Intent i = new Intent(FilterActivity.this,InventoryActivity.class);
 
-                //noinspection DuplicateStringLiteralInspection
-                i.putExtra(FilterActivity.USERNAME, username);
                 //noinspection DuplicateStringLiteralInspection
                 i.putExtra(FilterActivity.TYPE_FILTERS, (Serializable) typeFilterAdapter.checkedFilters);
                 //noinspection DuplicateStringLiteralInspection

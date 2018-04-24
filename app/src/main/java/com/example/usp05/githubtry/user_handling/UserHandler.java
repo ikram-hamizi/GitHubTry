@@ -29,4 +29,8 @@ public class UserHandler {
 
     private UserHandler() {
     }
+
+    public String getUsername(){
+        return user.getUsername();
+    }
 }

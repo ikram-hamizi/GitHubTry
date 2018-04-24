@@ -13,11 +13,13 @@ import com.example.usp05.githubtry.data_model.DBItemsHelper;
 import com.example.usp05.githubtry.data_model.Item;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
 import com.example.usp05.githubtry.R;
+import com.example.usp05.githubtry.user_handling.UserHandler;
 
 public class EditItemActivity extends AppCompatActivity
 {
     private int itemID;
-    private String username;
+    private UserHandler UH = UserHandler.getInstance();
+    private String username = UH.getUsername();
     private final DBItemsHelper db_helper = new DBItemsHelper(this);
 
     @Override
@@ -25,7 +27,6 @@ public class EditItemActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_item);
 
-        username = getIntent().getStringExtra("username");
         itemID = getIntent().getIntExtra("id", 0);
 
         //Load information as place-holder in the edit screen
@@ -105,7 +106,6 @@ public class EditItemActivity extends AppCompatActivity
         }
 
         Intent i = new Intent(this, InventoryActivity.class);
-        i.putExtra("username", username);
         startActivity(i);
     }
 
@@ -113,7 +113,6 @@ public class EditItemActivity extends AppCompatActivity
     {
         db_helper.deleteItem(username, itemID);
         Intent intent = new Intent(this, InventoryActivity.class);
-        intent.putExtra("username", username);
         startActivity(intent);
     }
 

@@ -11,6 +11,7 @@ import com.example.usp05.githubtry.data_model.DBItemsHelper;
 import com.example.usp05.githubtry.data_model.Item;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
 import com.example.usp05.githubtry.R;
+import com.example.usp05.githubtry.user_handling.UserHandler;
 
 /**
  * Created by minh on 3/24/18.
@@ -19,13 +20,13 @@ import com.example.usp05.githubtry.R;
 public class AddItemActivity extends AppCompatActivity
 {
     private final DBItemsHelper db_helper = new DBItemsHelper(this);
-    private String username;
+    private UserHandler UH = UserHandler.getInstance();
+    private String username = UH.getUsername();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_item);
-        username = getIntent().getStringExtra("username");
     }
 
     //ACTION
@@ -53,7 +54,6 @@ public class AddItemActivity extends AppCompatActivity
             db_helper.insertedToast(this).show();
 //            Intent i = new Intent(AddItemActivity.this, Inventory.class);
             Intent i = new Intent(this, InventoryActivity.class);
-            i.putExtra("username", username);
             startActivity(i);
         }
         catch(NumberFormatException ignored) {
