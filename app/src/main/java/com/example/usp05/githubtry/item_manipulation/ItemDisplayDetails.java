@@ -14,6 +14,10 @@ import com.example.usp05.githubtry.inventory_display.InventoryActivity;
 import com.example.usp05.githubtry.R;
 import com.example.usp05.githubtry.user_handling.UserHandler;
 
+import android.util.Log;
+import android.app.NotificationManager;
+
+
 public class ItemDisplayDetails extends AppCompatActivity {
 
     private final DBItemsHelper db_helper = new DBItemsHelper(this);
@@ -51,6 +55,9 @@ public class ItemDisplayDetails extends AppCompatActivity {
 //        {
 //            finish(); //Does it work? -> Intended to go back to previous activity if item is not found.
 //        }
+        Log.d("PLAYGROUND", "Details ID: " + getIntent().getIntExtra("EXTRA_DETAILS_ID", -1));
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.cancel(InventoryActivity.NOTIFICATION_ID);
     }
 
     public void onDeleteClick (View view)
