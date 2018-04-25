@@ -16,12 +16,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".user_handling.Register" />
+        <activity android:name=".user_handling.Register"></activity>
         <activity android:name=".item_manipulation.AddItemActivity" />
         <activity android:name=".inventory_display.InventoryActivity" />
         <activity android:name=".item_manipulation.ItemDisplayDetails" />
         <activity android:name=".item_manipulation.EditItemActivity" />
         <activity android:name=".item_filtering.FilterActivity" />
+        <activity android:name=".item_manipulation.PopUpAddMoreActivity"></activity>
+
     </application>
 
 </manifest>
