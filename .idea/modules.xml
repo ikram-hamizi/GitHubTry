@@ -3,10 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/GitHubTry.iml" filepath="$PROJECT_DIR$/GitHubTry.iml" />
-      <module fileurl="file://$PROJECT_DIR$/GitHubTry.iml" filepath="$PROJECT_DIR$/GitHubTry.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/../../../../../USP05/Desktop/Anime Land/GitHubTry/app/app.iml" filepath="$PROJECT_DIR$/../../../../../USP05/Desktop/Anime Land/GitHubTry/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file:///../../USP05/Desktop/Anime Land/GitHubTry/app/app.iml" filepath="/../../USP05/Desktop/Anime Land/GitHubTry/app/app.iml" />
     </modules>
   </component>
 </project>

@@ -37,19 +37,15 @@
         android:textStyle="bold"
         android:layout_marginRight="6dp"
         android:layout_marginTop="20dp"
-        android:layout_gravity="right"/>
+        android:layout_gravity="center"/>
 
     <EditText
         android:textColor="@color/colorWhite"
         android:layout_width="95dp"
-<<<<<<< HEAD
         android:layout_height="40dp"
-=======
-        android:layout_height="30dp"
->>>>>>> 5a1c4fba243c94ede9c513535136608656368f5d
         android:layout_marginRight="6dp"
         android:textSize="10dp"
-        android:layout_gravity="right"
+        android:layout_gravity="center"
         android:layout_marginTop="5dp"
        />
 
@@ -59,7 +55,7 @@
         android:layout_marginRight="6dp"
         android:id="@+id/TV_priceForEach"
         android:layout_width="wrap_content"
-        android:layout_gravity="right"
+        android:layout_gravity="center"
         android:layout_marginTop="2dp"
         android:layout_height="wrap_content"
         android:text="Price for each:" />
@@ -68,13 +64,9 @@
     <EditText
         android:layout_width="95dp"
         android:textColor="@color/colorWhite"
-        android:layout_gravity="right"
+        android:layout_gravity="center"
         android:layout_marginTop="5dp"
-<<<<<<< HEAD
-        android:layout_height="40dp"
-=======
         android:layout_height="30dp"
->>>>>>> 5a1c4fba243c94ede9c513535136608656368f5d
         android:textSize="10dp"
         android:layout_marginRight="6dp"
 
@@ -125,10 +117,7 @@
 
 
     <Button
-<<<<<<< HEAD
         android:onClick="onClickSave"
-=======
->>>>>>> 5a1c4fba243c94ede9c513535136608656368f5d
         android:layout_marginTop="10dp"
         android:layout_gravity="center"
         android:id="@+id/BTN_Save"

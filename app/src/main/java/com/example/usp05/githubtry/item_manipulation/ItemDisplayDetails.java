@@ -54,11 +54,8 @@ public class ItemDisplayDetails extends AppCompatActivity {
     public void onAddMoreClick(View view)
     {
         Intent addMorePop = new Intent(this, PopUpAddMoreActivity.class);
-<<<<<<< HEAD
-        startActivityForResult(addMorePop, 0);
-=======
+        // startActivityForResult(addMorePop, 0);
         startActivity(addMorePop);
->>>>>>> 5a1c4fba243c94ede9c513535136608656368f5d
     }
 
     public void onDeleteClick (View view)
