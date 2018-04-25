@@ -12,15 +12,18 @@ import com.example.usp05.githubtry.data_model.Item;
 import com.example.usp05.githubtry.data_model.DBItemsHelper;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
 import com.example.usp05.githubtry.R;
+import com.example.usp05.githubtry.user_handling.UserHandler;
 
 public class ItemDisplayDetails extends AppCompatActivity {
 
     private final DBItemsHelper db_helper = new DBItemsHelper(this);
+    private UserHandler UH = UserHandler.getInstance();
+    private String username = UH.getUsername();
+
 
     //EXTRA MESSAGE = ID
     //ID of Current Inventory Item clicked needed.
 
-    private String username;
     private Item myItem;
     private int itemID;
 
@@ -28,7 +31,6 @@ public class ItemDisplayDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.item_details_activity);
-        username = getIntent().getStringExtra("username");
         itemID = getIntent().getIntExtra("id", 0);
 
         myItem = db_helper.searchItem(username, itemID);
@@ -55,7 +57,6 @@ public class ItemDisplayDetails extends AppCompatActivity {
     {
         db_helper.deleteItem(username, itemID);
         Intent intent = new Intent(this, InventoryActivity.class);
-        intent.putExtra("username", username);
         startActivity(intent);
         //DELETE? IS IT WORKING? Needs to be tried with Current Inventory
     }
@@ -64,7 +65,6 @@ public class ItemDisplayDetails extends AppCompatActivity {
     {
 
         Intent intent = new Intent(this, EditItemActivity.class);
-        intent.putExtra("username", username);
         intent.putExtra("id", itemID);
         startActivity(intent);
 

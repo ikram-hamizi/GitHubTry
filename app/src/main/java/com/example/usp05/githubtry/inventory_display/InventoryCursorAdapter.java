@@ -15,13 +15,15 @@ import android.view.ViewGroup;
 
 import com.example.usp05.githubtry.item_manipulation.ItemDisplayDetails;
 import com.example.usp05.githubtry.R;
+import com.example.usp05.githubtry.user_handling.UserHandler;
 
 
 public class InventoryCursorAdapter extends CursorRecyclerViewAdapter<InventoryHolder> {
 
     private final Context c;
     private final Cursor cursor;
-    private final String username;
+    private UserHandler UH = UserHandler.getInstance();
+    private String username = UH.getUsername();
 
     public InventoryCursorAdapter(Context context, Cursor cursor, String username){
         super(context,cursor);
@@ -75,7 +77,6 @@ public class InventoryCursorAdapter extends CursorRecyclerViewAdapter<InventoryH
                 }
 
                 Intent i = new Intent(c, ItemDisplayDetails.class);
-                i.putExtra("username", username);
                 i.putExtra("id", itemID);
                 c.startActivity(i);
 

@@ -7,7 +7,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.usp05.githubtry.item_manipulation.DatabaseHelper;
 import com.example.usp05.githubtry.MainActivity;
 import com.example.usp05.githubtry.R;
 

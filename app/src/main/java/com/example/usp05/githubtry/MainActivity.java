@@ -8,8 +8,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
-import com.example.usp05.githubtry.item_manipulation.DatabaseHelper;
+import com.example.usp05.githubtry.user_handling.DatabaseHelper;
 import com.example.usp05.githubtry.user_handling.Register;
+import com.example.usp05.githubtry.user_handling.UserHandler;
 
 public class MainActivity extends AppCompatActivity {
     private final DatabaseHelper helper = new DatabaseHelper(this);
@@ -38,9 +39,10 @@ public class MainActivity extends AppCompatActivity {
                 message.show();
             }
             else {
-//                Intent i = new Intent(MainActivity.this, Inventory.class);
+
+                UserHandler UH = UserHandler.getInstance(helper.getUser(usernameStr));
+
                 Intent i = new Intent(this, InventoryActivity.class);
-                i.putExtra("username", usernameStr);
                 startActivity(i);
             }
         }
