@@ -43,6 +43,10 @@ public class InventoryActivity extends Activity {
     private String username = UH.getUsername();
     InventoryAdapter inventoryAdapter;
 
+
+    private Collection<String> typeFilters;
+    private Collection<String> locationFilters;
+
     private final DBItemsHelper helper = new DBItemsHelper(this);
 
     @Override
@@ -50,8 +54,8 @@ public class InventoryActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inventory_display_activity);
 
-        Collection<String> typeFilters = (Collection<String>) getIntent().getSerializableExtra("typeFilters");
-        Collection<String> locationFilters = (Collection<String>) getIntent().getSerializableExtra("locationFilters");
+        typeFilters = (Collection<String>) getIntent().getSerializableExtra("typeFilters");
+        locationFilters = (Collection<String>) getIntent().getSerializableExtra("locationFilters");
 
         // clicking buttons on inventory screen
         Button filterButton = findViewById(R.id.BFilter);
@@ -112,7 +116,7 @@ public class InventoryActivity extends Activity {
     }
 
     public void createList() {
-        Cursor cursor = helper.getItems(username);
+        Cursor cursor = helper.getFilteredItems(username, typeFilters, locationFilters);
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(cursor.getColumnIndex("ID"));

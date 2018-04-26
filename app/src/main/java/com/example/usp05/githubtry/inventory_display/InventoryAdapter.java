@@ -20,7 +20,7 @@ import java.util.ArrayList;
 
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryHolder> {
 
-    private int pos;
+    private int pos = 0;
 
     private ArrayList<InventoryItemDisplay> items;
     Context c;
@@ -32,7 +32,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryHolder> {
 
     @Override
     public void onBindViewHolder(InventoryHolder holder, int position) {
-        pos = position;
+//        pos = position;
 
         final InventoryItemDisplay currentItem = items.get(position);
 
@@ -69,13 +69,15 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryHolder> {
 
         View v;
 
-        if(items.get(pos+1).getItemQuantity() <= 0) {
+        if(items.get(pos).getItemQuantity() <= 0) {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.depleted_inventory_rv_layout,parent,false);
-        } else if(items.get(pos+1).haveExpired){
+        } else if(items.get(pos).haveExpired){
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.expired_inventory_rv_layout,parent,false);
         } else {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.inventory_rv_layout, parent, false);
         }
+
+        pos++;
 
 //        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.inventory_rv_layout,parent,false);
         return new InventoryHolder(v);

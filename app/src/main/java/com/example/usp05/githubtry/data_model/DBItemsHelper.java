@@ -139,7 +139,6 @@ public class DBItemsHelper extends SQLiteOpenHelper{
 
     public void deleteItem(String username, int delete_id)
     {
-        // TODO: Fix username being null problem
         appDB = getWritableDatabase();
         String delete_row_query = "DELETE FROM "+ ITEM_TABLE_NAME + " WHERE USERNAME = '" + UH.getUsername() + "' and ID = " + delete_id + ";";
 //        String delete_row_query = "DELETE FROM "+ DBItemsHelper.ITEM_TABLE_NAME + " WHERE ID = " + delete_id + ';';
@@ -156,7 +155,6 @@ public class DBItemsHelper extends SQLiteOpenHelper{
 
     // gets all data from items database and displays in the ListView in inventory screen
     public Cursor getItems(String username) {
-        // TODO: Fix username being null problem
         appDB = getReadableDatabase();
         String query = "select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ? order by " + ITEM_COL_NAME;
 //        Cursor cursor = appDB.rawQuery(query, new String[]{username});
@@ -185,70 +183,41 @@ public class DBItemsHelper extends SQLiteOpenHelper{
 
     public Cursor getFilteredItems(String username, Collection<String> typeFilters, Collection<String> locationFilters){
 
-        // TODO: Fix username being null problem
         appDB = getReadableDatabase();
-        Cursor cursor = null;
         StringBuffer filterQuery = new StringBuffer();
+        int lastOR;
 
-        if((typeFilters.isEmpty()) && (locationFilters.isEmpty())) {
+        filterQuery.append("SELECT * FROM " + ITEM_TABLE_NAME + " WHERE (" + ITEM_COL_USERNAME + " = '");
+        filterQuery.append(UH.getUsername());
+        filterQuery.append("')");
 
-            String query = "select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ?";
-            cursor = appDB.rawQuery(query, new String[]{UH.getUsername()});
-//            String query = "select * from " + DBItemsHelper.ITEM_TABLE_NAME;
-//            cursor = appDB.rawQuery(query, null);
+        if((typeFilters != null) && !typeFilters.isEmpty()) {
+            filterQuery.append(" AND (");
 
-        } else
-            if((typeFilters.isEmpty()) && (!locationFilters.isEmpty())){
+            for (String str : typeFilters) {
+                filterQuery.append(ITEM_COL_TYPE + " = '").append(str).append("' OR ");
+            }
 
-//            filterQuery.append("select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ");
-//            filterQuery.append(username);
-//            filterQuery.append(" AND (");
-                filterQuery.append("select * from " + DBItemsHelper.ITEM_TABLE_NAME + " where (");
-                for (String str : locationFilters) {
-                    filterQuery.append(DBItemsHelper.ITEM_COL_LOCATION + " = '").append(str).append("' OR ");
-                }
-                int lastOR = filterQuery.lastIndexOf(" OR");
-                filterQuery.delete(lastOR,lastOR+4);
-                filterQuery.append(')');
+            lastOR = filterQuery.lastIndexOf(" OR");
+            filterQuery.delete(lastOR,lastOR+4);
+            filterQuery.append(')');
+        }
 
-                cursor = appDB.rawQuery(filterQuery.toString(), null);
+        if((locationFilters != null) && !locationFilters.isEmpty()) {
+            filterQuery.append(" AND (");
 
-            } else
-                if((!typeFilters.isEmpty()) && (locationFilters.isEmpty())){
-//            filterQuery.append("select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ");
-//            filterQuery.append(username);
-//            filterQuery.append(" AND (");
-                    filterQuery.append("select * from " + DBItemsHelper.ITEM_TABLE_NAME + " where (");
-                    for (String str : typeFilters) {
-                        filterQuery.append(DBItemsHelper.ITEM_COL_TYPE + " = '").append(str).append("' OR ");
-                    }
-                    int lastOR = filterQuery.lastIndexOf(" OR");
-                    filterQuery.delete(lastOR,lastOR+4);
-                    filterQuery.append(')');
+            for (String str : locationFilters) {
+                filterQuery.append(ITEM_COL_LOCATION + " = '").append(str).append("' OR ");
+            }
 
-                    cursor = appDB.rawQuery(filterQuery.toString(), null);
-                } else
-                    if((!typeFilters.isEmpty()) && (!locationFilters.isEmpty())){
-//            filterQuery.append("select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ");
-//            filterQuery.append(username);
-//            filterQuery.append(" AND (");
-                        filterQuery.append("select * from " + DBItemsHelper.ITEM_TABLE_NAME + " where (");
-                        for (String str : typeFilters) {
-                            filterQuery.append(DBItemsHelper.ITEM_COL_TYPE + " = '").append(str).append("' OR ");
-                        }
-                        int thisOR = filterQuery.lastIndexOf(" OR");
-                        filterQuery.delete(thisOR,thisOR+4);
-                        filterQuery.append(") AND (");
-                        for (String str : locationFilters) {
-                            filterQuery.append(DBItemsHelper.ITEM_COL_LOCATION + " = '").append(str).append("' OR ");
-                        }
-                        int lastOR = filterQuery.lastIndexOf(" OR");
-                        filterQuery.delete(lastOR, lastOR +4);
-                        filterQuery.append(')');
+            lastOR = filterQuery.lastIndexOf(" OR");
+            filterQuery.delete(lastOR,lastOR+4);
+            filterQuery.append(')');
+        }
 
-                        cursor = appDB.rawQuery(filterQuery.toString(), null);
-                    }
-        return cursor;
+        filterQuery.append(';');
+
+        return appDB.rawQuery(filterQuery.toString(), null);
     }
 
     public List<String> getTypes(){
@@ -316,7 +285,6 @@ public class DBItemsHelper extends SQLiteOpenHelper{
 // --Commented out by Inspection START (4/16/18 9:54 PM):
 //    public Cursor getItemID(String username, String name) {
 //
-//        // TODO: Fix username being null problem
 //        appDB = getReadableDatabase();
 ////        String query = "select " + ITEM_COL_ID + " from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ? and " + ITEM_COL_NAME + " = ?;";
 ////        Cursor cursor = appDB.rawQuery(query, new String[]{username, name});
