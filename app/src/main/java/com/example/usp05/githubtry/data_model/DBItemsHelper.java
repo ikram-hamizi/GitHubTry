@@ -291,6 +291,72 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         return results;
     }
 
+    public Cursor getUniqueFilteredItems(String username, Collection<String> typeFilters, Collection<String> locationFilters) {
+        appDB = getReadableDatabase();
+        StringBuffer filterQuery = new StringBuffer();
+        int lastOR;
+
+        filterQuery.append("SELECT DISTINCT ");
+        filterQuery.append(ITEM_COL_NAME);
+        filterQuery.append(" FROM " + ITEM_TABLE_NAME + " WHERE (" + ITEM_COL_USERNAME + " = '");
+        filterQuery.append(UH.getUsername());
+        filterQuery.append("')");
+
+        if((typeFilters != null) && !typeFilters.isEmpty()) {
+            filterQuery.append(" AND (");
+
+            for (String str : typeFilters) {
+                filterQuery.append(ITEM_COL_TYPE + " = '").append(str).append("' OR ");
+            }
+
+            lastOR = filterQuery.lastIndexOf(" OR");
+            filterQuery.delete(lastOR,lastOR+4);
+            filterQuery.append(')');
+        }
+
+        if((locationFilters != null) && !locationFilters.isEmpty()) {
+            filterQuery.append(" AND (");
+
+            for (String str : locationFilters) {
+                filterQuery.append(ITEM_COL_LOCATION + " = '").append(str).append("' OR ");
+            }
+
+            lastOR = filterQuery.lastIndexOf(" OR");
+            filterQuery.delete(lastOR,lastOR+4);
+            filterQuery.append(')');
+        }
+
+        filterQuery.append(';');
+
+        return appDB.rawQuery(filterQuery.toString(), null);
+    }
+
+    public int getTotalQuantity(String itemName) {
+        int result = 0;
+
+        appDB = getReadableDatabase();
+        StringBuffer filterQuery = new StringBuffer();
+
+        filterQuery.append("SELECT * FROM " + ITEM_TABLE_NAME + " WHERE (" + ITEM_COL_USERNAME + " = '");
+        filterQuery.append(UH.getUsername());
+        filterQuery.append("') AND (");
+        filterQuery.append(ITEM_COL_NAME);
+        filterQuery.append(" = ").append(itemName).append("');");
+
+        Cursor cursor = appDB.rawQuery(filterQuery.toString(), null);
+
+
+
+        if (cursor.moveToFirst()) {
+            do {
+                result += cursor.getInt(cursor.getColumnIndex(ITEM_COL_QUANTITY));
+            }while(cursor.moveToNext());
+        }
+
+        cursor.close();
+        return result;
+    }
+
 // --Commented out by Inspection START (4/16/18 9:54 PM):
 //    public Cursor getItemID(String username, String name) {
 //
