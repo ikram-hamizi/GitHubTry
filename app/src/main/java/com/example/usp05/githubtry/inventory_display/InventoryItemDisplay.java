@@ -6,11 +6,20 @@ package com.example.usp05.githubtry.inventory_display;
 
 public class InventoryItemDisplay {
 
-
     private int itemID;
     private String itemName;
     private String itemLocation;
     private int itemQuantity;
+
+    public InventoryItemDisplay() {
+    }
+
+    public InventoryItemDisplay(int itemID, String itemName, String itemLocation, int itemQuantity) {
+        setItemID(itemID);
+        setItemName(itemName);
+        setItemLocation(itemLocation);
+        setItemQuantity(itemQuantity);
+    }
 
     public int getItemID() {
         return itemID;
