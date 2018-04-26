@@ -4,26 +4,18 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
-
-import com.example.usp05.githubtry.data_model.Item;
 import com.example.usp05.githubtry.item_manipulation.AddItemActivity;
 import com.example.usp05.githubtry.data_model.DBItemsHelper;
 import com.example.usp05.githubtry.item_filtering.FilterActivity;
 import com.example.usp05.githubtry.R;
-import com.example.usp05.githubtry.item_manipulation.ItemDisplayDetails;
 import com.example.usp05.githubtry.user_handling.UserHandler;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -40,6 +32,7 @@ public class InventoryActivity extends Activity {
     private ArrayList<InventoryItemDisplay> items = new ArrayList<>();
     private UserHandler UH = UserHandler.getInstance();
     private String username = UH.getUsername();
+    InventoryAdapter inventoryAdapter;
 
     private final DBItemsHelper helper = new DBItemsHelper(this);
 
@@ -74,34 +67,39 @@ public class InventoryActivity extends Activity {
         // displaying items in recycle view
         createList();
         // InventoryCursorAdapter inventoryAdapter = new InventoryCursorAdapter(this, populateFilteredList(typeFilters, locationFilters), username);
-        InventoryAdapter inventoryAdapter = new InventoryAdapter(this, items);
+        inventoryAdapter = new InventoryAdapter(this, items);
         RecyclerView RV_inventory = findViewById(R.id.RV_inventory);
         RV_inventory.setLayoutManager(new LinearLayoutManager(this));
 //        RV_inventory.setItemAnimator(new DefaultItemAnimator());
         RV_inventory.setAdapter(inventoryAdapter);
 
         // implementing search bar
-//        EditText searchBar = findViewById(R.id.SV_Inventory);
-//        searchBar.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//                filter(s.toString());
-//            }
-//        });
+        EditText searchBar = findViewById(R.id.SV_Inventory);
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                filter(s.toString());
+            }
+        });
     }
 
-//    private void filter(String text) {
-//        ArrayList<Item> filteredList = new ArrayList<>();
-//
-//    }
+    private void filter(String text) {
+        ArrayList<InventoryItemDisplay> filteredList = new ArrayList<>();
+        for(InventoryItemDisplay item: items) {
+            if (item.getItemName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(item);
+            }
+        }
+        inventoryAdapter.filterList(filteredList);
+    }
 
     public void createList() {
         Cursor cursor = helper.getItems(username);

@@ -25,32 +25,10 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryHolder> {
     private ArrayList<InventoryItemDisplay> items;
     Context c;
 
-//    public static class ExampleViewHolder extends RecyclerView.ViewHolder {
-//        public TextView ctvItem;
-//        public TextView tvLocation;
-//        public TextView tvQuantity;
-//
-//        public ExampleViewHolder(View itemView) {
-//            super(itemView);
-//            ctvItem = itemView.findViewById(R.id.CTV_item);
-//            tvLocation = itemView.findViewById(R.id.TV_location);
-//            tvQuantity = itemView.findViewById(R.id.TV_quantity);
-//
-//        }
-//    }
-
     public InventoryAdapter(Context c, ArrayList<InventoryItemDisplay> items) {
         this.c = c;
         this.items = items;
     }
-
-//    @Override
-//    public ExampleViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-//        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.inventory_rv_layout,
-//                parent, false);
-//        ExampleViewHolder evh = new ExampleViewHolder(v);
-//        return evh;
-//    }
 
     @Override
     public void onBindViewHolder(InventoryHolder holder, int position) {
@@ -89,4 +67,10 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryHolder> {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.inventory_rv_layout,parent,false);
         return new InventoryHolder(v);
     }
+
+    public void filterList(ArrayList<InventoryItemDisplay> filteredList) {
+        items = filteredList;
+        notifyDataSetChanged();
+    }
+
 }

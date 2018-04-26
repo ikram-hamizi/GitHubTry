@@ -13,8 +13,9 @@
         android:visibility="invisible"
         app:layout_constraintGuide_percent="0.5" />
 
-    <SearchView
+    <EditText
         android:id="@+id/SV_Inventory"
+        android:hint="Search"
         android:layout_width="241dp"
         android:layout_height="49dp"
         android:layout_marginStart="8dp"
