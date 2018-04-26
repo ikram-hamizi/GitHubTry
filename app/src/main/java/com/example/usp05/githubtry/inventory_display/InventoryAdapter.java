@@ -69,13 +69,13 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryHolder> {
 
         View v;
 
-        if(items.get(pos).getItemQuantity() <= 0) {
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.depleted_inventory_rv_layout,parent,false);
-        } else if(items.get(pos).haveExpired){
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.expired_inventory_rv_layout,parent,false);
-        } else {
+//        if(items.get(pos).getItemQuantity() <= 0) {
+//            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.depleted_inventory_rv_layout,parent,false);
+//        } else if(items.get(pos).haveExpired){
+//            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.expired_inventory_rv_layout,parent,false);
+//        } else {
             v = LayoutInflater.from(parent.getContext()).inflate(R.layout.inventory_rv_layout, parent, false);
-        }
+//        }
 
         pos++;
 
