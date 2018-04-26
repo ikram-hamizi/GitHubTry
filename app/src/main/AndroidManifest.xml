@@ -14,7 +14,6 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-
             </intent-filter>
         </activity>
         <activity android:name=".user_handling.Register" />
@@ -23,8 +22,12 @@
         <activity android:name=".item_manipulation.ItemDisplayDetails" />
         <activity android:name=".item_manipulation.EditItemActivity" />
         <activity android:name=".item_filtering.FilterActivity" />
-        <activity android:name=".user_handling.ChangePassword"></activity>
-        <activity android:name=".user_handling.ForgotPassword"></activity>
+        <activity android:name=".user_handling.ChangePassword" />
+        <activity android:name=".user_handling.ForgotPassword" />
+        <activity
+            android:name=".Main2Activity"
+            android:label="@string/title_activity_main2"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

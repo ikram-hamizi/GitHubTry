@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -37,7 +38,7 @@ import android.support.v7.app.AppCompatActivity;
 public class InventoryActivity extends Activity {
   
     private ArrayList<InventoryItemDisplay> items = new ArrayList<>();
-    private Button notiB;
+    private FloatingActionButton notiB;
     public static int NOTIFICATION_ID = 1;
     private UserHandler UH = UserHandler.getInstance();
     private String username = UH.getUsername();
@@ -55,7 +56,7 @@ public class InventoryActivity extends Activity {
 
         // clicking buttons on inventory screen
         Button filterButton = findViewById(R.id.BFilter);
-        Button addItemButton = findViewById(R.id.BAddItem);
+        FloatingActionButton addItemButton = findViewById(R.id.BAddItem);
 
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +108,7 @@ public class InventoryActivity extends Activity {
             }
         }
         inventoryAdapter.filterList(filteredList);
-        notiB = (Button) findViewById(R.id.notificationButton);
+        notiB = (FloatingActionButton) findViewById(R.id.notificationButton);
         notiB.setOnClickListener(buttonClickListener);
     }
 
