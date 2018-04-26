@@ -1,5 +1,7 @@
 package com.example.usp05.githubtry.data_model;
 
+import java.util.Date;
+
 /**
  * Created by Ikram Hamizi on 3/24/18.
  */
@@ -17,6 +19,8 @@ public class Item {
     private String notes;
     private int quantity;
     private float average_price;
+    private Date expirationDate;
+    private Date purchaseDate;
     // --Commented out by Inspection (4/16/18 9:54 PM):private float price;
 
     public Item(String username, String name, String location, String type, String date_purchased, String date_expired, String notes, int quantity /*.float price*/)
@@ -33,133 +37,114 @@ public class Item {
         //this.price = price;
     }
 
-    //2- Methods
-//    public float getPrice() {return price;}
-//    public void setPrice(float price) {this.price = price;}
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public void setAverage_price(float average_price) {
-//        this.average_price = average_price;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public float calculateAvgPrice()
-//    {
-//        return average_price;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
-
-    public float getAverage_price() {
-        return average_price;
+    public Item() {
     }
 
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    @SuppressWarnings("MethodMayBeStatic")
-//    public int calculateRecommendedQuantity()
-//    {
-//        return 0;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
-
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    @SuppressWarnings("MethodMayBeStatic")
-//    public float rateOfUsage()
-//    {
-//        return 0.0f; //%
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
-
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public void setDate_expired(String date_expired) {
-//        this.date_expired = date_expired;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
-
-    public String getDate_expired() {
-        return date_expired;
+    public String getUsername() {
+        return username;
     }
 
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public void setDate_purchased(String date_purchased) {
-//        this.date_purchased = date_purchased;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
-
-    public String getDate_purchased() {
-        return date_purchased;
+    public void setUsername(String username) {
+        this.username = username;
     }
-
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public void setLocation(String location) {
-//        this.location = location;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
-
-    public String getLocation() {
-        return location;
-    }
-
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public void setUsername(String name) {
-//        username = name; }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
-
-    public String getUsername() { return username; }
-
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public void setName(String name) {
-//        this.name = name;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
 
     public String getName() {
         return name;
     }
 
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public void setNotes(String notes) {
-//        this.notes = notes;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
-
-    public String getNotes() {
-        return notes;
+    public void setName(String name) {
+        this.name = name;
     }
 
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public void setQuantity(int quantity) {
-//        this.quantity = quantity;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
-
-    public int getQuantity() {
-        return quantity;
+    public String getLocation() {
+        return location;
     }
 
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public void setType(String type) {
-//        this.type = type;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
+    public void setLocation(String location) {
+        this.location = location;
+    }
 
     public String getType() {
         return type;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getDate_purchased() {
+        return date_purchased;
+    }
+
+    public void setDate_purchased(String date_purchased) {
+        this.date_purchased = date_purchased;
+    }
+
+    public String getDate_expired() {
+        return date_expired;
+    }
+
+    public void setDate_expired(String date_expired) {
+        this.date_expired = date_expired;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public float getAverage_price() {
+        return average_price;
+    }
+
+    public void setAverage_price(float average_price) {
+        this.average_price = average_price;
+    }
+
+    public Date getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public Date getPurchaseDate() {
+        return purchaseDate;
+    }
+
+    public void setPurchaseDate(Date purchaseDate) {
+        this.purchaseDate = purchaseDate;
+    }
+
     @Override
-    public boolean equals (Object obj)
-    {
-        return true;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Item item = (Item) o;
+
+        if (!getUsername().equals(item.getUsername())) return false;
+        if (!getName().equals(item.getName())) return false;
+        return getType().equals(item.getType());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = getUsername().hashCode();
+        result = 31 * result + getName().hashCode();
+        result = 31 * result + getType().hashCode();
+        return result;
     }
 }

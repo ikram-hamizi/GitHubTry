@@ -46,19 +46,7 @@ public class TimePickerFragment extends DialogFragment
 
     public TimePickerFragment() {
         // Required empty public constructor
-//        timeInMillis = DateHelper.getFutureTime(1,0);
-        timeInMillis = 100*60*1000;
-//        timeInMillis = DateHelper.getFutureTime(0,0);
     }
-
-
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        TextView textView = new TextView(getActivity());
-//        textView.setText(R.string.hello_blank_fragment);
-//        return textView;
-//    }
 
     /**
      * Called when the user is done setting a new time and the dialog has

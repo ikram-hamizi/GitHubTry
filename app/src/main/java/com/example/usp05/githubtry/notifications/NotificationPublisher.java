@@ -7,7 +7,16 @@ import android.app.job.JobService;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Handler;
+
+import com.example.usp05.githubtry.AppContext;
+import com.example.usp05.githubtry.R;
+import com.example.usp05.githubtry.data_model.DBItemsHelper;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * Created by nathan on 4/26/18.
@@ -18,47 +27,101 @@ public class NotificationPublisher extends BroadcastReceiver{
     public static String NOTIFICATION_ID = "notification-id";
     public static String NOTIFICATION = "notification";
 
-    /**
-     * This method is called when the BroadcastReceiver is receiving an Intent
-     * broadcast.  During this time you can use the other methods on
-     * BroadcastReceiver to view/modify the current result values.  This method
-     * is always called within the main thread of its process, unless you
-     * explicitly asked for it to be scheduled on a different thread using
-     * {@link Context#registerReceiver(BroadcastReceiver, * IntentFilter, String, Handler)}. When it runs on the main
-     * thread you should
-     * never perform long-running operations in it (there is a timeout of
-     * 10 seconds that the system allows before considering the receiver to
-     * be blocked and a candidate to be killed). You cannot launch a popup dialog
-     * in your implementation of onReceive().
-     * <p>
-     * <p><b>If this BroadcastReceiver was launched through a &lt;receiver&gt; tag,
-     * then the object is no longer alive after returning from this
-     * function.</b> This means you should not perform any operations that
-     * return a result to you asynchronously. If you need to perform any follow up
-     * background work, schedule a {@link JobService} with
-     * {@link JobScheduler}.
-     * <p>
-     * If you wish to interact with a service that is already running and previously
-     * bound using {@link Context#bindService(Intent, ServiceConnection, int) bindService()},
-     * you can use {@link #peekService}.
-     * <p>
-     * <p>The Intent filters used in {@link Context#registerReceiver}
-     * and in application manifests are <em>not</em> guaranteed to be exclusive. They
-     * are hints to the operating system about how to find suitable recipients. It is
-     * possible for senders to force delivery to specific recipients, bypassing filter
-     * resolution.  For this reason, {@link #onReceive(Context, Intent) onReceive()}
-     * implementations should respond only to known actions, ignoring any unexpected
-     * Intents that they may receive.
-     *
-     * @param context The Context in which the receiver is running.
-     * @param intent  The Intent being received.
-     */
+
     @Override
     public void onReceive(Context context, Intent intent) {
-        NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        DBItemsHelper helper = new DBItemsHelper(context);
 
-        Notification notification = intent.getParcelableExtra(NOTIFICATION);
-        int id = intent.getIntExtra(NOTIFICATION_ID, 0);
-        notificationManager.notify(id, notification);
+        Cursor cursor = helper.getItems();
+        ArrayList<Date> dates = new ArrayList<>();
+
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+
+
+        Date today = calendar.getTime();
+
+        if (cursor.moveToFirst()) {
+            do {
+                dates.add(DateHelper.getDateFromDatabaseString(cursor.getString(cursor.getColumnIndex(DBItemsHelper.ITEM_COL_DATE_EXPIRED))));
+            } while(cursor.moveToNext());
+        }
+
+        ArrayList<Integer> expItem = new ArrayList<>();
+
+        for (int i = 0; i < dates.size(); i++) {
+            if (dates.get(i).compareTo(today) <= 0) {
+                expItem.add(i);
+            }
+        }
+
+        if (!expItem.isEmpty()) {
+            Notification.Builder builder = new Notification.Builder(context);
+            builder.setContentTitle("Inventory expiration notification");
+
+
+            StringBuffer sb = new StringBuffer();
+
+            cursor.moveToPosition(expItem.get(0));
+            sb.append(cursor.getString(cursor.getColumnIndex(DBItemsHelper.ITEM_COL_NAME)));
+
+            if (expItem.size() > 1) {
+                sb.append(" and ").append(expItem.size()-1);
+                sb.append(" other items have expired!");
+            } else {
+                sb.append(" has expired!");
+            }
+            builder.setContentText(sb.toString());
+            builder.setSmallIcon(R.drawable.ic_launcher_background);
+
+            NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+            notificationManager.notify(1, builder.build());
+
+        }
     }
+
+//    private void checkDatabaseEntries(){
+//        DBItemsHelper helper = new DBItemsHelper(AppContext.getContext());
+//
+//        Cursor cursor = helper.getItems();
+//        ArrayList<Date> dates = new ArrayList<>();
+//
+//
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeInMillis(System.currentTimeMillis());
+//
+//
+//        Date today = calendar.getTime();
+//
+//        if (cursor.moveToFirst()) {
+//            do {
+//                dates.add(DateHelper.getDateFromDatabaseString(cursor.getString(cursor.getColumnIndex(DBItemsHelper.ITEM_COL_DATE_EXPIRED))));
+//            } while(cursor.moveToNext());
+//        }
+//
+//        ArrayList<Integer> expItem = new ArrayList<>();
+//
+//        for (int i = 0; i < dates.size(); i++) {
+//            if (dates.get(i).compareTo(today) <= 0) {
+//                expItem.add(i);
+//            }
+//        }
+//
+//        if (!expItem.isEmpty()) {
+//            Notification.Builder builder = new Notification.Builder(AppContext.getContext());
+//            builder.setContentTitle("Inventory expiration notification");
+//            builder.setContentText(content);
+//            builder.setSmallIcon(R.drawable.ic_launcher_background);
+//
+//            NotificationManager notificationManager = (NotificationManager)AppContext.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//            Notification notification = intent.getParcelableExtra(NOTIFICATION);
+//            int id = intent.getIntExtra(NOTIFICATION_ID, 0);
+//            notificationManager.notify(id, notification);
+//
+//        }
+//
+//    }
 }

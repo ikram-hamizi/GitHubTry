@@ -23,21 +23,21 @@ import java.util.List;
 
 public class DBItemsHelper extends SQLiteOpenHelper{
 
-    private static final int DB_VERSION = 1;
-    private static final String DB_NAME = "DATABASE_MYINVENTORYAPP";
+    public static final int DB_VERSION = 1;
+    public static final String DB_NAME = "DATABASE_MYINVENTORYAPP";
 
-    private static final String ITEM_TABLE_NAME = "ITEM";
+    public static final String ITEM_TABLE_NAME = "ITEM";
 
-    private static final String ITEM_COL_ID = "ID";
-    private static final String ITEM_COL_USERNAME = "USERNAME";
-    private static final String ITEM_COL_NAME = "NAME";
-    private static final String ITEM_COL_LOCATION = "LOCATION";
-    private static final String ITEM_COL_TYPE = "TYPE";
-    private static final String ITEM_COL_DATE_PURCHASED = "DATE_PURCHASED";
-    private static final String ITEM_COL_DATE_EXPIRED = "DATE_EXPIRED";
-    private static final String ITEM_COL_QUANTITY = "QUANTITY";
-    private static final String ITEM_COL_AVERAGE_PRICE = "AVERAGE_PRICE";
-    private static final String ITEM_COL_NOTES = "NOTES";
+    public static final String ITEM_COL_ID = "ID";
+    public static final String ITEM_COL_USERNAME = "USERNAME";
+    public static final String ITEM_COL_NAME = "NAME";
+    public static final String ITEM_COL_LOCATION = "LOCATION";
+    public static final String ITEM_COL_TYPE = "TYPE";
+    public static final String ITEM_COL_DATE_PURCHASED = "DATE_PURCHASED";
+    public static final String ITEM_COL_DATE_EXPIRED = "DATE_EXPIRED";
+    public static final String ITEM_COL_QUANTITY = "QUANTITY";
+    public static final String ITEM_COL_AVERAGE_PRICE = "AVERAGE_PRICE";
+    public static final String ITEM_COL_NOTES = "NOTES";
 
     private long row_nInsert;
     private SQLiteDatabase appDB;
@@ -155,6 +155,15 @@ public class DBItemsHelper extends SQLiteOpenHelper{
 
     // gets all data from items database and displays in the ListView in inventory screen
     public Cursor getItems(String username) {
+        appDB = getReadableDatabase();
+        String query = "select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ? order by " + ITEM_COL_NAME;
+//        Cursor cursor = appDB.rawQuery(query, new String[]{username});
+//        String query = "select * from " + DBItemsHelper.ITEM_TABLE_NAME;
+        return appDB.rawQuery(query, new String[]{UH.getUsername()});
+    }
+
+    // gets all data from items database and displays in the ListView in inventory screen
+    public Cursor getItems() {
         appDB = getReadableDatabase();
         String query = "select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ? order by " + ITEM_COL_NAME;
 //        Cursor cursor = appDB.rawQuery(query, new String[]{username});

@@ -55,13 +55,10 @@ import android.widget.TextView;
 public class InventoryActivity extends Activity {
   
     private ArrayList<InventoryItemDisplay> items = new ArrayList<>();
-    private FloatingActionButton notiB;
     public static int NOTIFICATION_ID = 1;
     private UserHandler UH = UserHandler.getInstance();
     private String username = UH.getUsername();
     InventoryAdapter inventoryAdapter;
-
-    boolean haveNotificationTime = false;
 
 
     private Collection<String> typeFilters;
@@ -80,7 +77,6 @@ public class InventoryActivity extends Activity {
         // clicking buttons on inventory screen
         Button filterButton = findViewById(R.id.BFilter);
         FloatingActionButton addItemButton = findViewById(R.id.BAddItem);
-        FloatingActionButton notificationB = findViewById(R.id.notificationButton);
 
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,16 +93,6 @@ public class InventoryActivity extends Activity {
                 startActivity(i);
             }
         });
-
-        notificationB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TimePickerFragment newFragment = new TimePickerFragment();
-                newFragment.show(getFragmentManager(), "timePicker");
-                scheduleNotification(getNotification("XYZ item expires today!"), newFragment.getTimeInMillis());
-            }
-        });
-
 
 
         // displaying items in recycle view
@@ -148,8 +134,6 @@ public class InventoryActivity extends Activity {
             }
         }
         inventoryAdapter.filterList(filteredList);
-        notiB = (FloatingActionButton) findViewById(R.id.notificationButton);
-        notiB.setOnClickListener(buttonClickListener);
     }
 
     public void createList() {
@@ -167,71 +151,6 @@ public class InventoryActivity extends Activity {
         }
     }
 
-
-    private Cursor populateFilteredList(Collection<String> typeFilters, Collection<String> locationFilters){
-        // TODO: Get filters to work
-        // TODO: Incorporate "You have no items" result
-
-        Cursor returnCursor;
-
-        if ((typeFilters == null) && (locationFilters == null)) {
-            returnCursor = helper.getItems(username);
-        } else {
-            returnCursor = helper.getFilteredItems(username, typeFilters, locationFilters);
-        }
-
-        return returnCursor;
-    }
-
-    private View.OnClickListener buttonClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-/*
-            // Create PendingIntent to take us to DetailsActivity
-            // as a result of notification action
-            Intent detailsIntent = new Intent(InventoryActivity.this, ItemDisplayDetails.class);
-            detailsIntent.putExtra("EXTRA_DETAILS_ID", 42);
-            PendingIntent detailsPendingIntent = PendingIntent.getActivity(
-                    InventoryActivity.this,
-                    0,
-                    detailsIntent,
-                    PendingIntent.FLAG_UPDATE_CURRENT
-            );
-
-            // NotificationCompat Builder takes care of backwards compatibility and
-            // provides clean API to create rich notifications
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(InventoryActivity.this)
-                    .setSmallIcon(android.R.drawable.ic_dialog_info)
-                    .setContentTitle("GithubTry")
-                    .setContentText("An item is almost depleted, do you want to buy more?")
-                    .setAutoCancel(true)
-                    .setContentIntent(detailsPendingIntent)
-                    .addAction(android.R.drawable.ic_menu_compass, "Details", detailsPendingIntent);
-
-
-            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-            notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-
-            }*/
-
-
-//            TimePickerFragment newFragment = new TimePickerFragment();
-//            newFragment.show(getFragmentManager(), "timePicker");
-//            scheduleNotification(getNotification("XYZ item expires today!"), newFragment.getTimeInMillis());
-
-//            if (!haveNotificationTime) {
-////                TimePickerFragment newFragment = new TimePickerFragment();
-//                newFragment.show(getFragmentManager(), "timePicker");
-//                haveNotificationTime = true;
-//            } else {
-//                scheduleNotification(getNotification("XYZ item expires today!"), newFragment.getTimeInMillis());
-//                haveNotificationTime = false;
-//            }
-
-        }
-
-    };
-
     private void scheduleNotification(Notification notification, long dateTime) {
 
         Intent notificationIntent = new Intent(this, NotificationPublisher.class);
@@ -241,8 +160,8 @@ public class InventoryActivity extends Activity {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, 8);
-        calendar.set(Calendar.MINUTE, 11);
+        calendar.set(Calendar.HOUR_OF_DAY, 11);
+        calendar.set(Calendar.MINUTE, 37);
 
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);

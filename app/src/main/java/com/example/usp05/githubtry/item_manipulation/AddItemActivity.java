@@ -31,6 +31,8 @@ public class AddItemActivity extends AppCompatActivity implements DatePickerDial
     private String username = UH.getUsername();
     private int dateSelector = 0;
 
+    Item addItem = new Item();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,9 @@ public class AddItemActivity extends AppCompatActivity implements DatePickerDial
 
             Item newItem = new Item(username, item_name, item_location, item_category, item_datePurchased, item_dateExpired,
                     item_note, item_quantity);
+
+            newItem.setPurchaseDate(addItem.getPurchaseDate());
+            newItem.setExpirationDate(addItem.getExpirationDate());
 
             db_helper.insertItem(newItem); //Insert Item to DB
             db_helper.insertedToast(this).show();
@@ -101,6 +106,8 @@ public class AddItemActivity extends AppCompatActivity implements DatePickerDial
 
     }
 
+
+
     /**
      * To set date on TextView
      * @param calendar
@@ -109,9 +116,11 @@ public class AddItemActivity extends AppCompatActivity implements DatePickerDial
         final DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.MEDIUM);
         if (dateSelector == 1) {
             ((TextView) findViewById(R.id.B_expirationDate)).setText(dateFormat.format(calendar.getTime()));
+            addItem.setExpirationDate(calendar.getTime());
         }
         if(dateSelector == 2) {
             ((TextView) findViewById(R.id.B_purchaseDate)).setText(dateFormat.format(calendar.getTime()));
+            addItem.setPurchaseDate(calendar.getTime());
         }
 
 

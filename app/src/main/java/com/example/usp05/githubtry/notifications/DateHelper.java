@@ -40,15 +40,14 @@ public class DateHelper {
     private static final String monthlyNotificationDateStr = "W, E, HH:mm";
     private static final String weeklyNotificationDateStr = "E, HH:mm";
     private static final String dailyNotificationDateStr = "HH:mm";
-
-    private static final String testDateStr = "MM/dd/yyyy HH:mm";
-    public static SimpleDateFormat testFormat = new SimpleDateFormat(testDateStr);
+    private static final String databaseFormatStr = "MMMMM dd, yyyy";
 
     private static SimpleDateFormat itemDate = new SimpleDateFormat(itemDateStr);
     private static SimpleDateFormat notificationDate = new SimpleDateFormat(notificationDateStr);
     private static SimpleDateFormat monthNotificationDate = new SimpleDateFormat(monthlyNotificationDateStr);
     private static SimpleDateFormat weekNotificationDate = new SimpleDateFormat(weeklyNotificationDateStr);
     private static SimpleDateFormat dayNotificationDate = new SimpleDateFormat(dailyNotificationDateStr);
+    private static SimpleDateFormat databaseFormat = new SimpleDateFormat(databaseFormatStr);
 
     public DateHelper() {
 
@@ -105,38 +104,37 @@ public class DateHelper {
         return inputDate;
     }
 
-    public static long getFutureTime(int minute, int hour) {
-//        Date timeAfterEpoch = new Date();
-//
-//        String m, h;
-//
-//        m = Integer.toString(minute);
-//        h = Integer.toString(hour);
-//
-//        try {
-//            timeAfterEpoch = dayNotificationDate.parse(h + ':' + m);
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//
-//        Date now = Calendar.getInstance().getTime();
-//
-//        try {
-//            now = notificationDate.parse(notificationDate.format(now));
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//
-//        return now.getTime() + timeAfterEpoch.getTime();
-
-        Date test = new Date();
+    public static Date getDateFromDatabaseString(String dbEntry) {
         try {
-            test = testFormat.parse("04/26/2018 07:00");
+            return databaseFormat.parse(dbEntry);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return Calendar.getInstance().getTime();
+    }
+
+    public static long getFutureTime(int minute, int hour) {
+        Date timeAfterEpoch = new Date();
+
+        String m, h;
+
+        m = Integer.toString(minute);
+        h = Integer.toString(hour);
+
+        try {
+            timeAfterEpoch = dayNotificationDate.parse(h + ':' + m);
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        return test.getTime();
-//        return testFormat.getCalendar().getTimeInMillis();
+        Date now = Calendar.getInstance().getTime();
+
+        try {
+            now = notificationDate.parse(notificationDate.format(now));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return now.getTime() + timeAfterEpoch.getTime();
     }
 }
