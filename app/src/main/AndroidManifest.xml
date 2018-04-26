@@ -24,7 +24,9 @@
         <activity android:name=".item_filtering.FilterActivity" />
         <activity android:name=".user_handling.ChangePassword" />
         <activity android:name=".user_handling.ForgotPassword" />
-        <receiver android:name=".notifications.NotificationPublisher"></receiver>
+
+        <receiver android:name=".notifications.NotificationPublisher" />
+
     </application>
 
 </manifest>

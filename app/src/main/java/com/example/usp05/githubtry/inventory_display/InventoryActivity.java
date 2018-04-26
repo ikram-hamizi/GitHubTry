@@ -25,14 +25,17 @@ import com.example.usp05.githubtry.data_model.DBItemsHelper;
 import com.example.usp05.githubtry.item_filtering.FilterActivity;
 import com.example.usp05.githubtry.R;
 import com.example.usp05.githubtry.item_manipulation.ItemDisplayDetails;
+import com.example.usp05.githubtry.notifications.DateHelper;
 import com.example.usp05.githubtry.notifications.NotificationPublisher;
 import com.example.usp05.githubtry.notifications.TimePickerFragment;
 import com.example.usp05.githubtry.user_handling.UserHandler;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import android.app.NotificationManager;
@@ -58,6 +61,8 @@ public class InventoryActivity extends Activity {
     private String username = UH.getUsername();
     InventoryAdapter inventoryAdapter;
 
+    boolean haveNotificationTime = false;
+
 
     private Collection<String> typeFilters;
     private Collection<String> locationFilters;
@@ -75,6 +80,7 @@ public class InventoryActivity extends Activity {
         // clicking buttons on inventory screen
         Button filterButton = findViewById(R.id.BFilter);
         FloatingActionButton addItemButton = findViewById(R.id.BAddItem);
+        FloatingActionButton notificationB = findViewById(R.id.notificationButton);
 
         filterButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -91,6 +97,17 @@ public class InventoryActivity extends Activity {
                 startActivity(i);
             }
         });
+
+        notificationB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerFragment newFragment = new TimePickerFragment();
+                newFragment.show(getFragmentManager(), "timePicker");
+                scheduleNotification(getNotification("XYZ item expires today!"), newFragment.getTimeInMillis());
+            }
+        });
+
+
 
         // displaying items in recycle view
         createList();
@@ -116,6 +133,11 @@ public class InventoryActivity extends Activity {
                 filter(s.toString());
             }
         });
+
+
+        TimePickerFragment newFragment = new TimePickerFragment();
+        long tempTime = newFragment.getTimeInMillis();
+        scheduleNotification(getNotification("XYZ item expires today!"), tempTime);
     }
 
     private void filter(String text) {
@@ -192,9 +214,20 @@ public class InventoryActivity extends Activity {
 
             }*/
 
-            TimePickerFragment newFragment = new TimePickerFragment();
-            newFragment.show(getFragmentManager(), "timePicker");
-            scheduleNotification(getNotification("XYZ item expires today!"), newFragment.getTimeInMillis());
+
+//            TimePickerFragment newFragment = new TimePickerFragment();
+//            newFragment.show(getFragmentManager(), "timePicker");
+//            scheduleNotification(getNotification("XYZ item expires today!"), newFragment.getTimeInMillis());
+
+//            if (!haveNotificationTime) {
+////                TimePickerFragment newFragment = new TimePickerFragment();
+//                newFragment.show(getFragmentManager(), "timePicker");
+//                haveNotificationTime = true;
+//            } else {
+//                scheduleNotification(getNotification("XYZ item expires today!"), newFragment.getTimeInMillis());
+//                haveNotificationTime = false;
+//            }
+
         }
 
     };
@@ -206,9 +239,13 @@ public class InventoryActivity extends Activity {
         notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-//        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 8);
+        calendar.set(Calendar.MINUTE, 11);
+
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, dateTime, pendingIntent);
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
     private Notification getNotification(String content) {

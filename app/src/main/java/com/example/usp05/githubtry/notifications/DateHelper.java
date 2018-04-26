@@ -41,6 +41,9 @@ public class DateHelper {
     private static final String weeklyNotificationDateStr = "E, HH:mm";
     private static final String dailyNotificationDateStr = "HH:mm";
 
+    private static final String testDateStr = "MM/dd/yyyy HH:mm";
+    public static SimpleDateFormat testFormat = new SimpleDateFormat(testDateStr);
+
     private static SimpleDateFormat itemDate = new SimpleDateFormat(itemDateStr);
     private static SimpleDateFormat notificationDate = new SimpleDateFormat(notificationDateStr);
     private static SimpleDateFormat monthNotificationDate = new SimpleDateFormat(monthlyNotificationDateStr);
@@ -103,28 +106,37 @@ public class DateHelper {
     }
 
     public static long getFutureTime(int minute, int hour) {
-        Date timeAfterEpoch = new Date();
+//        Date timeAfterEpoch = new Date();
+//
+//        String m, h;
+//
+//        m = Integer.toString(minute);
+//        h = Integer.toString(hour);
+//
+//        try {
+//            timeAfterEpoch = dayNotificationDate.parse(h + ':' + m);
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        Date now = Calendar.getInstance().getTime();
+//
+//        try {
+//            now = notificationDate.parse(notificationDate.format(now));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return now.getTime() + timeAfterEpoch.getTime();
 
-        String m, h;
-
-        m = Integer.toString(minute);
-        h = Integer.toString(hour);
-
+        Date test = new Date();
         try {
-            timeAfterEpoch = dayNotificationDate.parse(m + ':' + h);
+            test = testFormat.parse("04/26/2018 07:00");
         } catch (ParseException e) {
             e.printStackTrace();
         }
 
-        Date now = Calendar.getInstance().getTime();
-
-        try {
-            now = notificationDate.parse(notificationDate.format(now));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return now.getTime() + timeAfterEpoch.getTime();
-
+        return test.getTime();
+//        return testFormat.getCalendar().getTimeInMillis();
     }
 }

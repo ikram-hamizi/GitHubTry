@@ -29,7 +29,8 @@ public class TimePickerFragment extends DialogFragment
         return timeInMillis;
     }
 
-    private long timeInMillis;
+    private long timeInMillis = 0;
+
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -45,6 +46,9 @@ public class TimePickerFragment extends DialogFragment
 
     public TimePickerFragment() {
         // Required empty public constructor
+//        timeInMillis = DateHelper.getFutureTime(1,0);
+        timeInMillis = 100*60*1000;
+//        timeInMillis = DateHelper.getFutureTime(0,0);
     }
 
 
