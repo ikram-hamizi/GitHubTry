@@ -7,15 +7,24 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 
+import com.example.usp05.githubtry.data_model.Item;
 import com.example.usp05.githubtry.item_manipulation.AddItemActivity;
 import com.example.usp05.githubtry.data_model.DBItemsHelper;
 import com.example.usp05.githubtry.item_filtering.FilterActivity;
 import com.example.usp05.githubtry.R;
+import com.example.usp05.githubtry.item_manipulation.ItemDisplayDetails;
 import com.example.usp05.githubtry.user_handling.UserHandler;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
@@ -28,6 +37,7 @@ import java.util.Collection;
 
 public class InventoryActivity extends Activity {
 
+    private ArrayList<InventoryItemDisplay> items = new ArrayList<>();
     private UserHandler UH = UserHandler.getInstance();
     private String username = UH.getUsername();
 
@@ -41,8 +51,7 @@ public class InventoryActivity extends Activity {
         Collection<String> typeFilters = (Collection<String>) getIntent().getSerializableExtra("typeFilters");
         Collection<String> locationFilters = (Collection<String>) getIntent().getSerializableExtra("locationFilters");
 
-        InventoryCursorAdapter inventoryAdapter = new InventoryCursorAdapter(this, populateFilteredList(typeFilters, locationFilters), username);
-
+        // clicking buttons on inventory screen
         Button filterButton = findViewById(R.id.BFilter);
         Button addItemButton = findViewById(R.id.BAddItem);
 
@@ -62,11 +71,53 @@ public class InventoryActivity extends Activity {
             }
         });
 
+        // displaying items in recycle view
+        createList();
+        // InventoryCursorAdapter inventoryAdapter = new InventoryCursorAdapter(this, populateFilteredList(typeFilters, locationFilters), username);
+        InventoryAdapter inventoryAdapter = new InventoryAdapter(this, items);
         RecyclerView RV_inventory = findViewById(R.id.RV_inventory);
         RV_inventory.setLayoutManager(new LinearLayoutManager(this));
-        RV_inventory.setItemAnimator(new DefaultItemAnimator());
+//        RV_inventory.setItemAnimator(new DefaultItemAnimator());
         RV_inventory.setAdapter(inventoryAdapter);
+
+        // implementing search bar
+//        EditText searchBar = findViewById(R.id.SV_Inventory);
+//        searchBar.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                filter(s.toString());
+//            }
+//        });
     }
+
+//    private void filter(String text) {
+//        ArrayList<Item> filteredList = new ArrayList<>();
+//
+//    }
+
+    public void createList() {
+        Cursor cursor = helper.getItems(username);
+        if (cursor.moveToFirst()) {
+            do {
+                int id = cursor.getInt(cursor.getColumnIndex("ID"));
+                String name = cursor.getString(cursor.getColumnIndex("NAME"));
+                String location = cursor.getString(cursor.getColumnIndex("LOCATION"));
+                int quantity = cursor.getInt(cursor.getColumnIndex("QUANTITY"));
+                InventoryItemDisplay item = new InventoryItemDisplay(id, name, location, quantity);
+                items.add(item);
+            }
+            while (cursor.moveToNext());
+        }
+    }
+
 
     private Cursor populateFilteredList(Collection<String> typeFilters, Collection<String> locationFilters){
 
