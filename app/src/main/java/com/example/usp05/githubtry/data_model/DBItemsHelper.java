@@ -328,7 +328,9 @@ public class DBItemsHelper extends SQLiteOpenHelper{
 
         filterQuery.append(';');
 
-        return appDB.rawQuery(filterQuery.toString(), null);
+        return appDB.query(true, ITEM_TABLE_NAME, new String[]{ITEM_COL_NAME}, ITEM_COL_USERNAME, new String[]{UH.getUsername()}, null, null, null, null);
+
+//        return appDB.rawQuery(filterQuery.toString(), null);
     }
 
     public int getTotalQuantity(String itemName) {

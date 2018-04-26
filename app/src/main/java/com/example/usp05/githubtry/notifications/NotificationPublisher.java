@@ -27,60 +27,69 @@ public class NotificationPublisher extends BroadcastReceiver{
     public static String NOTIFICATION_ID = "notification-id";
     public static String NOTIFICATION = "notification";
 
-
     @Override
-    public void onReceive(Context context, Intent intent) {
-        DBItemsHelper helper = new DBItemsHelper(context);
+    public void onReceive(final Context context, Intent intent) {
 
-        Cursor cursor = helper.getItems();
-        ArrayList<Date> dates = new ArrayList<>();
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
-
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-
-
-        Date today = calendar.getTime();
-
-        if (cursor.moveToFirst()) {
-            do {
-                dates.add(DateHelper.getDateFromDatabaseString(cursor.getString(cursor.getColumnIndex(DBItemsHelper.ITEM_COL_DATE_EXPIRED))));
-            } while(cursor.moveToNext());
-        }
-
-        ArrayList<Integer> expItem = new ArrayList<>();
-
-        for (int i = 0; i < dates.size(); i++) {
-            if (dates.get(i).compareTo(today) <= 0) {
-                expItem.add(i);
-            }
-        }
-
-        if (!expItem.isEmpty()) {
-            Notification.Builder builder = new Notification.Builder(context);
-            builder.setContentTitle("Inventory expiration notification");
-
-
-            StringBuffer sb = new StringBuffer();
-
-            cursor.moveToPosition(expItem.get(0));
-            sb.append(cursor.getString(cursor.getColumnIndex(DBItemsHelper.ITEM_COL_NAME)));
-
-            if (expItem.size() > 1) {
-                sb.append(" and ").append(expItem.size()-1);
-                sb.append(" other items have expired!");
-            } else {
-                sb.append(" has expired!");
-            }
-            builder.setContentText(sb.toString());
-            builder.setSmallIcon(R.drawable.ic_launcher_background);
-
-            NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
-
-            notificationManager.notify(1, builder.build());
-
-        }
+        Notification notification = intent.getParcelableExtra(NOTIFICATION);
+        int notificationId = intent.getIntExtra(NOTIFICATION_ID, 0);
+        notificationManager.notify(notificationId, notification);
     }
+
+//    @Override
+//    public void onReceive(Context context, Intent intent) {
+//        DBItemsHelper helper = new DBItemsHelper(context);
+//
+//        Cursor cursor = helper.getItems();
+//        ArrayList<Date> dates = new ArrayList<>();
+//
+//
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTimeInMillis(System.currentTimeMillis());
+//
+//
+//        Date today = calendar.getTime();
+//
+//        if (cursor.moveToFirst()) {
+//            do {
+//                dates.add(DateHelper.getDateFromDatabaseString(cursor.getString(cursor.getColumnIndex(DBItemsHelper.ITEM_COL_DATE_EXPIRED))));
+//            } while(cursor.moveToNext());
+//        }
+//
+//        ArrayList<Integer> expItem = new ArrayList<>();
+//
+//        for (int i = 0; i < dates.size(); i++) {
+//            if (dates.get(i).compareTo(today) <= 0) {
+//                expItem.add(i);
+//            }
+//        }
+//
+//        if (!expItem.isEmpty()) {
+//            Notification.Builder builder = new Notification.Builder(context);
+//            builder.setContentTitle("Inventory expiration notification");
+//
+//
+//            StringBuffer sb = new StringBuffer();
+//
+//            cursor.moveToPosition(expItem.get(0));
+//            sb.append(cursor.getString(cursor.getColumnIndex(DBItemsHelper.ITEM_COL_NAME)));
+//
+//            if (expItem.size() > 1) {
+//                sb.append(" and ").append(expItem.size()-1);
+//                sb.append(" other items have expired!");
+//            } else {
+//                sb.append(" has expired!");
+//            }
+//            builder.setContentText(sb.toString());
+//            builder.setSmallIcon(R.drawable.ic_launcher_background);
+//
+//            NotificationManager notificationManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//            notificationManager.notify(1, builder.build());
+//
+//        }
+//    }
 
 //    private void checkDatabaseEntries(){
 //        DBItemsHelper helper = new DBItemsHelper(AppContext.getContext());

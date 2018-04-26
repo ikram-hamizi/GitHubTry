@@ -123,7 +123,7 @@ public class InventoryActivity extends Activity {
 
         TimePickerFragment newFragment = new TimePickerFragment();
         long tempTime = newFragment.getTimeInMillis();
-        scheduleNotification(getNotification("XYZ item expires today!"), tempTime);
+        scheduleNotification(getNotification("You have items expiring soon!"), tempTime);
     }
 
     private void filter(String text) {
@@ -137,13 +137,14 @@ public class InventoryActivity extends Activity {
     }
 
     public void createList() {
-        Cursor cursor = helper.getUniqueFilteredItems(username, typeFilters, locationFilters);
+        Cursor cursor = helper.getFilteredItems(username, typeFilters, locationFilters);
         if (cursor.moveToFirst()) {
             do {
                 int id = cursor.getInt(cursor.getColumnIndex("ID"));
                 String name = cursor.getString(cursor.getColumnIndex("NAME"));
                 String location = cursor.getString(cursor.getColumnIndex(DBItemsHelper.ITEM_COL_TYPE));
-                int quantity = helper.getTotalQuantity(name);
+//                int quantity = helper.getTotalQuantity(name);
+                int quantity = cursor.getInt(cursor.getColumnIndex(DBItemsHelper.ITEM_COL_QUANTITY));
                 InventoryItemDisplay item = new InventoryItemDisplay(id, name, location, quantity);
                 items.add(item);
             }
