@@ -102,6 +102,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    public Cursor getSecAnswers(String username) {
+        db = getReadableDatabase();
+        String query = "select " + COLUMN_SECQUESTION1 + ", " + COLUMN_SECQUESTION2 + ", " + COLUMN_SECQUESTION3 +
+                " from " + TABLE_NAME +
+                " where " + COLUMN_USERNAME + " = '" + username + "';";
+        Cursor cursor = db.rawQuery(query, null);
+        return cursor;
+    }
+
+    public void updatePassword(String username, String password) {
+        db = getWritableDatabase();
+        String query = "update " + TABLE_NAME +
+                " set " + COLUMN_PASSWORD + " = '" + password +
+                "' where " + COLUMN_USERNAME + " = '" + username + "';";
+        db.execSQL(query);
+        db.close();
+    }
+
     public User getUser(String username){
         db = getReadableDatabase();
         String query = "select * from " + DatabaseHelper.TABLE_NAME + " WHERE " + DatabaseHelper.COLUMN_USERNAME + " = ?";

@@ -46,6 +46,7 @@
 
     <Button
         android:id="@+id/loginButton"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onLoginClick"
@@ -53,9 +54,22 @@
 
     <Button
         android:id="@+id/signUpButton"
-        style="@style/Widget.AppCompat.Button.Colored"
+        style="@android:style/Widget.Button.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="onSignUpClick"
         android:text="Sign Up" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="60dp" />
+
+    <TextView
+        android:id="@+id/forgotPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#FF4081"
+        android:onClick="onForgotPasswordClick"
+        android:text="Forgot Password?" />
 </LinearLayout>
