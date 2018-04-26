@@ -1,7 +1,9 @@
 package com.example.usp05.githubtry.item_manipulation;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -60,12 +62,29 @@ public class ItemDisplayDetails extends AppCompatActivity {
         notificationManager.cancel(InventoryActivity.NOTIFICATION_ID);
     }
 
-    public void onDeleteClick (View view)
-    {
-        db_helper.deleteItem(username, itemID);
-        Intent intent = new Intent(this, InventoryActivity.class);
-        startActivity(intent);
-        //DELETE? IS IT WORKING? Needs to be tried with Current Inventory
+    public void onDeleteClick (View view) {
+        if (view.getId() == R.id.itemDelete) {
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            // "Yes" button clicked
+                            db_helper.deleteItem(username, itemID);
+                            Intent intent = new Intent(ItemDisplayDetails.this, InventoryActivity.class);
+                            startActivity(intent);
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            // "No" button clicked
+                            break;
+                    }
+                }
+            };
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+            builder.setMessage("Are you sure you want to delete this item?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+        }
     }
 
     public void onEditClick (View view)

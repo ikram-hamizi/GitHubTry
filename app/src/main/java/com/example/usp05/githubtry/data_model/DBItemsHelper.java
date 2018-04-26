@@ -155,7 +155,7 @@ public class DBItemsHelper extends SQLiteOpenHelper{
     public Cursor getItems(String username) {
         // TODO: Fix username being null problem
         appDB = getReadableDatabase();
-        String query = "select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ?";
+        String query = "select * from " + ITEM_TABLE_NAME + " where " + ITEM_COL_USERNAME + " = ? order by " + ITEM_COL_NAME;
 //        Cursor cursor = appDB.rawQuery(query, new String[]{username});
 //        String query = "select * from " + DBItemsHelper.ITEM_TABLE_NAME;
         return appDB.rawQuery(query, new String[]{UH.getUsername()});

@@ -1,8 +1,10 @@
 package com.example.usp05.githubtry.item_manipulation;
 
 import android.content.ContentValues;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -109,14 +111,30 @@ public class EditItemActivity extends AppCompatActivity
         startActivity(i);
     }
 
-    public void onEditDeleteClick (View view)
-    {
-        db_helper.deleteItem(username, itemID);
-        Intent intent = new Intent(this, InventoryActivity.class);
-        startActivity(intent);
+    public void onEditDeleteClick (View view) {
+        if (view.getId() == R.id.deleteBTN) {
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            // "Yes" button clicked
+                            db_helper.deleteItem(username, itemID);
+                            Intent intent = new Intent(EditItemActivity.this, InventoryActivity.class);
+                            startActivity(intent);
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            // "No" button clicked
+                            break;
+                    }
+                }
+            };
+            AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+            builder.setMessage("Are you sure you want to delete this item?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+        }
     }
-
-
 }
 
 //You can do "File" -> "Invalidate Caches...", and select "Invalidate and Restart" option to fix this.
