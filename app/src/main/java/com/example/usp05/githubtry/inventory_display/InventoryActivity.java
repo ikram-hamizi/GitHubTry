@@ -1,9 +1,16 @@
 package com.example.usp05.githubtry.inventory_display;
 
 import android.app.Activity;
+import android.app.AlarmManager;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.app.Notification;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,19 +18,27 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import com.example.usp05.githubtry.item_manipulation.AddItemActivity;
 import com.example.usp05.githubtry.data_model.DBItemsHelper;
 import com.example.usp05.githubtry.item_filtering.FilterActivity;
 import com.example.usp05.githubtry.R;
 import com.example.usp05.githubtry.item_manipulation.ItemDisplayDetails;
+import com.example.usp05.githubtry.notifications.NotificationPublisher;
+import com.example.usp05.githubtry.notifications.TimePickerFragment;
 import com.example.usp05.githubtry.user_handling.UserHandler;
+
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.GregorianCalendar;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.support.v4.app.NotificationCompat;
+import android.widget.TextView;
 
 /**
  * Created by Ikram 04/04/2018
@@ -149,7 +164,7 @@ public class InventoryActivity extends Activity {
     private View.OnClickListener buttonClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-
+/*
             // Create PendingIntent to take us to DetailsActivity
             // as a result of notification action
             Intent detailsIntent = new Intent(InventoryActivity.this, ItemDisplayDetails.class);
@@ -175,8 +190,35 @@ public class InventoryActivity extends Activity {
             NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
             notificationManager.notify(NOTIFICATION_ID, mBuilder.build());
 
-            }
+            }*/
+
+            TimePickerFragment newFragment = new TimePickerFragment();
+            newFragment.show(getFragmentManager(), "timePicker");
+            scheduleNotification(getNotification("XYZ item expires today!"), newFragment.getTimeInMillis());
+        }
 
     };
+
+    private void scheduleNotification(Notification notification, long dateTime) {
+
+        Intent notificationIntent = new Intent(this, NotificationPublisher.class);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
+        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+//        long futureInMillis = SystemClock.elapsedRealtime() + delay;
+        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, dateTime, pendingIntent);
+    }
+
+    private Notification getNotification(String content) {
+        Notification.Builder builder = new Notification.Builder(this);
+        builder.setContentTitle("Scheduled Notification");
+        builder.setContentText(content);
+        builder.setSmallIcon(R.drawable.ic_launcher_background);
+        return builder.build();
+    }
+
+
 
 }
