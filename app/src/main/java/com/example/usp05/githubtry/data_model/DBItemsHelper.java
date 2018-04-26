@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.database.sqlite.SQLiteQuery;
+import android.database.sqlite.SQLiteQueryBuilder;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
@@ -13,6 +15,7 @@ import com.example.usp05.githubtry.user_handling.UserHandler;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 
 /**
  * Created by cstech on 3/24/18.
@@ -159,6 +162,25 @@ public class DBItemsHelper extends SQLiteOpenHelper{
 //        Cursor cursor = appDB.rawQuery(query, new String[]{username});
 //        String query = "select * from " + DBItemsHelper.ITEM_TABLE_NAME;
         return appDB.rawQuery(query, new String[]{UH.getUsername()});
+    }
+
+    public Cursor getItemLocationDetails(String itemName) {
+        appDB = getReadableDatabase();
+
+        String query = "SELECT " + ITEM_COL_LOCATION +", "+ ITEM_COL_QUANTITY +", "+ ITEM_COL_DATE_EXPIRED +", "+ ITEM_COL_DATE_PURCHASED
+                + " FROM " + ITEM_TABLE_NAME + " WHERE " + ITEM_COL_NAME + " = ? ;";
+
+        return appDB.rawQuery(query, new String[]{itemName});
+
+//        SQLiteQueryBuilder query = new SQLiteQueryBuilder();
+//
+//        String[] projectionIn = new String[]{ITEM_COL_LOCATION,
+//                ITEM_COL_QUANTITY, ITEM_COL_DATE_EXPIRED, ITEM_COL_DATE_PURCHASED};
+//
+//        String selection = ITEM_COL_NAME + " = ?";
+//        String[] selectionArgs = new String[]{itemName};
+//
+//        return query.query(appDB, projectionIn, selection, selectionArgs, null, null, null);
     }
 
     public Cursor getFilteredItems(String username, Collection<String> typeFilters, Collection<String> locationFilters){

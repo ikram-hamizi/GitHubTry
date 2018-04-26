@@ -24,7 +24,6 @@ import java.util.Collection;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.support.v4.app.NotificationCompat;
-import android.support.v7.app.AppCompatActivity;
 
 /**
  * Created by Ikram 04/04/2018

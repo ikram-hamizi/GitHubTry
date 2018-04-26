@@ -2,22 +2,28 @@ package com.example.usp05.githubtry.item_manipulation;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import com.example.usp05.githubtry.data_model.Item;
 import com.example.usp05.githubtry.data_model.DBItemsHelper;
 import com.example.usp05.githubtry.inventory_display.InventoryActivity;
 import com.example.usp05.githubtry.R;
+import com.example.usp05.githubtry.item_manipulation.item_location_details.ItemLocationDetails;
+import com.example.usp05.githubtry.item_manipulation.item_location_details.LocationDetailsAdapter;
 import com.example.usp05.githubtry.user_handling.UserHandler;
 
 import android.util.Log;
 import android.app.NotificationManager;
+
+import java.util.ArrayList;
 
 
 public class ItemDisplayDetails extends AppCompatActivity {
@@ -25,6 +31,10 @@ public class ItemDisplayDetails extends AppCompatActivity {
     private final DBItemsHelper db_helper = new DBItemsHelper(this);
     private UserHandler UH = UserHandler.getInstance();
     private String username = UH.getUsername();
+
+    private ArrayList<ItemLocationDetails> locationDetails = new ArrayList<>();
+
+    private final DBItemsHelper helper = new DBItemsHelper(this);
 
 
     //EXTRA MESSAGE = ID
@@ -45,18 +55,23 @@ public class ItemDisplayDetails extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 ((android.support.v7.widget.Toolbar) findViewById(R.id.details_toolbar)).setTitle(myItem.getName());
             }
-            ((TextView) findViewById(R.id.location_info_TV)).setText(myItem.getLocation());
+//            ((TextView) findViewById(R.id.location_info_TV)).setText(myItem.getLocation());
             ((TextView) findViewById(R.id.category_info_TV)).setText(myItem.getType());
             ((TextView) findViewById(R.id.quantity_info_TV)).setText(String.valueOf(myItem.getQuantity()));
-            ((TextView) findViewById(R.id.dateExpired_info_TV)).setText(myItem.getDate_expired());
-            ((TextView) findViewById(R.id.datePurchased_info_TV)).setText(myItem.getDate_purchased());
+//            ((TextView) findViewById(R.id.dateExpired_info_TV)).setText(myItem.getDate_expired());
+//            ((TextView) findViewById(R.id.datePurchased_info_TV)).setText(myItem.getDate_purchased());
             ((TextView) findViewById(R.id.note_info_TV)).setText(myItem.getNotes());
             ((TextView) findViewById(R.id.avgPrice_info_TV)).setText(String.valueOf(myItem.getAverage_price()));
         }
-//        else
-//        {
-//            finish(); //Does it work? -> Intended to go back to previous activity if item is not found.
-//        }
+
+        // displaying items in recycle view
+        createList();
+        LocationDetailsAdapter adapter = new LocationDetailsAdapter(this, locationDetails);
+        RecyclerView RV_locationDetails = findViewById(R.id.RV_item_location_details);
+        RV_locationDetails.setLayoutManager(new LinearLayoutManager(this));
+//        RV_inventory.setItemAnimator(new DefaultItemAnimator());
+        RV_locationDetails.setAdapter(adapter);
+
         Log.d("PLAYGROUND", "Details ID: " + getIntent().getIntExtra("EXTRA_DETAILS_ID", -1));
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.cancel(InventoryActivity.NOTIFICATION_ID);
@@ -96,5 +111,23 @@ public class ItemDisplayDetails extends AppCompatActivity {
 
         // db_helper.editItem()
         // db_helper.editItem(Integer.parseInt(EXTRA_MESSAGE_RECEIVED_ID), );
+    }
+
+    // TODO: Fix layout when this list grows too big (buttons are disappearing)
+
+    private void createList() {
+        Cursor cursor = helper.getItemLocationDetails(myItem.getName());
+        if (cursor.moveToFirst()) {
+            do {
+//                int id = cursor.getInt(cursor.getColumnIndex("ID"));
+//                String name = cursor.getString(cursor.getColumnIndex("NAME"));
+//                String location = cursor.getString(cursor.getColumnIndex("LOCATION"));
+//                int quantity = cursor.getInt(cursor.getColumnIndex("QUANTITY"));
+
+                ItemLocationDetails details = new ItemLocationDetails();
+                locationDetails.add(details);
+            }
+            while (cursor.moveToNext());
+        }
     }
 }

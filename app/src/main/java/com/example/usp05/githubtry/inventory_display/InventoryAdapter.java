@@ -8,10 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.usp05.githubtry.R;
-import com.example.usp05.githubtry.data_model.Item;
 import com.example.usp05.githubtry.item_manipulation.ItemDisplayDetails;
 
 import java.util.ArrayList;
@@ -21,6 +19,8 @@ import java.util.ArrayList;
  */
 
 public class InventoryAdapter extends RecyclerView.Adapter<InventoryHolder> {
+
+    private int pos;
 
     private ArrayList<InventoryItemDisplay> items;
     Context c;
@@ -32,6 +32,8 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryHolder> {
 
     @Override
     public void onBindViewHolder(InventoryHolder holder, int position) {
+        pos = position;
+
         final InventoryItemDisplay currentItem = items.get(position);
 
         holder.ctvItem.setText(currentItem.getItemName());
@@ -64,7 +66,18 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryHolder> {
 
     @Override
     public InventoryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.inventory_rv_layout,parent,false);
+
+        View v;
+
+        if(items.get(pos+1).getItemQuantity() <= 0) {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.depleted_inventory_rv_layout,parent,false);
+        } else if(items.get(pos+1).haveExpired){
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.expired_inventory_rv_layout,parent,false);
+        } else {
+            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.inventory_rv_layout, parent, false);
+        }
+
+//        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.inventory_rv_layout,parent,false);
         return new InventoryHolder(v);
     }
 

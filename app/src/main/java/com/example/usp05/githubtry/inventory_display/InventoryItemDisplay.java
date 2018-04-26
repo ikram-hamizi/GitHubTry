@@ -11,6 +11,8 @@ public class InventoryItemDisplay {
     private String itemLocation;
     private int itemQuantity;
 
+    boolean haveExpired = false;
+
     public InventoryItemDisplay() {
     }
 
@@ -19,6 +21,10 @@ public class InventoryItemDisplay {
         setItemName(itemName);
         setItemLocation(itemLocation);
         setItemQuantity(itemQuantity);
+        if (itemName.length() > 6) {
+            // TODO: Delete this. Used for testing purposes.
+            haveExpired = true;
+        }
     }
 
     public int getItemID() {
@@ -37,6 +43,10 @@ public class InventoryItemDisplay {
         return Integer.toString(itemQuantity);
     }
 
+    public int getItemQuantity() {
+        return itemQuantity;
+    }
+
     public void setItemID(int itemID) {
         this.itemID = itemID;
     }
@@ -44,12 +54,6 @@ public class InventoryItemDisplay {
     public void setItemName(String itemName) {
         this.itemName = itemName;
     }
-
-// --Commented out by Inspection START (4/16/18 9:54 PM):
-//    public int getItemQuantity() {
-//        return itemQuantity;
-//    }
-// --Commented out by Inspection STOP (4/16/18 9:54 PM)
 
     public void setItemQuantity(int itemQuantity) {
         this.itemQuantity = itemQuantity;
