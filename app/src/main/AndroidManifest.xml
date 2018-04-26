@@ -27,6 +27,8 @@
 
         <receiver android:name=".notifications.NotificationPublisher" />
 
+        <activity android:name=".item_manipulation.PopUpAddMoreActivity"></activity>
+
     </application>
 
 </manifest>

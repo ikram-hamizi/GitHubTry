@@ -102,6 +102,17 @@ public class ItemDisplayDetails extends AppCompatActivity {
         }
     }
 
+
+    public void onAddMoreClick(View view)
+    {
+        Intent addMorePop = new Intent(this, PopUpAddMoreActivity.class);
+        addMorePop.putExtra("username", username);
+        addMorePop.putExtra("itemName", myItem.getName());
+
+        startActivityForResult(addMorePop, 0);
+        //startActivity(addMorePop);
+    }
+
     public void onEditClick (View view)
     {
 

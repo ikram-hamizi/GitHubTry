@@ -2,7 +2,10 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorPrimaryDarkBlue">#2f333f</color>
     <color name="colorAccent">#FF4081</color>
     <color name="inventoryExpired">#703aaf48</color>
     <color name="inventoryDepleted">#79ff0011</color>
+    <color name="colorOrange">#eaad43</color>
+    <color name="colorWhite">#ffffff</color>
 </resources>
