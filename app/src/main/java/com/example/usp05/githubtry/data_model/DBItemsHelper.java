@@ -110,7 +110,7 @@ public class DBItemsHelper extends SQLiteOpenHelper{
 //        String get_row_query = "SELECT * FROM "+ DBItemsHelper.ITEM_TABLE_NAME + " WHERE ID = ?";
 //        Cursor found = appDB.rawQuery(get_row_query, new String[] {String.valueOf(search_id)});
 
-        if (found.moveToFirst() && (found != null))
+        if ((found != null) && found.moveToFirst())
         {
             do {
                 String id = found.getString(0);
@@ -194,12 +194,12 @@ public class DBItemsHelper extends SQLiteOpenHelper{
 
         appDB = getReadableDatabase();
         StringBuffer filterQuery = new StringBuffer();
-        int lastOR;
 
         filterQuery.append("SELECT * FROM " + ITEM_TABLE_NAME + " WHERE (" + ITEM_COL_USERNAME + " = '");
         filterQuery.append(UH.getUsername());
         filterQuery.append("')");
 
+        int lastOR;
         if((typeFilters != null) && !typeFilters.isEmpty()) {
             filterQuery.append(" AND (");
 
@@ -294,7 +294,6 @@ public class DBItemsHelper extends SQLiteOpenHelper{
     public Cursor getUniqueFilteredItems(String username, Collection<String> typeFilters, Collection<String> locationFilters) {
         appDB = getReadableDatabase();
         StringBuffer filterQuery = new StringBuffer();
-        int lastOR;
 
         filterQuery.append("SELECT DISTINCT ");
         filterQuery.append(ITEM_COL_NAME);
@@ -302,6 +301,7 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         filterQuery.append(UH.getUsername());
         filterQuery.append("')");
 
+        int lastOR;
         if((typeFilters != null) && !typeFilters.isEmpty()) {
             filterQuery.append(" AND (");
 
@@ -334,7 +334,6 @@ public class DBItemsHelper extends SQLiteOpenHelper{
     }
 
     public int getTotalQuantity(String itemName) {
-        int result = 0;
 
         appDB = getReadableDatabase();
         StringBuffer filterQuery = new StringBuffer();
@@ -348,7 +347,7 @@ public class DBItemsHelper extends SQLiteOpenHelper{
         Cursor cursor = appDB.rawQuery(filterQuery.toString(), null);
 
 
-
+        int result = 0;
         if (cursor.moveToFirst()) {
             do {
                 result += cursor.getInt(cursor.getColumnIndex(ITEM_COL_QUANTITY));

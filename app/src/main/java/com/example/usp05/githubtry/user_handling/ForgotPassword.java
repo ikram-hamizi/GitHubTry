@@ -55,15 +55,14 @@ public class ForgotPassword extends Activity {
                     cursor.close();
 
                     // checks to make sure answers to security question are correct
-                    if(!(secAnswer1.equals(secQuestion1) && secAnswer2.equals(secQuestion2)
-                            && secAnswer3.equals(secQuestion3))) {
-                        Toast message = Toast.makeText(this, "Answers to security questions are incorrect!", Toast.LENGTH_SHORT);
-                        message.show();
-                    }
-                    else {
+                    if (secAnswer1.equals(secQuestion1) && secAnswer2.equals(secQuestion2)
+                            && secAnswer3.equals(secQuestion3)) {
                         Intent intent = new Intent(this, ChangePassword.class);
                         intent.putExtra("username", username);
                         startActivity(intent);
+                    } else {
+                        Toast message = Toast.makeText(this, "Answers to security questions are incorrect!", Toast.LENGTH_SHORT);
+                        message.show();
                     }
                 }
             }

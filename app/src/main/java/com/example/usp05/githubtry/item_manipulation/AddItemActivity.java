@@ -20,6 +20,7 @@ import com.example.usp05.githubtry.user_handling.UserHandler;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.Objects;
 
 /**
  * Created by minh on 3/24/18.
@@ -52,7 +53,7 @@ public class AddItemActivity extends AppCompatActivity implements DatePickerDial
             String item_note = ((TextView) findViewById(R.id.ET_item_notes)).getText().toString();
             int item_quantity = Integer.parseInt(((TextView) findViewById(R.id.ET_item_quantity)).getText().toString());
 
-            if((item_name == "") || (String.valueOf(item_quantity) == "")) {
+            if((Objects.equals(item_name, "")) || (Objects.equals(String.valueOf(item_quantity), ""))) {
                 Toast message = Toast.makeText(this, "Name and quantity must be filled", Toast.LENGTH_SHORT);
                 message.show();
             }

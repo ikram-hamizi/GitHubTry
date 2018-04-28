@@ -48,7 +48,7 @@
         android:layout_marginTop="5dp"
         android:inputType="number"
         android:textColor="@color/colorWhite"
-        android:textSize="10dp" />
+        android:textSize="10sp" />
 
     <TextView
         android:textColor="@color/colorWhite"
@@ -72,7 +72,7 @@
         android:inputType="number"
 
         android:textColor="@color/colorWhite"
-        android:textSize="10dp" />
+        android:textSize="10sp" />
 
     <TextView
         android:id="@+id/TV_DatePurTitle"
@@ -82,7 +82,7 @@
         android:paddingTop="5dp"
         android:text="Date Purchased"
         android:textColor="@color/colorOrange"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
@@ -94,7 +94,7 @@
         android:paddingTop="3dp"
         android:text="00/00/0000"
         android:textColor="@color/colorWhite"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <TextView
@@ -102,7 +102,7 @@
         android:textColor="@color/colorOrange"
         android:id="@+id/TV_DateExpTitle"
         android:layout_gravity="center"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:layout_width="wrap_content"
         android:layout_marginTop="13dp"
         android:layout_height="wrap_content"
@@ -111,7 +111,7 @@
     <TextView
         android:id="@+id/TV_DateExp"
         android:textStyle="bold"
-        android:textSize="18dp"
+        android:textSize="18sp"
         android:textColor="@color/colorWhite"
         android:layout_marginTop="3dp"
         android:layout_width="wrap_content"

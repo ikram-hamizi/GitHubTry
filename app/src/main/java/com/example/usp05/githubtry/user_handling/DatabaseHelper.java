@@ -107,8 +107,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String query = "select " + COLUMN_SECQUESTION1 + ", " + COLUMN_SECQUESTION2 + ", " + COLUMN_SECQUESTION3 +
                 " from " + TABLE_NAME +
                 " where " + COLUMN_USERNAME + " = '" + username + "';";
-        Cursor cursor = db.rawQuery(query, null);
-        return cursor;
+        return db.rawQuery(query, null);
     }
 
     public void updatePassword(String username, String password) {

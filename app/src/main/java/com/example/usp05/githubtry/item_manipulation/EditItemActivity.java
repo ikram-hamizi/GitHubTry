@@ -37,6 +37,7 @@ public class EditItemActivity extends AppCompatActivity
 //        System.out.println(">>>>>>>>>>>>>> NAME: "+editedItem.getName());
 
         if (Log.isLoggable(ContentValues.TAG,Log.VERBOSE)){
+            assert editedItem != null;
             Log.v(ContentValues.TAG,">>>>>>>>>>>>>> NAME: "+editedItem.getName());
         }
 

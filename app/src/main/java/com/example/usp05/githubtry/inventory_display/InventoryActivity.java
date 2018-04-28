@@ -2,15 +2,11 @@ package com.example.usp05.githubtry.inventory_display;
 
 import android.app.Activity;
 import android.app.AlarmManager;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,30 +14,20 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import com.example.usp05.githubtry.item_manipulation.AddItemActivity;
 import com.example.usp05.githubtry.data_model.DBItemsHelper;
 import com.example.usp05.githubtry.item_filtering.FilterActivity;
 import com.example.usp05.githubtry.R;
-import com.example.usp05.githubtry.item_manipulation.ItemDisplayDetails;
-import com.example.usp05.githubtry.notifications.DateHelper;
 import com.example.usp05.githubtry.notifications.NotificationPublisher;
 import com.example.usp05.githubtry.notifications.TimePickerFragment;
 import com.example.usp05.githubtry.user_handling.UserHandler;
 
-import java.text.DateFormat;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Date;
-import java.util.GregorianCalendar;
 
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.support.v4.app.NotificationCompat;
-import android.widget.TextView;
 
 /**
  * Created by Ikram 04/04/2018
@@ -123,7 +109,7 @@ public class InventoryActivity extends Activity {
 
         TimePickerFragment newFragment = new TimePickerFragment();
         long tempTime = newFragment.getTimeInMillis();
-        scheduleNotification(getNotification("You have items expiring soon!"), tempTime);
+        scheduleNotification(getNotification(), tempTime);
     }
 
     private void filter(String text) {
@@ -161,17 +147,19 @@ public class InventoryActivity extends Activity {
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
+        // TODO: Fix the notification timing
         calendar.set(Calendar.HOUR_OF_DAY, 11);
         calendar.set(Calendar.MINUTE, 37);
 
         AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+        assert alarmManager != null;
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
     }
 
-    private Notification getNotification(String content) {
+    private Notification getNotification() {
         Notification.Builder builder = new Notification.Builder(this);
         builder.setContentTitle("Scheduled Notification");
-        builder.setContentText(content);
+        builder.setContentText("You have items expiring soon!");
         builder.setSmallIcon(R.drawable.ic_launcher_background);
         return builder.build();
     }

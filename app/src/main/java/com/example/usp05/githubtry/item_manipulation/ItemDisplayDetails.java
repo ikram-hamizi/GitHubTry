@@ -74,6 +74,7 @@ public class ItemDisplayDetails extends AppCompatActivity {
 
         Log.d("PLAYGROUND", "Details ID: " + getIntent().getIntExtra("EXTRA_DETAILS_ID", -1));
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        assert notificationManager != null;
         notificationManager.cancel(InventoryActivity.NOTIFICATION_ID);
     }
 

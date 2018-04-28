@@ -54,11 +54,10 @@ public class DateHelper {
     }
 
     public Date intToDate(int month, int day, int year) throws ParseException {
-        String m, d, y;
 
-        m = Integer.toString(month);
-        d = Integer.toString(day);
-        y = Integer.toString(year);
+        String m = Integer.toString(month);
+        String d = Integer.toString(day);
+        String y = Integer.toString(year);
 
         if((m.length() > 2) || (m.length() < 1)){
             throw new ParseException("Bad integer month format passed to intToDate method", 0);
@@ -72,6 +71,7 @@ public class DateHelper {
             if(y.length() != 2) {
                 throw new ParseException("Bad integer year format passed to intToDate method", 4);
             }
+            //noinspection StringConcatenationMissingWhitespace
             y = "20" + y;
         }
 
@@ -116,10 +116,8 @@ public class DateHelper {
     public static long getFutureTime(int minute, int hour) {
         Date timeAfterEpoch = new Date();
 
-        String m, h;
-
-        m = Integer.toString(minute);
-        h = Integer.toString(hour);
+        String m = Integer.toString(minute);
+        String h = Integer.toString(hour);
 
         try {
             timeAfterEpoch = dayNotificationDate.parse(h + ':' + m);

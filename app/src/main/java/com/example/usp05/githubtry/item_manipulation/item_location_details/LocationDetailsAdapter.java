@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.example.usp05.githubtry.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by nathan on 4/26/18.
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 
 public class LocationDetailsAdapter extends RecyclerView.Adapter<LocationDetailsHolder> {
 
-    private ArrayList<ItemLocationDetails> locationDetails;
+    private List<ItemLocationDetails> locationDetails;
     Context c;
 
     /**

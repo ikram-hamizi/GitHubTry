@@ -13,6 +13,7 @@ import com.example.usp05.githubtry.R;
 import com.example.usp05.githubtry.item_manipulation.ItemDisplayDetails;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by minh on 4/25/18.
@@ -22,7 +23,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryHolder> {
 
     private int pos = 0;
 
-    private ArrayList<InventoryItemDisplay> items;
+    private List<InventoryItemDisplay> items;
     Context c;
 
     public InventoryAdapter(Context c, ArrayList<InventoryItemDisplay> items) {
@@ -67,14 +68,12 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryHolder> {
     @Override
     public InventoryHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        View v;
-
-//        if(items.get(pos).getItemQuantity() <= 0) {
+        //        if(items.get(pos).getItemQuantity() <= 0) {
 //            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.depleted_inventory_rv_layout,parent,false);
 //        } else if(items.get(pos).haveExpired){
 //            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.expired_inventory_rv_layout,parent,false);
 //        } else {
-            v = LayoutInflater.from(parent.getContext()).inflate(R.layout.inventory_rv_layout, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.inventory_rv_layout, parent, false);
 //        }
 
         pos++;

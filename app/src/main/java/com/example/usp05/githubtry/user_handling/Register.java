@@ -44,8 +44,7 @@ public class Register extends Activity {
                 Toast message = Toast.makeText(this, "Username is already taken!", Toast.LENGTH_SHORT);
                 message.show();
             }
-            else if(((usernameStr != null) && usernameStr.isEmpty()) || "".equals(password) || "".equals(password2) ||
-                    ((secQuestion1Str != null) && secQuestion1Str.isEmpty()) || ((secQuestion2Str != null) && secQuestion2Str.isEmpty()) || ((secQuestion3Str != null) && secQuestion3Str.isEmpty())) {
+            else if(usernameStr.isEmpty() || "".equals(password) || "".equals(password2) || secQuestion1Str != null && secQuestion1Str.isEmpty() || secQuestion2Str != null && secQuestion2Str.isEmpty() || secQuestion3Str != null && secQuestion3Str.isEmpty()) {
                 Toast message = Toast.makeText(this, "Entries cannot be empty!", Toast.LENGTH_SHORT);
                 message.show();
             }

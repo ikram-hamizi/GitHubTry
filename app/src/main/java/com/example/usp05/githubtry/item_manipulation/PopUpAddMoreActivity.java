@@ -67,11 +67,14 @@ public class PopUpAddMoreActivity extends AppCompatActivity {
         dateSetListenerPURCH = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                int month1 = month;
                 //Jan = 0, Dec = 11
-                month += 1;
-                Log.d(TAG, "onDateSet: mm/dd/yyyy: " + month + "/" + day + "/" + year);
-                dd = day; mm = month; yyyy = year;
-                String date = month + "/" + day + "/" + year;
+                month1 += 1;
+                Log.d(TAG, "onDateSet: mm/dd/yyyy: " + month1 + "/" + day + "/" + year);
+                dd = day;
+                mm = month1;
+                yyyy = year;
+                String date = month1 + "/" + day + "/" + year;
                 savedPurchDate.setText(date);
             }
         };
@@ -104,18 +107,18 @@ public class PopUpAddMoreActivity extends AppCompatActivity {
         dateSetListenerEXP = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                int month1 = month;
                 //Jan = 0, Dec = 11
-                month += 1;
-                Log.d(TAG, "onDateSet: mm/dd/yyyy: " + month + "/" + day + "/" + year);
+                month1 += 1;
+                Log.d(TAG, "onDateSet: mm/dd/yyyy: " + month1 + "/" + day + "/" + year);
 
-                if(year<yyyy || (year>=yyyy && month<mm) || (year>=yyyy && month>=mm && day<dd)) //INVALID DATES
+                if (year < yyyy || (year >= yyyy && month1 < mm) || (year >= yyyy && month1 >= mm && day < dd)) //INVALID DATES
                 {
                     isValidDates = false;
-                }
-                else //VALID DATES
+                } else //VALID DATES
                 {
                     isValidDates = true;
-                    String date = month + "/" + day + "/" + year;
+                    String date = month1 + "/" + day + "/" + year;
                     savedEXPDate.setText(date);
                 }
             }
@@ -125,14 +128,11 @@ public class PopUpAddMoreActivity extends AppCompatActivity {
     public void onClickSave(View view)
     {
         //1. Save Quantity, Price for each, Date Purch, Date Exp
-        if(!isValidDates)
-        {
+        if (isValidDates) {
+            addMoreOfItemX();
+        } else {
             Toast datesInvalid = Toast.makeText(this, "Expiration and Purchase Dates are not valid", Toast.LENGTH_SHORT);
             datesInvalid.show();
-        }
-        else
-        {
-            addMoreOfItemX();
         }
         //2. Add them to DB
 
@@ -148,7 +148,7 @@ public class PopUpAddMoreActivity extends AppCompatActivity {
             String item_dateExpired = ((TextView) findViewById(R.id.TV_DateExp)).getText().toString();
             int item_quantity = Integer.parseInt(((TextView) findViewById(R.id.ET_Quantity)).getText().toString());
 
-            if((itemName == null) || (String.valueOf(item_quantity) == null)||(itemName == "") || (String.valueOf(item_quantity) == "")) {
+            if(itemName == null || itemName == "" || String.valueOf(item_quantity) == "") {
                 Toast message = Toast.makeText(this, "Name and quantity must be filled", Toast.LENGTH_SHORT);
                 message.show();
             }

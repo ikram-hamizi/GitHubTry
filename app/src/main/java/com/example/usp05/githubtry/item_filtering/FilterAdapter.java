@@ -48,6 +48,7 @@ class FilterAdapter extends RecyclerView.Adapter<FilterHolder>{
 
                 if(chk.isChecked()){
                     if("All".equals(chk.getText())) {
+                        //noinspection CollectionAddedToSelf
                         checkedFilters.removeAll(checkedFilters);
 
                     } else {
